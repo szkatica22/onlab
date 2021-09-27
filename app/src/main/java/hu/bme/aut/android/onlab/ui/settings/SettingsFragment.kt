@@ -8,13 +8,15 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.databinding.FragmentSettingsBinding
 
 class SettingsFragment : Fragment()/*, View.OnClickListener */{
     private lateinit var settingsViewModel: SettingsViewModel
     private var _binding: FragmentSettingsBinding? = null
 
-    //private var navC: NavController? = null
+//    private var navC: NavController? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -37,10 +39,10 @@ class SettingsFragment : Fragment()/*, View.OnClickListener */{
         })
 
         // Teszt gomb a kovi fragmentre valtashoz
-//        binding.testButton.setOnClickListener{
-////            val action = ChangeSettingsFragment.actionNavSettingsToNavChangeSettings()
-//            findNavController().navigate(R.id.action_nav_settings_to_nav_change_settings)
-//        }
+        binding.testButton.setOnClickListener{
+//            val action = ChangeSettingsFragment.actionNavSettingsToNavChangeSettings()
+            findNavController().navigate(R.id.action_nav_settings_to_nav_change_settings)
+        }
 
         return root
     }
