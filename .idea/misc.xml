@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3828125" />
+        <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/drawable/ic_menu_favourites.xml" value="0.3828125" />
+        <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/drawable/ic_menu_gallery.xml" value="0.26510416666666664" />
+        <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/drawable/ic_menu_recipies.xml" value="0.3828125" />
+        <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/drawable/ic_menu_settings.xml" value="0.3828125" />
+        <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/drawable/side_nav_bar.xml" value="0.3828125" />
+        <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/layout/app_bar_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/layout/content_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/layout/fragment_change_recipie.xml" value="0.33177083333333335" />
+        <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/layout/fragment_change_settings.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/layout/fragment_favourites.xml" value="0.31614583333333335" />
+        <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/layout/fragment_flag.xml" value="0.2911458333333333" />
+        <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/layout/fragment_new_flag.xml" value="0.35104166666666664" />
+        <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/layout/fragment_new_recipie.xml" value="0.3104166666666667" />
+        <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/layout/fragment_recipie.xml" value="0.2453125" />
+        <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/layout/fragment_recipies.xml" value="0.31614583333333335" />
+        <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/layout/fragment_settings.xml" value="0.33" />
+        <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/layout/fragment_shopping_list.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/layout/nav_header_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/menu/activity_main_drawer.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/menu/main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3828125" />
+        <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.36018518518518516" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
