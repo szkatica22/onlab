@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.databinding.FragmentFavouritesBinding
 
 class FavouritesFragment : Fragment() {
@@ -34,6 +36,12 @@ class FavouritesFragment : Fragment() {
         favouritesViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
+
+        // Teszt gomb a kovi fragmentre valtashoz
+        binding.testButton2.setOnClickListener{
+            findNavController().navigate(R.id.action_nav_favourites_to_nav_recipie)
+        }
+
         return root
     }
 

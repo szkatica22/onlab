@@ -28,7 +28,23 @@
         <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/menu/main.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3828125" />
         <entry key="..\:/Users/Katica/AndroidStudioProjects/Onlab/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.36018518518518516" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_change_recipie.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_change_settings.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_favourites.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_flag.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_nav_change_recipie.xml" value="0.23333333333333334" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_nav_flag.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_nav_new_flag.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_nav_new_recipie.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_nav_shopping_list.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_new_flag.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_new_recipie.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_recipie.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_recipie2.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_recipies.xml" value="0.23333333333333334" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_settings.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_shopping_list.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/menu/activity_main_drawer.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>

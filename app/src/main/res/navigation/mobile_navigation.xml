@@ -14,17 +14,17 @@
             android:id="@+id/action_nav_home_to_nav_gallery"
             app:destination="@id/nav_favourites" />
         <action
-            android:id="@+id/action_nav_home_to_nav_slideshow"
-            app:destination="@id/nav_shopping_list" />
-        <action
             android:id="@+id/action_nav_recipies_to_nav_settings"
             app:destination="@id/nav_settings" />
         <action
-            android:id="@+id/action_nav_recipies_to_nav_shopping_list2"
-            app:destination="@id/nav_flag" />
-        <action
             android:id="@+id/action_nav_recipies_to_nav_new_flag"
             app:destination="@id/nav_new_flag" />
+        <action
+            android:id="@+id/action_nav_recipies_to_nav_shopping_list"
+            app:destination="@id/nav_shopping_list" />
+        <action
+            android:id="@+id/action_nav_recipies_to_nav_flag2"
+            app:destination="@id/nav_flag" />
     </fragment>
 
     <fragment
@@ -37,47 +37,6 @@
             app:destination="@id/nav_recipie" />
     </fragment>
 
-    <fragment
-        android:id="@+id/nav_recipie"
-        android:name="hu.bme.aut.android.onlab.ui.recipie.RecipieFragment"
-        android:label="@string/recipie"
-        tools:layout="@layout/fragment_favourites" >
-        <action
-            android:id="@+id/action_nav_recipie_to_nav_change_recipie"
-            app:destination="@id/nav_change_recipie" />
-    </fragment>
-    <fragment
-        android:id="@+id/nav_change_recipie"
-        android:name="hu.bme.aut.android.onlab.ui.change_recipie.ChangeRecipieFragment"
-        android:label="@string/change_recipie"
-        tools:layout="@layout/fragment_favourites" />
-    <fragment
-        android:id="@+id/nav_new_recipie"
-        android:name="hu.bme.aut.android.onlab.ui.new_recipie.NewRecipieFragment"
-        android:label="@string/new_recipie"
-        tools:layout="@layout/fragment_favourites" />
-    <fragment
-        android:id="@+id/nav_new_flag"
-        android:name="hu.bme.aut.android.onlab.ui.new_flag.NewFlagFragment"
-        android:label="@string/new_flag"
-        tools:layout="@layout/fragment_favourites" />
-    <fragment
-        android:id="@+id/nav_shopping_list"
-        android:name="hu.bme.aut.android.onlab.ui.shoppinglist.ShoppinglistFragment"
-        android:label="@string/menu_shoppinglist"
-        tools:layout="@layout/fragment_shopping_list" />
-    <fragment
-        android:id="@+id/nav_flag"
-        android:name="hu.bme.aut.android.onlab.ui.flag.FlagFragment"
-        android:label="@string/flag"
-        tools:layout="@layout/fragment_shopping_list" >
-        <action
-            android:id="@+id/action_nav_shopping_list2_to_nav_recipie"
-            app:destination="@id/nav_recipie" />
-        <action
-            android:id="@+id/action_nav_flag_to_nav_new_recipie"
-            app:destination="@id/nav_new_recipie" />
-    </fragment>
     <fragment
         android:id="@+id/nav_settings"
         android:name="hu.bme.aut.android.onlab.ui.settings.SettingsFragment"
@@ -92,4 +51,46 @@
         android:name="hu.bme.aut.android.onlab.ui.change_settings.ChangeSettingsFragment"
         android:label="@string/change_settings"
         tools:layout="@layout/fragment_change_settings" />
+    <fragment
+        android:id="@+id/nav_recipie"
+        android:name="hu.bme.aut.android.onlab.ui.recipie.RecipieFragment"
+        android:label="fragment_recipie"
+        tools:layout="@layout/fragment_recipie" >
+        <action
+            android:id="@+id/action_nav_recipie_to_nav_change_recipie"
+            app:destination="@id/nav_change_recipie" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_new_flag"
+        android:name="hu.bme.aut.android.onlab.ui.new_flag.NewFlagFragment"
+        android:label="fragment_nav_new_flag"
+        tools:layout="@layout/fragment_new_flag">
+        <action
+            android:id="@+id/action_nav_new_flag_to_nav_recipie2"
+            app:destination="@id/nav_recipie" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_change_recipie"
+        android:name="hu.bme.aut.android.onlab.ui.change_recipie.ChangeRecipieFragment"
+        android:label="fragment_nav_change_recipie"
+        tools:layout="@layout/fragment_change_recipie" />
+    <fragment
+        android:id="@+id/nav_shopping_list"
+        android:name="hu.bme.aut.android.onlab.ui.shoppinglist.ShoppinglistFragment"
+        android:label="fragment_nav_shopping_list"
+        tools:layout="@layout/fragment_shopping_list" />
+    <fragment
+        android:id="@+id/nav_new_recipie"
+        android:name="hu.bme.aut.android.onlab.ui.new_recipie.NewRecipieFragment"
+        android:label="fragment_nav_new_recipie"
+        tools:layout="@layout/fragment_new_recipie" />
+    <fragment
+        android:id="@+id/nav_flag"
+        android:name="hu.bme.aut.android.onlab.ui.flag.FlagFragment"
+        android:label="fragment_nav_flag"
+        tools:layout="@layout/fragment_flag">
+        <action
+            android:id="@+id/action_nav_flag2_to_nav_new_recipie"
+            app:destination="@id/nav_new_recipie" />
+    </fragment>
 </navigation>

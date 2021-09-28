@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.databinding.FragmentRecipieBinding
 
 class RecipieFragment : Fragment(){
@@ -33,6 +35,12 @@ class RecipieFragment : Fragment(){
         recipieViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
+
+        // Teszt gomb a kovi fragmentre valtashoz
+        binding.testButton3.setOnClickListener{
+            findNavController().navigate(R.id.action_nav_recipie_to_nav_change_recipie)
+        }
+
         return root
     }
 

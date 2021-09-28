@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.databinding.FragmentFlagBinding
 
 class FlagFragment : Fragment(){
@@ -33,6 +35,12 @@ class FlagFragment : Fragment(){
         flagViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
+
+        // Teszt gomb a kovi fragmentre valtashoz
+        binding.testButton6.setOnClickListener{
+            findNavController().navigate(R.id.action_nav_flag2_to_nav_new_recipie)
+        }
+
         return root
     }
 

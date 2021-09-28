@@ -26,7 +26,7 @@ class ChangeSettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         changeSettingsViewModel =
-            ViewModelProvider(this).get(changeSettingsViewModel::class.java)
+            ViewModelProvider(this).get(ChangeSettingsViewModel::class.java)
 
         _binding = FragmentChangeSettingsBinding.inflate(inflater, container, false)
         val root: View = binding.root
