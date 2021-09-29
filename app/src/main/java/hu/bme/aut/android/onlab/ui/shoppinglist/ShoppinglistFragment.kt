@@ -30,10 +30,10 @@ class ShoppinglistFragment : Fragment() {
         _binding = FragmentShoppingListBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textShoppinglist
-        shoppinglistViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
+//        val textView: TextView = binding.textShoppinglist
+//        shoppinglistViewModel.text.observe(viewLifecycleOwner, Observer {
+//            textView.text = it
+//        })
         return root
     }
 

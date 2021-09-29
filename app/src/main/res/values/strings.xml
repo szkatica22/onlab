@@ -19,8 +19,10 @@
     <string name="recipie">Actual Recipie</string>
     <string name="new_recipie">Create New Recipie</string>
     <string name="change_recipie">Change Actual Recipie</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="flag_button">Go to Flag Fragment</string>
+<!-- Shopping list    -->
+    <string name="btn_shopping_list_delete">Delete purchased items</string>
+    <string name="et_hint_shopping_list">Please enter the item!</string>
+    <string name="btn_shopping_list_add">Add item</string>
 
 </resources>
