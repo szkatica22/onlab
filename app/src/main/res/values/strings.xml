@@ -24,5 +24,6 @@
     <string name="btn_shopping_list_delete">Delete purchased items</string>
     <string name="et_hint_shopping_list">Please enter the item!</string>
     <string name="btn_shopping_list_add">Add item</string>
+    <string name="tv_item">Example</string>
 
 </resources>

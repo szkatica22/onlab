@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import hu.bme.aut.android.onlab.databinding.FragmentShoppingListBinding
 
 class ShoppinglistFragment : Fragment() {
@@ -18,6 +19,8 @@ class ShoppinglistFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+    private lateinit var listitemAdapter: ListItemAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,6 +37,24 @@ class ShoppinglistFragment : Fragment() {
 //        shoppinglistViewModel.text.observe(viewLifecycleOwner, Observer {
 //            textView.text = it
 //        })
+
+        listitemAdapter = ListItemAdapter(mutableListOf())
+        binding.rvShoppingList.adapter = listitemAdapter
+        binding.rvShoppingList.layoutManager = LinearLayoutManager(this.context)
+
+        binding.btnShoppingListAddItem.setOnClickListener {
+            val shoppingTitle = binding.etShoppingTitle.text.toString()
+            if(shoppingTitle.isNotEmpty()){
+                val list_item = ListItem(shoppingTitle)
+                listitemAdapter.addItem(list_item)
+                binding.etShoppingTitle.text.clear()
+            }
+        }
+
+        binding.clearTheListBtn.setOnClickListener {
+            listitemAdapter.deletePurchasedItems()
+        }
+
         return root
     }
 
