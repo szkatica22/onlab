@@ -1,6 +1,7 @@
 package hu.bme.aut.android.onlab.ui.shoppinglist
 
 import android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,12 +30,19 @@ class ListItemAdapter (
         )
     }
 
+    //Debuggolashoz
+    fun getItems():MutableList<ListItem> {
+        return this.items
+    }
+
     fun addItem(item: ListItem) {
+//        Log.d("ADD:", "ListItemAdapter Add Item function")
         items.add(item)
         notifyItemInserted(items.size-1)
     }
 
     fun deletePurchasedItems() {
+//        Log.d("DELETE:", "ListItemAdapter Delete function")
         items.removeAll { item ->
             item.is_checked
         }

@@ -1,6 +1,7 @@
 package hu.bme.aut.android.onlab.ui.shoppinglist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,9 +45,12 @@ class ShoppinglistFragment : Fragment() {
 
         binding.btnShoppingListAddItem.setOnClickListener {
             val shoppingTitle = binding.etShoppingTitle.text.toString()
+//            Log.d("FRAGMENT-ADD-title:", "$shoppingTitle")
             if(shoppingTitle.isNotEmpty()){
                 val list_item = ListItem(shoppingTitle)
+//                Log.d("ADD-ListItem: ", "$list_item")
                 listitemAdapter.addItem(list_item)
+                Log.d("ADD-ADAPTER: ", "${listitemAdapter.getItems()}")
                 binding.etShoppingTitle.text.clear()
             }
         }
