@@ -12,37 +12,23 @@ import hu.bme.aut.android.onlab.databinding.ItemShoppingListBinding
 
 class ListItemAdapter (
     private val items: MutableList<ListItem>
-        ) : RecyclerView.Adapter<ListItemAdapter.ListItemViewHolder>() {
+) : RecyclerView.Adapter<ListItemAdapter.ListItemViewHolder>() {
 
-    private lateinit var binding: ItemShoppingListBinding
-
-    class ListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class ListItemViewHolder(val binding: ItemShoppingListBinding) : RecyclerView.ViewHolder(binding.root)
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListItemViewHolder {
-
-        binding = ItemShoppingListBinding.inflate(LayoutInflater.from(parent.context))
-
         return ListItemViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_shopping_list, parent, false
-            )
+            ItemShoppingListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
-    //Debuggolashoz
-    fun getItems():MutableList<ListItem> {
-        return this.items
-    }
-
     fun addItem(item: ListItem) {
-//        Log.d("ADD:", "ListItemAdapter Add Item function")
         items.add(item)
         notifyItemInserted(items.size-1)
     }
 
     fun deletePurchasedItems() {
-//        Log.d("DELETE:", "ListItemAdapter Delete function")
         items.removeAll { item ->
             item.is_checked
         }
@@ -59,7 +45,7 @@ class ListItemAdapter (
 
     override fun onBindViewHolder(holder: ListItemViewHolder, position: Int) {
         var cur_item = items[position]
-        holder.itemView.apply {
+        holder.binding.let { binding ->
             binding.tvShoppingTitle.text = cur_item.title
             binding.cbPurchased.isChecked = cur_item.is_checked
             toggleStrikeThrough(binding.tvShoppingTitle, cur_item.is_checked)

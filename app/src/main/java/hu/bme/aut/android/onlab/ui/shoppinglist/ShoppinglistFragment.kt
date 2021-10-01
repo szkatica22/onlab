@@ -45,12 +45,9 @@ class ShoppinglistFragment : Fragment() {
 
         binding.btnShoppingListAddItem.setOnClickListener {
             val shoppingTitle = binding.etShoppingTitle.text.toString()
-//            Log.d("FRAGMENT-ADD-title:", "$shoppingTitle")
             if(shoppingTitle.isNotEmpty()){
                 val list_item = ListItem(shoppingTitle)
-//                Log.d("ADD-ListItem: ", "$list_item")
                 listitemAdapter.addItem(list_item)
-                Log.d("ADD-ADAPTER: ", "${listitemAdapter.getItems()}")
                 binding.etShoppingTitle.text.clear()
             }
         }
