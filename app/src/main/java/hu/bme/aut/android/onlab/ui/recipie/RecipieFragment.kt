@@ -47,32 +47,33 @@ class RecipieFragment : Fragment(){
 
 
         // Recipie Ingredients
-        val array_adapter: ArrayAdapter<*>
+        val ingr_array_adapter: ArrayAdapter<*>
         val ingredients = arrayOf("1 cup espresso", "6 egg yolks", "6 Tbsp rum", "30 ladyfingers",
             "3/4 cup sugar", "425 g mascarpone", "2 cups heavy whipping cream", "2-3 TBSP cocoa powder")
 
-        var list_view = binding.lvRecipieIngredients
-        array_adapter =
+        var ingr_list_view = binding.lvRecipieIngredients
+        ingr_array_adapter =
             context?.let { ArrayAdapter(it, android.R.layout.simple_list_item_1, ingredients) }!!
-        list_view.adapter = array_adapter
+        ingr_list_view.adapter = ingr_array_adapter
 
         // Recipie Preparation
-        val array_adapter_2: ArrayAdapter<*>
+        val prep_array_adapter: ArrayAdapter<*>
         val steps = arrayOf("step1", "step2", "step3", "step4", "step5")
 
-        var list_view_2 = binding.lvRecipiePreparation
-        array_adapter_2 =
+        var prep_list_view = binding.lvRecipiePreparation
+        prep_array_adapter =
             context?.let { ArrayAdapter(it, android.R.layout.simple_list_item_1, steps) }!!
-        list_view_2.adapter = array_adapter_2
+        prep_list_view.adapter = prep_array_adapter
 
 
-//        // Recept flag-k a spinner-hez ideiglenes ertekek
-//        val flags = arrayOf("Desserts", "Main courses", "Soups", "Drinks")
-//        val array_adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, flags)
-//
-//        // attached arrayadapter to spinner
-//        binding.spnrRecipieCategory.adapter = array_adapter
-//
+        // Recept flag-k a spinner-hez ideiglenes ertekek
+        val flags = arrayOf("Desserts", "Main courses", "Soups", "Drinks")
+        val flags_array_adapter =
+            context?.let { ArrayAdapter(it, android.R.layout.simple_spinner_item, flags) }!!
+
+        // attached arrayadapter to spinner
+        binding.spnrRecipieCategory.adapter = flags_array_adapter
+
 //        binding.spnrRecipieCategory.onItemSelectedListener = object :
 //            AdapterView.OnItemSelectedListener {
 //            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {

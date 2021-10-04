@@ -69,18 +69,12 @@
                 android:id="@+id/spnr_recipie_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:width="200dp"
                 android:paddingLeft="24dp"
+                android:layout_margin="4dp"
                 android:paddingTop="8dp" />
 
-            <TextView
-                android:id="@+id/tv_recipie_spinner_selected"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#90000000"
-                android:paddingTop="16dp"
-                android:textStyle="italic"
-                android:text="@string/tv_recipie_spinner_selected" />
 
 
             <TextView
