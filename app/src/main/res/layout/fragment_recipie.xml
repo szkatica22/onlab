@@ -6,28 +6,170 @@
     android:layout_height="match_parent"
     tools:context=".ui.recipie.RecipieFragment">
 
-    <TextView
-        android:id="@+id/text_recipie"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
+    <!--    <TextView-->
+    <!--        android:id="@+id/text_recipie"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="8dp"-->
+    <!--        android:layout_marginTop="8dp"-->
+    <!--        android:layout_marginEnd="8dp"-->
+    <!--        android:textAlignment="center"-->
+    <!--        android:textSize="20sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/test_button3"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="17dp"-->
+    <!--        android:text="@string/test_button"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/text_recipie" />-->
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/img_btn_favourite">
 
-    <Button
-        android:id="@+id/test_button3"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:orientation="vertical">
+
+<!--     Ezt az imageView-t majd le kell cserelni gombra a kepfeltolteshez -->
+            <ImageView
+                android:id="@+id/iv_recipie_add_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_recipie_photo" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#90000000"
+                android:paddingTop="16dp"
+                android:textStyle="italic"
+                android:text="@string/tv_recipie_category" />
+
+            <Spinner
+                android:id="@+id/spnr_recipie_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:width="200dp"
+                android:paddingLeft="24dp"
+                android:paddingTop="8dp" />
+
+            <TextView
+                android:id="@+id/tv_recipie_spinner_selected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#90000000"
+                android:paddingTop="16dp"
+                android:textStyle="italic"
+                android:text="@string/tv_recipie_spinner_selected" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#90000000"
+                android:paddingTop="16dp"
+                android:textStyle="italic"
+                android:text="@string/tv_recipie_time_info" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:paddingTop="8dp"
+                android:paddingLeft="24dp"
+                android:textStyle="bold"
+                android:drawableLeft="@drawable/ic_recipie_time"
+                android:drawablePadding="8dp"
+                android:text="@string/tv_recipie_time" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:paddingTop="8dp"
+                android:paddingLeft="24dp"
+                android:textStyle="bold"
+                android:drawableLeft="@drawable/ic_recipie_serving"
+                android:drawablePadding="8dp"
+                android:text="@string/tv_recipie_abundance" />
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#90000000"
+                android:paddingTop="16dp"
+                android:textStyle="italic"
+                android:text="@string/tv_recipie_ingredients" />
+
+            <ListView
+                android:id="@+id/lv_recipie_ingredients"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/tv_recipie_name"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/recipie_fragment_recipiename"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/img_btn_favourite"
+        app:layout_constraintStart_toEndOf="@+id/img_btn_delete"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/img_btn_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
-        android:text="@string/test_button"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_recipie_delete"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_recipie" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/img_btn_favourite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_recipie_favorite_border"
+        app:layout_constraintEnd_toStartOf="@+id/img_btn_edit"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/img_btn_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_recipie_edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -25,5 +25,13 @@
     <string name="et_hint_shopping_list">Please enter the item!</string>
     <string name="btn_shopping_list_add">Add item</string>
     <string name="tv_item">Example</string>
+    <string name="recipie_fragment_recipiename">Test Recipie Name</string>
+    <string name="tv_recipie_category">Flag/Category</string>
+    <string name="tv_recipie_time_info">Cooking time and abundance</string>
+    <string name="tv_recipie_time">30 minutes</string>
+    <string name="tv_recipie_abundance">4 servings</string>
+    <string name="tv_recipie_ingredients">Ingredients</string>
+    <string name="tv_recipie_ingredient_item">Example</string>
+    <string name="tv_recipie_spinner_selected">Example</string>
 
 </resources>
