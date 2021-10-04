@@ -125,6 +125,22 @@
 
             <ListView
                 android:id="@+id/lv_recipie_ingredients"
+                android:drawableLeft="@drawable/ic_recipie_circle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#90000000"
+                android:paddingTop="16dp"
+                android:textStyle="italic"
+                android:text="@string/tv_recipie_preparation" />
+
+            <ListView
+                android:id="@+id/lv_recipie_preparation"
+                android:drawableLeft="@drawable/ic_recipie_circle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

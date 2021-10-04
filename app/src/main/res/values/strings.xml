@@ -33,5 +33,6 @@
     <string name="tv_recipie_ingredients">Ingredients</string>
     <string name="tv_recipie_ingredient_item">Example</string>
     <string name="tv_recipie_spinner_selected">Example</string>
+    <string name="tv_recipie_preparation">Preparation</string>
 
 </resources>

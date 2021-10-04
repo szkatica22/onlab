@@ -52,8 +52,18 @@ class RecipieFragment : Fragment(){
             "3/4 cup sugar", "425 g mascarpone", "2 cups heavy whipping cream", "2-3 TBSP cocoa powder")
 
         var list_view = binding.lvRecipieIngredients
-        array_adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, ingredients)
+        array_adapter =
+            context?.let { ArrayAdapter(it, android.R.layout.simple_list_item_1, ingredients) }!!
         list_view.adapter = array_adapter
+
+        // Recipie Preparation
+        val array_adapter_2: ArrayAdapter<*>
+        val steps = arrayOf("step1", "step2", "step3", "step4", "step5")
+
+        var list_view_2 = binding.lvRecipiePreparation
+        array_adapter_2 =
+            context?.let { ArrayAdapter(it, android.R.layout.simple_list_item_1, steps) }!!
+        list_view_2.adapter = array_adapter_2
 
 
 //        // Recept flag-k a spinner-hez ideiglenes ertekek
