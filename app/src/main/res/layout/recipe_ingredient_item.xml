@@ -7,24 +7,24 @@
     tools:context=".ui.recipie.RecipieFragment">
 
     <ImageView
-        android:id="@+id/circle"
+        android:id="@+id/iv_circle"
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:padding="5dp"
         android:src="@drawable/ic_recipie_circle"
-        app:layout_constraintBottom_toBottomOf="@+id/ingredient"
-        app:layout_constraintTop_toTopOf="@+id/ingredient"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_ingredient"
+        app:layout_constraintTop_toTopOf="@+id/tv_ingredient"
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/ingredient"
+        android:id="@+id/tv_ingredient"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:text="@string/tv_recipie_ingredient_item"
         android:textColor="@color/black"
         android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/circle"
+        app:layout_constraintStart_toEndOf="@+id/iv_circle"
         tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
