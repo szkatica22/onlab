@@ -34,5 +34,15 @@
     <string name="tv_recipie_ingredient_item">Example</string>
     <string name="tv_recipie_spinner_selected">Example</string>
     <string name="tv_recipie_preparation">Preparation</string>
+    <string name="change_recipie_fragment_recipiename">Change Test Recipie</string>
+    <string name="chip_recipie_flag_desserts">Desserts</string>
+    <string name="chip_recipie_flag_main_courses">Main courses</string>
+    <string name="chip_recipie_flag_soups">Soups</string>
+    <string name="chip_recipie_flag_drinks">Drinks</string>
+    <string name="tv_change_recipie_item_title">Title</string>
+    <string name="btn_add_new_ingredient">Add New Ingredient</string>
+    <string name="btn_add_new_step">Add New Step</string>
+    <string name="add_ingredient_tv_add_new_ingredients">Add new ingredients</string>
+    <string name="hint_for_new_ingredient">Enter the new ingredient and the quantity here</string>
 
 </resources>

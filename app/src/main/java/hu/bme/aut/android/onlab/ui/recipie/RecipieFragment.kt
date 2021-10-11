@@ -79,7 +79,6 @@ class RecipieFragment : Fragment(){
         preparationItemAdapter = PreparationItemAdapter(mutableListOf(Item("step1"), Item("step2"), Item("step3"), Item("step4")))
         binding.rvRecipiePreparation.adapter = preparationItemAdapter
         binding.rvRecipiePreparation.layoutManager = LinearLayoutManager(this.context)
-        // TODOOOO
 
 
         // Recipie Ingredients

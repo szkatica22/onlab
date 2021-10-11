@@ -73,7 +73,11 @@
         android:id="@+id/nav_change_recipie"
         android:name="hu.bme.aut.android.onlab.ui.change_recipie.ChangeRecipieFragment"
         android:label="fragment_nav_change_recipie"
-        tools:layout="@layout/fragment_change_recipie" />
+        tools:layout="@layout/fragment_change_recipie" >
+        <action
+            android:id="@+id/action_nav_change_recipie_to_nav_recipie"
+            app:destination="@id/nav_recipie" />
+    </fragment>
     <fragment
         android:id="@+id/nav_shopping_list"
         android:name="hu.bme.aut.android.onlab.ui.shoppinglist.ShoppinglistFragment"
