@@ -10,10 +10,10 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:background="@drawable/shape_background"
-        android:paddingBottom="14dp"
-        android:paddingRight="8dp"
-        android:paddingLeft="8dp"
+        android:paddingBottom="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
@@ -22,13 +22,19 @@
             android:textSize="19sp"
             android:textColor="@color/white"
             android:background="@color/purple_700"
-            android:padding="8dp"
+            android:padding="10dp"
+            android:elevation="15dp"
+            android:layout_marginTop="8dp"
             android:layout_gravity="center"
+            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <EditText
             android:id="@+id/et_new_recipie_ingredient"
             android:hint="@string/hint_for_new_ingredient"
+            android:background="@drawable/shape_background"
+            android:padding="6dp"
+            android:layout_margin="8dp"
             android:textColor="@color/purple_700"
             android:textStyle="italic"
             android:textSize="18sp"
