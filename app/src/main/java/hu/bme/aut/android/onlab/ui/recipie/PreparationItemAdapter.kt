@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.android.onlab.databinding.ItemBinding
-import hu.bme.aut.android.onlab.databinding.ItemShoppingListBinding
+import hu.bme.aut.android.onlab.ui.change_recipie.ChangeItem
 
 class PreparationItemAdapter(
     private val items: MutableList<Item>

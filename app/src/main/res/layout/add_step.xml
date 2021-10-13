@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_margin="14dp"
+    tools:context=".ui.change_recipie.ChangeRecipieFragment">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:paddingBottom="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="@string/add_new_steps"
+            android:textStyle="bold"
+            android:textSize="19sp"
+            android:textColor="@color/white"
+            android:background="@color/purple_700"
+            android:padding="10dp"
+            android:elevation="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/et_new_recipie_step"
+            android:hint="@string/enter_the_new_step_here"
+            android:background="@drawable/shape_background"
+            android:padding="6dp"
+            android:layout_margin="8dp"
+            android:textColor="@color/purple_700"
+            android:textStyle="italic"
+            android:textSize="18sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</LinearLayout>

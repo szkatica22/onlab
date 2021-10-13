@@ -32,6 +32,7 @@
 
     </LinearLayout>
         <ImageView
+            android:id="@+id/iv_change_recipie_options"
             android:src="@drawable/ic_change_recipie_more"
             android:layout_gravity="center"
             android:layout_margin="8dp"

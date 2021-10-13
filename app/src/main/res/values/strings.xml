@@ -44,5 +44,9 @@
     <string name="btn_add_new_step">Add New Step</string>
     <string name="add_ingredient_tv_add_new_ingredients">Add new ingredients</string>
     <string name="hint_for_new_ingredient">Enter the new ingredient and the quantity here</string>
+    <string name="add_new_steps">Add new steps</string>
+    <string name="enter_the_new_step_here">Enter the new step here</string>
+    <string name="edit_text">Edit Text</string>
+    <string name="delete_text">Delete</string>
 
 </resources>

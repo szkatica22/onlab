@@ -22,7 +22,7 @@ class ChangeRecipieFragment : Fragment(){
     private var _binding: FragmentChangeRecipieBinding? = null
 
     private lateinit var changeingredientAdapter: ChangeIngredientAdapter
-    private lateinit var preparationItemAdapter: PreparationItemAdapter
+    private lateinit var changepreparationAdapter: ChangePreparationAdapter
 
     private lateinit var adds_btn: FloatingActionButton
     private lateinit var rec_v: RecyclerView
@@ -49,15 +49,11 @@ class ChangeRecipieFragment : Fragment(){
             findNavController().navigate(R.id.action_nav_change_recipie_to_nav_recipie)
         }
 
-        //Teszt hozzavalokra es elkeszitesi lepesekre
+        //Teszt hozzavalokra
 
         changeingredientAdapter = ChangeIngredientAdapter(ingredients_list)
         binding.rvRecipieIngredients.adapter = changeingredientAdapter
         binding.rvRecipieIngredients.layoutManager = LinearLayoutManager(this.context)
-
-//        preparationItemAdapter = PreparationItemAdapter(preparation_list)
-//        binding.rvRecipiePreparation.adapter = preparationItemAdapter
-//        binding.rvRecipiePreparation.layoutManager = LinearLayoutManager(this.context)
 
         //Add Ingredient
         rec_v = binding.rvRecipieIngredients
@@ -85,6 +81,40 @@ class ChangeRecipieFragment : Fragment(){
 
 
         }
+
+        //Teszt elkeszitesi lepesekre
+
+        changepreparationAdapter = ChangePreparationAdapter(preparation_list)
+        binding.rvRecipiePreparation.adapter = changepreparationAdapter
+        binding.rvRecipiePreparation.layoutManager = LinearLayoutManager(this.context)
+
+        //Add Step
+        rec_v = binding.rvRecipiePreparation
+        rec_v.layoutManager = LinearLayoutManager(this.context)
+        rec_v.adapter = changepreparationAdapter
+
+        binding.addingBtnRecipiePreparations.setOnClickListener {
+            val v = inflater.inflate(R.layout.add_step, null)
+            val step = v.findViewById<EditText>(R.id.et_new_recipie_step)
+            val add_dialog = AlertDialog.Builder(this.context)
+            add_dialog.setView(v)
+            add_dialog.setPositiveButton("Ok"){
+                    dialog,_->
+                preparation_list.add(ChangeItem(step.text.toString()))
+                changepreparationAdapter.notifyDataSetChanged()
+                Toast.makeText(this.context, "Adding Step", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            }
+            add_dialog.setNegativeButton("Cancel"){
+                    dialog,_->
+                Toast.makeText(this.context, "Cancel", Toast.LENGTH_SHORT).show()
+            }
+            add_dialog.create()
+            add_dialog.show()
+
+
+        }
+
 
         //recyclerview id: rv_recipie_ingredients
 
