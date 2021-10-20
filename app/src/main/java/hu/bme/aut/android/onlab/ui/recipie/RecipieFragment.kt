@@ -42,10 +42,10 @@ class RecipieFragment : Fragment(){
         _binding = FragmentRecipieBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.tvRecipieName
-        recipieViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
+//        val textView: TextView = binding.tvRecipieName //recipie_fragment_recipiename
+//        recipieViewModel.text.observe(viewLifecycleOwner, Observer {
+//            textView.text = it
+//        })
 
         // Teszt gomb a kovi fragmentre valtashoz
         binding.imgBtnEdit.setOnClickListener{

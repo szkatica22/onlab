@@ -48,5 +48,6 @@
     <string name="enter_the_new_step_here">Enter the new step here</string>
     <string name="edit_text">Edit Text</string>
     <string name="delete_text">Delete</string>
+    <string name="change_rec_delete_recipie">Delete Recipie</string>
 
 </resources>
