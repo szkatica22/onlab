@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import hu.bme.aut.android.onlab.R
@@ -21,13 +20,13 @@ class ChangeRecipieFragment : Fragment(){
     private lateinit var changeRecipieViewModel: ChangeRecipieViewModel
     private var _binding: FragmentChangeRecipieBinding? = null
 
-    private lateinit var changeingredientAdapter: ChangeIngredientAdapter
+    private lateinit var changeingredientController: ChangeIngredientController
     private lateinit var changepreparationAdapter: ChangePreparationAdapter
 
     private lateinit var adds_btn: FloatingActionButton
     private lateinit var rec_v: RecyclerView
     private var ingr_list = ArrayList<ChangeItem>()
-    var ingredients_list = mutableListOf(ChangeItem("1 cup espresso"), ChangeItem("6 egg yolks"), ChangeItem("6 Tbsp rum"), ChangeItem("30 ladyfingers"))
+    var ingredients_list = arrayListOf(ChangeItem("1 cup espresso"), ChangeItem("6 egg yolks"), ChangeItem("6 Tbsp rum"), ChangeItem("30 ladyfingers"))
     var preparation_list = mutableListOf(ChangeItem("step1"), ChangeItem("step2"), ChangeItem("step3"), ChangeItem("step4"))
 
     // This property is only valid between onCreateView and
@@ -47,16 +46,22 @@ class ChangeRecipieFragment : Fragment(){
         val root: View = binding.root
 
         // Teszt gombok az elozo fragmentre valtashoz
-        binding.imgBtnEdit.setOnClickListener{
-            findNavController().navigate(R.id.action_nav_change_recipie_to_nav_recipie)
-        }
-        binding.btnDeleteRecipie.setOnClickListener {
-            findNavController().navigate(R.id.action_nav_change_recipie_to_nav_recipie)
-        }
+//        binding.imgBtnEdit.setOnClickListener{
+//            findNavController().navigate(R.id.action_nav_change_recipie_to_nav_recipie)
+//        }
+//        binding.btnDeleteRecipie.setOnClickListener {
+//            findNavController().navigate(R.id.action_nav_change_recipie_to_nav_recipie)
+//        }
 
         //Teszt hozzavalokra
 
-        changeingredientAdapter = ChangeIngredientAdapter(ingr_list)
+//        changeingredientController = ChangeIngredientController(ingr_list)
+
+        changeingredientController = ChangeIngredientController(ingredients_list)
+        binding.eprvChangeRecipie.setController(changeingredientController)
+//        binding.eprvChangeRecipie.adapter = epoxyController.adapter
+//        binding.rvChangeRecipie.layoutManager = LinearLayoutManager(this.context)
+
         binding.addingBtnRecipieIngredients.setOnClickListener {
             val infl = inflater.inflate(R.layout.change_recipie_item, null)
             //binding.llRecipieIngredients.addView(infl, binding.llRecipieIngredients.childCount)
@@ -73,7 +78,7 @@ class ChangeRecipieFragment : Fragment(){
 //            binding.llRecipieIngredients.addView(infl, binding.llRecipieIngredients.childCount)
             ingr_list.add(ChangeItem(ingredient.text.toString()))
             binding.llRecipieIngredients.addView(infl, binding.llRecipieIngredients.childCount)
-            changeingredientAdapter.notifyDataSetChanged()
+//            changeingredientController.notifyDataSetChanged()
 
 
                 Toast.makeText(this.context, "Adding Ingredient", Toast.LENGTH_SHORT).show()
@@ -87,9 +92,6 @@ class ChangeRecipieFragment : Fragment(){
             add_dialog.show()
         }
 
-//        changeingredientAdapter = ChangeIngredientAdapter(ingredients_list)
-//        binding.rvRecipieIngredients.adapter = changeingredientAdapter
-//        binding.rvRecipieIngredients.layoutManager = LinearLayoutManager(this.context)
 
 //        //Add Ingredient
 //        rec_v = binding.rvRecipieIngredients
