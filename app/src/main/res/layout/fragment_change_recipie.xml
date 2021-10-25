@@ -7,9 +7,11 @@
     tools:context=".ui.change_recipie.ChangeRecipieFragment">
 
     <com.airbnb.epoxy.EpoxyRecyclerView xmlns:tools="https://schemas.android.com/tools"
-        android:id="@+id/eprv_change_recipie"
+        android:id="@+id/erv_change_recipie"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 <!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
@@ -138,7 +140,7 @@
 <!--            android:textStyle="bold"-->
 <!--            android:drawableLeft="@drawable/ic_recipie_time"-->
 <!--            android:drawablePadding="8dp"-->
-<!--            android:text="@string/tv_recipie_time" />-->
+<!--            android:text="@string/et_recipie_time" />-->
 
 
 <!--        <EditText-->
@@ -150,7 +152,7 @@
 <!--            android:textStyle="bold"-->
 <!--            android:drawableLeft="@drawable/ic_recipie_serving"-->
 <!--            android:drawablePadding="8dp"-->
-<!--            android:text="@string/tv_recipie_abundance" />-->
+<!--            android:text="@string/et_recipie_abundance" />-->
 
 
 

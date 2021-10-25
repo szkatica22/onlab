@@ -3,6 +3,7 @@ package hu.bme.aut.android.onlab.ui.change_recipie
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.epoxy.AutoModel
 import com.airbnb.epoxy.EpoxyController
 import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.ui.change_recipie.ChangeItem
@@ -13,8 +14,6 @@ import hu.bme.aut.android.onlab.ui.recipie.Item
 
 class ChangeIngredientController(private var items: ArrayList<ChangeItem> // MutableList<ChangeItem>
 ) : EpoxyController() {
-
-
 
     fun addItem(item: ChangeItem) {
         items.add(item)
@@ -31,7 +30,7 @@ class ChangeIngredientController(private var items: ArrayList<ChangeItem> // Mut
             return
         }
         items.forEach{ item ->
-//            IngredientEpoxyModel(item, onClickedCallback).id(item.title).addTo(this)
+            IngredientEpoxyModel(item).id(item.title).addTo(this)
         }
     }
 

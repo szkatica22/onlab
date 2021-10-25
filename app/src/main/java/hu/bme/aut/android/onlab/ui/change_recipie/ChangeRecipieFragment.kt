@@ -11,6 +11,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import hu.bme.aut.android.onlab.R
@@ -57,40 +59,41 @@ class ChangeRecipieFragment : Fragment(){
 
 //        changeingredientController = ChangeIngredientController(ingr_list)
 
-        changeingredientController = ChangeIngredientController(ingredients_list)
-        binding.eprvChangeRecipie.setController(changeingredientController)
-//        binding.eprvChangeRecipie.adapter = epoxyController.adapter
-//        binding.rvChangeRecipie.layoutManager = LinearLayoutManager(this.context)
+//        changeingredientController = ChangeIngredientController(ingredients_list)
+        binding.ervChangeRecipie.setController(changeingredientController)
+//        binding.ervChangeRecipie.adapter = changeingredientController.adapter
+//        binding.ervChangeRecipie.layoutManager = LinearLayoutManager(this.context)
+        binding.ervChangeRecipie.addItemDecoration(DividerItemDecoration(requireActivity(),RecyclerView.VERTICAL))
 
-        binding.addingBtnRecipieIngredients.setOnClickListener {
-            val infl = inflater.inflate(R.layout.change_recipie_item, null)
-            //binding.llRecipieIngredients.addView(infl, binding.llRecipieIngredients.childCount)
-
-            val v = inflater.inflate(R.layout.add_step, null)
-            val ingredient = v.findViewById<EditText>(R.id.et_new_recipie_ingredient)
-            val add_dialog = AlertDialog.Builder(this.context)
-            add_dialog.setView(v)
-
-            add_dialog.setPositiveButton("Ok"){
-                    dialog,_->
-            var tmp_item = ChangeItem(ingredient.text.toString())
-//                TODO: ezt a tmp:item-t kene hozzaadnom az llRecipieIngredients-hez
+//        binding.addingBtnRecipieIngredients.setOnClickListener {
+//            val infl = inflater.inflate(R.layout.change_recipie_item, null)
+//            //binding.llRecipieIngredients.addView(infl, binding.llRecipieIngredients.childCount)
+//
+//            val v = inflater.inflate(R.layout.add_step, null)
+//            val ingredient = v.findViewById<EditText>(R.id.et_new_recipie_ingredient)
+//            val add_dialog = AlertDialog.Builder(this.context)
+//            add_dialog.setView(v)
+//
+//            add_dialog.setPositiveButton("Ok"){
+//                    dialog,_->
+//            var tmp_item = ChangeItem(ingredient.text.toString())
+////                TODO: ezt a tmp:item-t kene hozzaadnom az llRecipieIngredients-hez
+////            binding.llRecipieIngredients.addView(infl, binding.llRecipieIngredients.childCount)
+//            ingr_list.add(ChangeItem(ingredient.text.toString()))
 //            binding.llRecipieIngredients.addView(infl, binding.llRecipieIngredients.childCount)
-            ingr_list.add(ChangeItem(ingredient.text.toString()))
-            binding.llRecipieIngredients.addView(infl, binding.llRecipieIngredients.childCount)
-//            changeingredientController.notifyDataSetChanged()
-
-
-                Toast.makeText(this.context, "Adding Ingredient", Toast.LENGTH_SHORT).show()
-                dialog.dismiss()
-            }
-            add_dialog.setNegativeButton("Cancel"){
-                    dialog,_->
-                Toast.makeText(this.context, "Cancel", Toast.LENGTH_SHORT).show()
-            }
-            add_dialog.create()
-            add_dialog.show()
-        }
+////            changeingredientController.notifyDataSetChanged()
+//
+//
+//                Toast.makeText(this.context, "Adding Ingredient", Toast.LENGTH_SHORT).show()
+//                dialog.dismiss()
+//            }
+//            add_dialog.setNegativeButton("Cancel"){
+//                    dialog,_->
+//                Toast.makeText(this.context, "Cancel", Toast.LENGTH_SHORT).show()
+//            }
+//            add_dialog.create()
+//            add_dialog.show()
+//        }
 
 
 //        //Add Ingredient
