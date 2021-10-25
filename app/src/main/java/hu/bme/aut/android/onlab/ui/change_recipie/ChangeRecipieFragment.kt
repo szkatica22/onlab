@@ -1,28 +1,22 @@
 package hu.bme.aut.android.onlab.ui.change_recipie
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.databinding.FragmentChangeRecipieBinding
 
 class ChangeRecipieFragment : Fragment(){
     private lateinit var changeRecipieViewModel: ChangeRecipieViewModel
     private var _binding: FragmentChangeRecipieBinding? = null
 
-    private lateinit var changeingredientController: ChangeIngredientController
+    private lateinit var changerecipieController: ChangeRecipieController
     private lateinit var changepreparationAdapter: ChangePreparationAdapter
 
     private lateinit var adds_btn: FloatingActionButton
@@ -59,8 +53,9 @@ class ChangeRecipieFragment : Fragment(){
 
 //        changeingredientController = ChangeIngredientController(ingr_list)
 
-//        changeingredientController = ChangeIngredientController(ingredients_list)
-        binding.ervChangeRecipie.setController(changeingredientController)
+        changerecipieController = ChangeRecipieController(ingredients_list)
+        binding.ervChangeRecipie.setController(changerecipieController)
+        changerecipieController.requestModelBuild()
 //        binding.ervChangeRecipie.adapter = changeingredientController.adapter
 //        binding.ervChangeRecipie.layoutManager = LinearLayoutManager(this.context)
         binding.ervChangeRecipie.addItemDecoration(DividerItemDecoration(requireActivity(),RecyclerView.VERTICAL))

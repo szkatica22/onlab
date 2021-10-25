@@ -12,24 +12,24 @@ import hu.bme.aut.android.onlab.databinding.ItemBinding
 import hu.bme.aut.android.onlab.ui.epoxy.ViewBindingKotlinModel
 import hu.bme.aut.android.onlab.ui.recipie.Item
 
-class ChangeIngredientController(private var items: ArrayList<ChangeItem> // MutableList<ChangeItem>
+class ChangeRecipieController(private var ingredients: ArrayList<ChangeItem> // MutableList<ChangeItem>
 ) : EpoxyController() {
 
-    fun addItem(item: ChangeItem) {
-        items.add(item)
+    fun addIngredient(item: ChangeItem) {
+        ingredients.add(item)
         requestModelBuild()
     }
 
-    fun deleteItem(idx: Int) {
-        items.removeAt(idx)
+    fun deleteIngredient(idx: Int) {
+        ingredients.removeAt(idx)
         requestModelBuild()
     }
 
-    override fun buildModels() { //iv_change_recipie_options
-        if(items.isEmpty()){
+    override fun buildModels() {
+        if(ingredients.isEmpty()){
             return
         }
-        items.forEach{ item ->
+        ingredients.forEach{ item ->
             IngredientEpoxyModel(item).id(item.title).addTo(this)
         }
     }
