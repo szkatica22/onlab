@@ -90,6 +90,15 @@
             android:drawableLeft="@drawable/ic_recipie_serving"
             android:drawablePadding="8dp"
             android:text="@string/et_recipie_abundance" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#4BCCCCCC"
+            android:textColor="#90000000"
+            android:paddingTop="16dp"
+            android:textStyle="italic"
+            android:text="@string/tv_recipie_ingredients" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,23 +13,6 @@
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-<!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    xmlns:tools="http://schemas.android.com/tools"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent"-->
-<!--    tools:context=".ui.change_recipie.ChangeRecipieFragment">-->
-
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:paddingLeft="8dp"-->
-<!--        android:paddingRight="8dp"-->
-<!--        android:paddingTop="8dp"-->
-<!--        android:paddingBottom="8dp"-->
-<!--        android:orientation="vertical">-->
-
-
 <!--        &lt;!&ndash;     Ezt az imageView-t majd le kell cserelni gombra a kepfeltolteshez &ndash;&gt;-->
 <!--        <ImageView-->
 <!--            android:id="@+id/iv_recipie_add_image"-->

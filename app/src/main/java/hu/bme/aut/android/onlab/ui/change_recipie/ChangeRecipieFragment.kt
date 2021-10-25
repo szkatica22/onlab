@@ -17,16 +17,12 @@ class ChangeRecipieFragment : Fragment(){
     private var _binding: FragmentChangeRecipieBinding? = null
 
     private lateinit var changerecipieController: ChangeRecipieController
-    private lateinit var changepreparationAdapter: ChangePreparationAdapter
 
-    private lateinit var adds_btn: FloatingActionButton
-    private lateinit var rec_v: RecyclerView
-    private var ingr_list = ArrayList<ChangeItem>()
+//    private lateinit var adds_btn: FloatingActionButton
+//    private lateinit var rec_v: RecyclerView
     var ingredients_list = arrayListOf(ChangeItem("1 cup espresso"), ChangeItem("6 egg yolks"), ChangeItem("6 Tbsp rum"), ChangeItem("30 ladyfingers"))
-    var preparation_list = mutableListOf(ChangeItem("step1"), ChangeItem("step2"), ChangeItem("step3"), ChangeItem("step4"))
+    var preparation_list = arrayListOf(ChangeItem("step1"), ChangeItem("step2"), ChangeItem("step3"), ChangeItem("step4"))
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     @SuppressLint("NotifyDataSetChanged")
@@ -53,8 +49,9 @@ class ChangeRecipieFragment : Fragment(){
 
 //        changeingredientController = ChangeIngredientController(ingr_list)
 
-        changerecipieController = ChangeRecipieController(ingredients_list)
+        changerecipieController = ChangeRecipieController(ingredients_list, preparation_list)
         binding.ervChangeRecipie.setController(changerecipieController)
+
         changerecipieController.requestModelBuild()
 //        binding.ervChangeRecipie.adapter = changeingredientController.adapter
 //        binding.ervChangeRecipie.layoutManager = LinearLayoutManager(this.context)

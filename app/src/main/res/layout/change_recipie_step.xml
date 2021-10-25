@@ -22,7 +22,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent">
         <TextView
-            android:id="@+id/tv_change_recipie_item_title_id"
+            android:id="@+id/tv_change_recipie_step_title_id"
             android:text="@string/tv_change_recipie_item_title"
             android:textColor="@color/black"
             android:textSize="19sp"

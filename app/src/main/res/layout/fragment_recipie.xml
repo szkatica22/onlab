@@ -114,7 +114,7 @@
                 android:textStyle="bold"
                 android:drawableLeft="@drawable/ic_recipie_time"
                 android:drawablePadding="8dp"
-                android:text="@string/tv_recipie_time" />
+                android:text="@string/et_recipie_time" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -125,7 +125,7 @@
                 android:textStyle="bold"
                 android:drawableLeft="@drawable/ic_recipie_serving"
                 android:drawablePadding="8dp"
-                android:text="@string/tv_recipie_abundance" />
+                android:text="@string/et_recipie_abundance" />
 
 
 
