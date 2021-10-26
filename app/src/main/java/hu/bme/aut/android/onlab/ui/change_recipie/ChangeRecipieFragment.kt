@@ -22,6 +22,13 @@ class ChangeRecipieFragment : Fragment(){
 //    private lateinit var rec_v: RecyclerView
     var ingredients_list = arrayListOf(ChangeItem("1 cup espresso"), ChangeItem("6 egg yolks"), ChangeItem("6 Tbsp rum"), ChangeItem("30 ladyfingers"))
     var preparation_list = arrayListOf(ChangeItem("step1"), ChangeItem("step2"), ChangeItem("step3"), ChangeItem("step4"))
+    var recipie_name: String = "Change Test Recipie"
+    var recipie_flags = arrayListOf<String>("Desserst", "Drinks", "Soups", "Main courses")
+    var time: String = "30 minutes"
+    var abundance: String = "4 servings"
+    var btn_ingredient: String = "Add new ingredient"
+    var btn_step: String = "Add new step"
+    var btn_delete: String = "Delete recipie"
 
     private val binding get() = _binding!!
 
@@ -49,7 +56,8 @@ class ChangeRecipieFragment : Fragment(){
 
 //        changeingredientController = ChangeIngredientController(ingr_list)
 
-        changerecipieController = ChangeRecipieController(ingredients_list, preparation_list)
+        changerecipieController = ChangeRecipieController(ingredients_list, preparation_list,
+            recipie_name, recipie_flags, time, abundance, btn_ingredient, btn_step, btn_delete)
         binding.ervChangeRecipie.setController(changerecipieController)
 
         changerecipieController.requestModelBuild()
