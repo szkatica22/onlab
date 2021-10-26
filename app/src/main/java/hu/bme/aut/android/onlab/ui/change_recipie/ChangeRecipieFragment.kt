@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -29,6 +30,7 @@ class ChangeRecipieFragment : Fragment(){
     var btn_ingredient: String = "Add new ingredient"
     var btn_step: String = "Add new step"
     var btn_delete: String = "Delete recipie"
+    var prep_title: String = "Preparation"
 
     private val binding get() = _binding!!
 
@@ -57,13 +59,15 @@ class ChangeRecipieFragment : Fragment(){
 //        changeingredientController = ChangeIngredientController(ingr_list)
 
         changerecipieController = ChangeRecipieController(ingredients_list, preparation_list,
-            recipie_name, recipie_flags, time, abundance, btn_ingredient, btn_step, btn_delete)
+            recipie_name, recipie_flags, time, abundance, btn_ingredient, prep_title, btn_step,
+            btn_delete, inflater)
         binding.ervChangeRecipie.setController(changerecipieController)
 
         changerecipieController.requestModelBuild()
 //        binding.ervChangeRecipie.adapter = changeingredientController.adapter
 //        binding.ervChangeRecipie.layoutManager = LinearLayoutManager(this.context)
-        binding.ervChangeRecipie.addItemDecoration(DividerItemDecoration(requireActivity(),RecyclerView.VERTICAL))
+        binding.ervChangeRecipie.addItemDecoration(DividerItemDecoration(requireActivity(),
+            RecyclerView.VERTICAL))
 
 //        binding.addingBtnRecipieIngredients.setOnClickListener {
 //            val infl = inflater.inflate(R.layout.change_recipie_item, null)

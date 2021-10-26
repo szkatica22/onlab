@@ -13,23 +13,32 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.databinding.FragmentRecipieBinding
+import hu.bme.aut.android.onlab.ui.change_recipie.ChangeItem
 
 class RecipieFragment : Fragment(){
     private lateinit var recipieViewModel: RecipieViewModel
     private var _binding: FragmentRecipieBinding? = null
 
-    // Recept flag-k a spinner-hez ideiglenes ertekek
-    val flags = arrayOf("Desserts", "Main courses", "Soups", "Drinks")
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
-    private lateinit var ingredientItemAdapter: IngredientItemAdapter
-    private lateinit var preparationItemAdapter: PreparationItemAdapter
+    private lateinit var recipieController: RecipieController
+    var ingredients_list = arrayListOf(Item("1 cup espresso"), Item("6 egg yolks"),
+        Item("6 Tbsp rum"), Item("30 ladyfingers"))
+    var preparation_list = arrayListOf(Item("step1"), Item("step2"), Item("step3"),
+        Item("step4"))
+    var recipie_name: String = "Change Test Recipie"
+    var recipie_flags = arrayListOf<String>("Desserst", "Drinks", "Soups", "Main courses")
+    var time: String = "30 minutes"
+    var abundance: String = "4 servings"
+    var btn_ingredient: String = "Add new ingredient"
+    var btn_step: String = "Add new step"
+    var btn_delete: String = "Delete recipie"
+    var prep_title: String = "Preparation"
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,43 +51,52 @@ class RecipieFragment : Fragment(){
         _binding = FragmentRecipieBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        recipieController = RecipieController(ingredients_list, preparation_list,
+            recipie_name, recipie_flags, time, abundance, btn_ingredient,
+            prep_title, btn_step, btn_delete)
+        binding.ervRecipie.setController(recipieController)
+
+        recipieController.requestModelBuild()
+        binding.ervRecipie.addItemDecoration(DividerItemDecoration(requireActivity(),
+            RecyclerView.VERTICAL))
+
 //        val textView: TextView = binding.tvRecipieName //recipie_fragment_recipiename
 //        recipieViewModel.text.observe(viewLifecycleOwner, Observer {
 //            textView.text = it
 //        })
 
         // Teszt gomb a kovi fragmentre valtashoz
-        binding.imgBtnEdit.setOnClickListener{
-            findNavController().navigate(R.id.action_nav_recipie_to_nav_change_recipie)
-        }
-
-
-        val flags_array_adapter =
-            context?.let { ArrayAdapter(it, android.R.layout.simple_spinner_item, flags) }!!
-
-        // attached arrayadapter to spinner
-        binding.spnrRecipieCategory.adapter = flags_array_adapter
-
-        binding.spnrRecipieCategory.onItemSelectedListener = object :
-            AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                binding.tvRecipieSpinnerSelected.text = flags[p2]
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-            }
-
-        }
-
-        //Teszt hozzavalokra es elkeszitesi lepesekre
-
-        ingredientItemAdapter = IngredientItemAdapter(mutableListOf(Item("1 cup espresso"), Item("6 egg yolks"), Item("6 Tbsp rum"), Item("30 ladyfingers")))
-        binding.rvRecipieIngredients.adapter = ingredientItemAdapter
-        binding.rvRecipieIngredients.layoutManager = LinearLayoutManager(this.context)
-
-        preparationItemAdapter = PreparationItemAdapter(mutableListOf(Item("step1"), Item("step2"), Item("step3"), Item("step4")))
-        binding.rvRecipiePreparation.adapter = preparationItemAdapter
-        binding.rvRecipiePreparation.layoutManager = LinearLayoutManager(this.context)
+//        binding.imgBtnEdit.setOnClickListener{
+//            findNavController().navigate(R.id.action_nav_recipie_to_nav_change_recipie)
+//        }
+//
+//
+//        val flags_array_adapter =
+//            context?.let { ArrayAdapter(it, android.R.layout.simple_spinner_item, flags) }!!
+//
+//        // attached arrayadapter to spinner
+//        binding.spnrRecipieCategory.adapter = flags_array_adapter
+//
+//        binding.spnrRecipieCategory.onItemSelectedListener = object :
+//            AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+//                binding.tvRecipieSpinnerSelected.text = flags[p2]
+//            }
+//
+//            override fun onNothingSelected(p0: AdapterView<*>?) {
+//            }
+//
+//        }
+//
+//        //Teszt hozzavalokra es elkeszitesi lepesekre
+//
+//        ingredientItemAdapter = IngredientItemAdapter(mutableListOf(Item("1 cup espresso"), Item("6 egg yolks"), Item("6 Tbsp rum"), Item("30 ladyfingers")))
+//        binding.rvRecipieIngredients.adapter = ingredientItemAdapter
+//        binding.rvRecipieIngredients.layoutManager = LinearLayoutManager(this.context)
+//
+//        preparationItemAdapter = PreparationItemAdapter(mutableListOf(Item("step1"), Item("step2"), Item("step3"), Item("step4")))
+//        binding.rvRecipiePreparation.adapter = preparationItemAdapter
+//        binding.rvRecipiePreparation.layoutManager = LinearLayoutManager(this.context)
 
 
         // Recipie Ingredients

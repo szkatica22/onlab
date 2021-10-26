@@ -49,5 +49,6 @@
     <string name="edit_text">Edit Text</string>
     <string name="delete_text">Delete</string>
     <string name="change_rec_delete_recipie">Delete Recipie</string>
+    <string name="tv_recipie_step_item">Example</string>
 
 </resources>

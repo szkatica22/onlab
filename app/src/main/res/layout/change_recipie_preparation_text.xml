@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.change_recipie.ChangeRecipieFragment">
+
+    <TextView
+        android:id="@+id/tv_change_recipie_prep_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#4BCCCCCC"
+        android:textColor="#90000000"
+        android:paddingTop="16dp"
+        android:textStyle="italic"
+        android:layout_margin="8dp"
+        android:text="@string/tv_recipie_preparation"
+        tools:ignore="MissingConstraints" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
