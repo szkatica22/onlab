@@ -3,6 +3,7 @@ package hu.bme.aut.android.onlab.ui.recipie
 import com.airbnb.epoxy.EpoxyController
 import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.databinding.*
+import android.view.View.OnClickListener
 import hu.bme.aut.android.onlab.ui.change_recipie.ChangeItem
 import hu.bme.aut.android.onlab.ui.change_recipie.ChangeRecipieController
 import hu.bme.aut.android.onlab.ui.epoxy.ViewBindingKotlinModel
@@ -38,6 +39,9 @@ class RecipieController (private var ingredients: ArrayList<Item>,
         ViewBindingKotlinModel<RecipieHeaderBinding>(R.layout.recipie_header){
         override fun RecipieHeaderBinding.bind() {
             tvRecipieName.text = title
+//            imgBtnEdit.setOnClickListener {
+//                findNavController().navigate(R.id.action_nav_recipie_to_nav_change_recipie)
+//            }
         }
     }
 

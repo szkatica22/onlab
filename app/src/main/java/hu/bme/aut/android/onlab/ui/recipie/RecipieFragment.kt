@@ -1,24 +1,14 @@
 package hu.bme.aut.android.onlab.ui.recipie
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.databinding.FragmentRecipieBinding
-import hu.bme.aut.android.onlab.ui.change_recipie.ChangeItem
 
 class RecipieFragment : Fragment(){
     private lateinit var recipieViewModel: RecipieViewModel

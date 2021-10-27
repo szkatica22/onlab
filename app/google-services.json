@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1051122456434",
+    "project_id": "onlab-e8d9f",
+    "storage_bucket": "onlab-e8d9f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1051122456434:android:f301ba48c8ea4dc8ba6feb",
+        "android_client_info": {
+          "package_name": "hu.bme.aut.android.onlab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1051122456434-vg4t10ei1f4k5l0uhqp20rockrqnnton.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8wjs3IMI4AdXvBhwoEjQv1NCr89NwpSU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1051122456434-vg4t10ei1f4k5l0uhqp20rockrqnnton.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
