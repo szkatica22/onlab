@@ -50,5 +50,13 @@
     <string name="delete_text">Delete</string>
     <string name="change_rec_delete_recipie">Delete Recipie</string>
     <string name="tv_recipie_step_item">Example</string>
+    <string name="menu_logout">Logout</string>
+    <string name="login_password">Password</string>
+    <string name="login_login">Login</string>
+    <string name="login_register">Register</string>
+    <string name="registration">Registration</string>
+    <string name="login_password_again">Password again</string>
+    <string name="login_email">Email</string>
+    <string name="login_cancel">Cancel</string>
 
 </resources>
