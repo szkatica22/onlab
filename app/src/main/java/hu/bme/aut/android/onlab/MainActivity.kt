@@ -129,12 +129,7 @@ class MainActivity : BaseActivity() {
             .signInWithEmailAndPassword(binding.etEmail.text.toString(), binding.etPassword.text.toString())
             .addOnSuccessListener {
                 hideProgressDialog()
-                binding.btnLogin.setOnClickListener {
-                    findNavController().navigate(R.id.nav_host_fragment_content_main)
-                }
-
-//                supportFragmentManager.findFragmentByTag(RecipiesFragment::class.java.simpleName)
-//                startActivity(Intent(this@MainActivity, RecipiesFragment::class.java))
+                startActivity(Intent(this@MainActivity, SecondActivity::class.java))
                 finish()
             }
             .addOnFailureListener { exception ->

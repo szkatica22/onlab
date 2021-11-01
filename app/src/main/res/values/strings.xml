@@ -26,7 +26,7 @@
     <string name="btn_shopping_list_add">Add item</string>
     <string name="tv_item">Example</string>
     <string name="recipie_fragment_recipiename">Test Recipie Name</string>
-    <string name="tv_recipie_category">Flag/Category</string>
+    <string name="tv_recipie_category">Flags/Categories</string>
     <string name="tv_recipie_time_info">Cooking time and abundance</string>
     <string name="et_recipie_time">30 minutes</string>
     <string name="et_recipie_abundance">4 servings</string>
@@ -58,5 +58,6 @@
     <string name="login_password_again">Password again</string>
     <string name="login_email">Email</string>
     <string name="login_cancel">Cancel</string>
+    <string name="change_rec_save">Save</string>
 
 </resources>

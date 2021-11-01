@@ -45,9 +45,6 @@ android {
 }
 
 dependencies {
-    implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'
-    implementation 'com.google.firebase:firebase-firestore-ktx:23.0.4'
-
 
     //Epoxy
     def epoxyVersion = "4.6.4"
@@ -55,9 +52,14 @@ dependencies {
     kapt("com.airbnb.android:epoxy-processor:$epoxyVersion")
     implementation 'com.airbnb.android:epoxy-databinding:2.6.0'
 
+    //FlexboxLayout
+//    implementation 'com.google.android.flexbox:flexbox:3.0.0'
+
     //Firebase
     implementation 'com.flaviofaria:kenburnsview:1.0.7'
     implementation 'com.github.bumptech.glide:glide:4.12.0'
+    implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.0.0'
 
     // Circular ImageView
     implementation 'com.mikhaellopez:circularimageview:4.3.0'

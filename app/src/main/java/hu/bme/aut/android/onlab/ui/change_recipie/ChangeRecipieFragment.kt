@@ -30,6 +30,7 @@ class ChangeRecipieFragment : Fragment(){
     var btn_ingredient: String = "Add new ingredient"
     var btn_step: String = "Add new step"
     var btn_delete: String = "Delete recipie"
+    var btn_save: String = "Save"
     var prep_title: String = "Preparation"
 
     private val binding get() = _binding!!
@@ -60,7 +61,7 @@ class ChangeRecipieFragment : Fragment(){
 
         changerecipieController = ChangeRecipieController(ingredients_list, preparation_list,
             recipie_name, recipie_flags, time, abundance, btn_ingredient, prep_title, btn_step,
-            btn_delete, inflater)
+            btn_delete, btn_save, inflater)
         binding.ervChangeRecipie.setController(changerecipieController)
 
         changerecipieController.requestModelBuild()

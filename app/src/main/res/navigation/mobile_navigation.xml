@@ -12,19 +12,39 @@
         tools:layout="@layout/fragment_recipies" >
         <action
             android:id="@+id/action_nav_home_to_nav_gallery"
-            app:destination="@id/nav_favourites" />
+            app:destination="@id/nav_favourites"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/slide_right"
+            app:popEnterAnim="@anim/slide_left"
+            app:popExitAnim="@anim/slide_right" />
         <action
             android:id="@+id/action_nav_recipies_to_nav_settings"
-            app:destination="@id/nav_settings" />
+            app:destination="@id/nav_settings"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/slide_right"
+            app:popEnterAnim="@anim/slide_left"
+            app:popExitAnim="@anim/slide_right" />
         <action
             android:id="@+id/action_nav_recipies_to_nav_new_flag"
-            app:destination="@id/nav_new_flag" />
+            app:destination="@id/nav_new_flag"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/slide_right"
+            app:popEnterAnim="@anim/slide_left"
+            app:popExitAnim="@anim/slide_right" />
         <action
             android:id="@+id/action_nav_recipies_to_nav_shopping_list"
-            app:destination="@id/nav_shopping_list" />
+            app:destination="@id/nav_shopping_list"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/slide_right"
+            app:popEnterAnim="@anim/slide_left"
+            app:popExitAnim="@anim/slide_right" />
         <action
             android:id="@+id/action_nav_recipies_to_nav_flag2"
-            app:destination="@id/nav_flag" />
+            app:destination="@id/nav_flag"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/slide_right"
+            app:popEnterAnim="@anim/slide_left"
+            app:popExitAnim="@anim/slide_right" />
     </fragment>
 
     <fragment
@@ -34,7 +54,11 @@
         tools:layout="@layout/fragment_favourites" >
         <action
             android:id="@+id/action_nav_favourites_to_nav_recipie"
-            app:destination="@id/nav_recipie" />
+            app:destination="@id/nav_recipie"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/slide_right"
+            app:popEnterAnim="@anim/slide_left"
+            app:popExitAnim="@anim/slide_right" />
     </fragment>
 
     <fragment
@@ -44,7 +68,11 @@
         tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/action_nav_settings_to_nav_change_settings"
-            app:destination="@id/nav_change_settings" />
+            app:destination="@id/nav_change_settings"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/slide_right"
+            app:popEnterAnim="@anim/slide_left"
+            app:popExitAnim="@anim/slide_right" />
     </fragment>
     <fragment
         android:id="@+id/nav_change_settings"
@@ -58,7 +86,11 @@
         tools:layout="@layout/fragment_recipie" >
         <action
             android:id="@+id/action_nav_recipie_to_nav_change_recipie"
-            app:destination="@id/nav_change_recipie" />
+            app:destination="@id/nav_change_recipie"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/slide_right"
+            app:popEnterAnim="@anim/slide_left"
+            app:popExitAnim="@anim/slide_right" />
     </fragment>
     <fragment
         android:id="@+id/nav_new_flag"
@@ -67,7 +99,11 @@
         tools:layout="@layout/fragment_new_flag">
         <action
             android:id="@+id/action_nav_new_flag_to_nav_recipie2"
-            app:destination="@id/nav_recipie" />
+            app:destination="@id/nav_recipie"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/slide_right"
+            app:popEnterAnim="@anim/slide_left"
+            app:popExitAnim="@anim/slide_right" />
     </fragment>
     <fragment
         android:id="@+id/nav_change_recipie"
@@ -76,7 +112,11 @@
         tools:layout="@layout/fragment_change_recipie" >
         <action
             android:id="@+id/action_nav_change_recipie_to_nav_recipie"
-            app:destination="@id/nav_recipie" />
+            app:destination="@id/nav_recipie"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/slide_right"
+            app:popEnterAnim="@anim/slide_left"
+            app:popExitAnim="@anim/slide_right" />
     </fragment>
     <fragment
         android:id="@+id/nav_shopping_list"
@@ -95,6 +135,10 @@
         tools:layout="@layout/fragment_flag">
         <action
             android:id="@+id/action_nav_flag2_to_nav_new_recipie"
-            app:destination="@id/nav_new_recipie" />
+            app:destination="@id/nav_new_recipie"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/slide_right"
+            app:popEnterAnim="@anim/slide_left"
+            app:popExitAnim="@anim/slide_right" />
     </fragment>
 </navigation>

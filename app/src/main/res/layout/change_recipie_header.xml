@@ -9,20 +9,21 @@
     <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:weightSum="20"
+                android:weightSum="13"
                 android:orientation="horizontal"
                 tools:ignore="MissingConstraints">
 
                 <ImageButton
                     android:id="@+id/img_btn_favourite"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
+                    android:layout_marginTop="4dp"
                     android:src="@drawable/ic_recipie_favorite_border" />
 
                 <EditText
                     android:id="@+id/et_change_recipie_name"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
                     android:layout_marginEnd="2dp"
@@ -31,7 +32,7 @@
                     android:gravity="center"
                     android:text="@string/change_recipie_fragment_recipiename"
                     android:textColor="@color/black"
-                    android:layout_weight="18"
+                    android:layout_weight="9"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
 
@@ -52,9 +53,10 @@
 
                 <ImageButton
                     android:id="@+id/img_btn_edit"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
+                    android:layout_marginTop="4dp"
                     android:src="@drawable/ic_recipie_edit"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

@@ -3,9 +3,9 @@ package hu.bme.aut.android.onlab.ui.recipie
 import com.airbnb.epoxy.EpoxyController
 import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.databinding.*
-import android.view.View.OnClickListener
-import hu.bme.aut.android.onlab.ui.change_recipie.ChangeItem
-import hu.bme.aut.android.onlab.ui.change_recipie.ChangeRecipieController
+import androidx.navigation.findNavController
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import hu.bme.aut.android.onlab.ui.epoxy.ViewBindingKotlinModel
 
 class RecipieController (private var ingredients: ArrayList<Item>,
@@ -39,25 +39,25 @@ class RecipieController (private var ingredients: ArrayList<Item>,
         ViewBindingKotlinModel<RecipieHeaderBinding>(R.layout.recipie_header){
         override fun RecipieHeaderBinding.bind() {
             tvRecipieName.text = title
-//            imgBtnEdit.setOnClickListener {
-//                findNavController().navigate(R.id.action_nav_recipie_to_nav_change_recipie)
-//            }
+            imgBtnEdit.setOnClickListener {
+                it.findNavController().navigate(R.id.action_nav_recipie_to_nav_change_recipie)
+            }
         }
     }
 
     data class InformationsEpoxyModel(val flags: ArrayList<String>, val time: String, val abundance: String):
         ViewBindingKotlinModel<RecipieInformationsBinding>(R.layout.recipie_informations){
         override fun RecipieInformationsBinding.bind() {
-            //TODO: megnezni, hogy a flag-es reszt kulon kellene-e csinalni, mondvan eltero lehet, hogy eppen milyen flagek kerulnek bele stb
             tvRecipieTime.text = time
             tvRecipieAbundance.text = abundance
-//            for (i in 0 until flags.size) {
-//                // TODO: kitalalni itt az egyes chip-eket hogy tudnam megcsinalni stb... (- kulon layout?)
-//            }
-            chip1.text = flags[0]
-            chip2.text = flags[1]
-            chip3.text = flags[2]
-            chip4.text = flags[3]
+            var chipGroup: ChipGroup = cgRecipieFlags
+            for (i in 0 until flags.size) {
+                val chip = Chip(chipGroup.context)
+                chip.text = flags[i]
+                chip.isClickable = false
+                chip.isCheckable = false
+                chipGroup.addView(chip)
+            }
         }
     }
 

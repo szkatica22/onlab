@@ -27,37 +27,37 @@
         <com.google.android.material.chip.ChipGroup
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/cg_recipie_flags">
+            android:id="@+id/cg_recipie_flags"/>
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:text="@string/chip_recipie_flag_desserts"/>
+<!--            <com.google.android.material.chip.Chip-->
+<!--                android:id="@+id/chip1"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                style="@style/Widget.MaterialComponents.Chip.Choice"-->
+<!--                android:text="@string/chip_recipie_flag_desserts"/>-->
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:text="@string/chip_recipie_flag_main_courses"/>
+<!--            <com.google.android.material.chip.Chip-->
+<!--                android:id="@+id/chip2"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                style="@style/Widget.MaterialComponents.Chip.Choice"-->
+<!--                android:text="@string/chip_recipie_flag_main_courses"/>-->
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:text="@string/chip_recipie_flag_soups"/>
+<!--            <com.google.android.material.chip.Chip-->
+<!--                android:id="@+id/chip3"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                style="@style/Widget.MaterialComponents.Chip.Choice"-->
+<!--                android:text="@string/chip_recipie_flag_soups"/>-->
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:text="@string/chip_recipie_flag_drinks"/>
+<!--            <com.google.android.material.chip.Chip-->
+<!--                android:id="@+id/chip4"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                style="@style/Widget.MaterialComponents.Chip.Choice"-->
+<!--                android:text="@string/chip_recipie_flag_drinks"/>-->
 
-        </com.google.android.material.chip.ChipGroup>
+<!--        </com.google.android.material.chip.ChipGroup>-->
 
         <TextView
             android:layout_width="match_parent"

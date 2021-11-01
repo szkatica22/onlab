@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.android.onlab.databinding.FragmentRecipieBinding
 
-class RecipieFragment : Fragment(){
+class RecipieFragment/*(listener:)*/ : Fragment(){
     private lateinit var recipieViewModel: RecipieViewModel
     private var _binding: FragmentRecipieBinding? = null
 
