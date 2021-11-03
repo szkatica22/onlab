@@ -20,7 +20,7 @@
     <string name="new_recipie">Create New Recipie</string>
     <string name="change_recipie">Change Actual Recipie</string>
     <string name="flag_button">Go to Flag Fragment</string>
-<!-- Shopping list    -->
+    <!-- Shopping list    -->
     <string name="btn_shopping_list_delete">Delete purchased items</string>
     <string name="et_hint_shopping_list">Please enter the item!</string>
     <string name="btn_shopping_list_add">Add item</string>
@@ -60,4 +60,37 @@
     <string name="login_cancel">Cancel</string>
     <string name="change_rec_save">Save</string>
 
+    <!-- Settings - colors -->
+    <string name="pref_color_label_red">Red</string>
+    <string name="pref_color_label_blue">Blue</string>
+    <string name="pref_color_label_green">Green</string>
+    <string name="pref_color_label_purple">Purple</string>
+    <string name="pref_color_label_yellow">Yellow</string>
+    <string name="pref_color_label_orange">Orange</string>
+    <string name="pref_color_red_value">red</string>
+    <string name="pref_color_blue_value">blue</string>
+    <string name="pref_color_green_value">green</string>
+    <string name="pref_color_purple_value">purple</string>
+    <string name="pref_color_yellow_value">yellow</string>
+    <string name="pref_color_orange_value">orange</string>
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="shopping_list_title">Shopping list</string>
+    <string name="flags_title">Flags</string>
+    <string name="new_flag_title">Create new flag</string>
+    <string name="new_recipie_flag">Create new recipie</string>
+    <string name="change_recipie_title">Change recipie</string>
+    <string name="recipie_title">Recipie</string>
 </resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="User informations">
+        <EditTextPreference
+            android:title="Enter your name"
+            android:icon="@drawable/ic_name"
+            android:key="name" />
+        <Preference
+            android:title="Select profile picture"
+            android:icon="@drawable/ic_account"
+            android:key="picture"
+            />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Application settings">
+        <SwitchPreference
+            android:title="Dark mode"
+            android:icon="@drawable/ic_dark_mode"
+            android:key="mode"
+            android:summaryOff="off"
+            android:summaryOn="on"/>
+        <ListPreference
+            android:title="Theme"
+            android:icon="@drawable/ic_theme"
+            android:summary="Please select"
+            android:key="theme"
+            android:entries="@array/pref_color_option_labels"
+            android:entryValues="@array/pref_color_option_values"
+            />
+    </PreferenceCategory>
+</PreferenceScreen>

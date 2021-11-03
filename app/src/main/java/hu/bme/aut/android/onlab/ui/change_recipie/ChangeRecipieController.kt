@@ -48,7 +48,7 @@ class ChangeRecipieController(private var ingredients: ArrayList<ChangeItem>,
             return
         }
         ingredients.forEach{ item ->
-            IngredientEpoxyModel(item).id(item.title).addTo(this)
+            IngredientEpoxyModel(ingredients, item).id(item.title).addTo(this)
         }
         IngrFloatingButtonEpoxyController(btn_ingredient, inflater).id(btn_ingredient).addTo(this)
 
@@ -98,12 +98,18 @@ class ChangeRecipieController(private var ingredients: ArrayList<ChangeItem>,
         }
     }
 
-    data class IngredientEpoxyModel(val ingredient: ChangeItem):
+    data class IngredientEpoxyModel(var ingredients: ArrayList<ChangeItem>, val ingredient: ChangeItem):
     ViewBindingKotlinModel<ChangeRecipieItemBinding>(R.layout.change_recipie_item){
         override fun ChangeRecipieItemBinding.bind() {
             tvChangeRecipieItemTitleId.text = ingredient.title
             llRecipieIngredients
-
+//            iv_change_recipie_delete
+            //TODO: Elem torles elkeszitese
+            ivChangeRecipieDelete.setOnClickListener {
+                Log.d("DELETE:", "Delete ingredient item")
+                ingredients.remove(ingredient)
+                llRecipieIngredients.removeView(llRecipieIngredients)
+            }
         }
     }
 

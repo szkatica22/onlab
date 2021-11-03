@@ -56,7 +56,7 @@ class SecondActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    // TODO: meglesni orai kodban ez mikor hivodik meg - mukodesrebirni a logout funkciot!!!
+    // TODO: mukodesre kene birni a logout funkciot!!!
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         Log.d("NAV:", "$item")
         when (item.itemId) {
