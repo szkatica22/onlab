@@ -33,8 +33,6 @@ class SecondActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_recipies, R.id.nav_favourites, R.id.nav_shopping_list, R.id.nav_settings, R.id.nav_logout
@@ -43,10 +41,10 @@ class SecondActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        navView.setNavigationItemSelectedListener(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
         return true
     }
@@ -56,9 +54,7 @@ class SecondActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    // TODO: mukodesre kene birni a logout funkciot!!!
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        Log.d("NAV:", "$item")
         when (item.itemId) {
             R.id.nav_logout -> {
                 FirebaseAuth.getInstance().signOut()

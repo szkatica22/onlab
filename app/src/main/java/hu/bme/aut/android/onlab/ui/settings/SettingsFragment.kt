@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -35,32 +37,14 @@ class SettingsFragment : Fragment(){
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-//        val textView: TextView = binding.textSettings
-////        settingsViewModel.text.observe(viewLifecycleOwner, Observer {
-////            textView.text = it
-////        })
-
         binding.fabSettings.setOnClickListener {
-            Log.d("BTN:", "Meg lett nyomvaaa")
-            findNavController().navigate(R.id.action_nav_settings_to_settingsFragment) //action_nav_settings_to_settingsFragment
+            findNavController().navigate(R.id.action_nav_settings_to_settingsFragment)
         }
 
         loadSettings()
 
-//        return inflater.inflate(R.layout.fragment_settings, container, false)
-
         return root
     }
-
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//
-//        binding.fabSettings.setOnClickListener {
-//            Log.d("BTN:", "Meg lett nyomvaaa")
-//            findNavController().navigate(R.id.action_nav_settings_to_settingsFragment) //action_nav_settings_to_settingsFragment
-//        }
-//
-//        loadSettings()
-//    }
 
     fun loadSettings() {
 
@@ -74,8 +58,12 @@ class SettingsFragment : Fragment(){
         binding.tvName.text = "Name: $name"
         if(!mode){
             binding.tvMode.text = "Dark mode: off"
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+//            delegate.applyDayNight()
         } else {
             binding.tvMode.text = "Dark mode: on"
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+//            delegate.applyDayNight()
         }
         binding.tvTheme.text = "Theme: $theme"
 
