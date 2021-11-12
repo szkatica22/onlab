@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!--
+            This is a dummy Theme extending from The Default Android Theme
+            This will not be used in this tutorial but would be useful in defining the properties you would
+            want as common in all the themes.
+         -->
+    </style>
+    <!--    Red Theme Colors -->
+    <style name="AppTheme.Red" parent="AppTheme">
+        <item name="colorPrimary">@color/RedprimaryColor</item>
+        <item name="colorPrimaryDark">@color/RedprimaryDarkColor</item>
+        <item name="colorSecondary">@color/RedsecondaryColor</item>
+        <item name="android:textColor">@color/RedprimaryTextColor</item>
+    </style>
+
+    <!--    Orange Theme Colors -->
+    <style name="AppTheme.Orange" parent="AppTheme">
+        <item name="colorPrimary">@color/OrangeprimaryColor</item>
+        <item name="colorPrimaryDark">@color/OrangeprimaryDarkColor</item>
+        <item name="colorSecondary">@color/OrangesecondaryColor</item>
+        <item name="android:textColor">@color/OrangeprimaryTextColor</item>
+    </style>
+
+    <!--    Yellow Theme Colors -->
+    <style name="AppTheme.Yellow" parent="AppTheme">
+        <item name="colorPrimary">@color/YellowprimaryColor</item>
+        <item name="colorPrimaryDark">@color/YellowprimaryDarkColor</item>
+        <item name="colorSecondary">@color/YellowsecondaryColor</item>
+        <item name="android:textColor">@color/YellowprimaryTextColor</item>
+    </style>
+
+    <!--    Green Theme Colors -->
+    <style name="AppTheme.Green" parent="AppTheme">
+        <item name="colorPrimary">@color/GreenprimaryColor</item>
+        <item name="colorPrimaryDark">@color/GreenprimaryDarkColor</item>
+        <item name="colorSecondary">@color/GreensecondaryColor</item>
+        <item name="android:textColor">@color/GreenprimaryTextColor</item>
+    </style>
+
+    <!--    Blue Theme Colors -->
+    <style name="AppTheme.Blue" parent="AppTheme">
+        <item name="colorPrimary">@color/BlueprimaryColor</item>
+        <item name="colorPrimaryDark">@color/BlueprimaryDarkColor</item>
+        <item name="colorSecondary">@color/BluesecondaryColor</item>
+        <item name="android:textColor">@color/BlueprimaryTextColor</item>
+    </style>
+
+    <!--    Purple Theme Colors -->
+    <style name="AppTheme.Purple" parent="AppTheme">
+        <item name="colorPrimary">@color/PurpleprimaryColor</item>
+        <item name="colorPrimaryDark">@color/PurpleprimaryDarkColor</item>
+        <item name="colorSecondary">@color/PurplesecondaryColor</item>
+        <item name="android:textColor">@color/PurpleprimaryTextColor</item>
+    </style>
+</resources>

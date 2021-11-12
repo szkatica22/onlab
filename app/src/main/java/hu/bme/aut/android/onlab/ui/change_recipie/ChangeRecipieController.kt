@@ -86,6 +86,7 @@ class ChangeRecipieController(private var ingredients: ArrayList<ChangeItem>,
             etRecipieAbundance.setText(abundance)
 
             var chipGroup: ChipGroup = cgRecipieFlags
+            chipGroup.removeAllViews()
             for (i in 0 until flags.size) {
                 val chip = Chip(chipGroup.context)
                 chip.text = flags[i]
@@ -103,12 +104,16 @@ class ChangeRecipieController(private var ingredients: ArrayList<ChangeItem>,
         override fun ChangeRecipieItemBinding.bind() {
             tvChangeRecipieItemTitleId.text = ingredient.title
             llRecipieIngredients
-//            iv_change_recipie_delete
             //TODO: Elem torles elkeszitese
             ivChangeRecipieDelete.setOnClickListener {
-                Log.d("DELETE:", "Delete ingredient item")
-                ingredients.remove(ingredient)
-                llRecipieIngredients.removeView(llRecipieIngredients)
+//                Log.d("DELETE:", "Delete ingredient item")
+//                ingredients.remove(ingredient)
+//                llRecipieIngredients.removeView(llRecipieIngredients)
+
+//                this.notifyDataSetChanged()
+                // TODO: Valahogy a ChangeRecipieController deleteIngredient fv-t kene itt meghivni!!
+//                ChangeRecipieController.deleteIngredient(ingredient)
+
             }
         }
     }

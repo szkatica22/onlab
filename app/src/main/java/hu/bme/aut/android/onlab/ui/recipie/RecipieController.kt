@@ -51,6 +51,7 @@ class RecipieController (private var ingredients: ArrayList<Item>,
             tvRecipieTime.text = time
             tvRecipieAbundance.text = abundance
             var chipGroup: ChipGroup = cgRecipieFlags
+            chipGroup.removeAllViews()
             for (i in 0 until flags.size) {
                 val chip = Chip(chipGroup.context)
                 chip.text = flags[i]

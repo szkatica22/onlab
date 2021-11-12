@@ -7,4 +7,73 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+<!--    Red Theme Colors -->
+    <color name="RedprimaryColor">#d32f2f</color>
+    <color name="RedprimaryLightColor">#ff6659</color>
+    <color name="RedprimaryDarkColor">#9a0007</color>
+    <color name="RedsecondaryColor">#ff5252</color>
+    <color name="RedsecondaryLightColor">#ff867f</color>
+    <color name="RedsecondaryDarkColor">#c50e29</color>
+    <color name="RedprimaryTextColor">#ffffff</color>
+    <color name="RedsecondaryTextColor">#000000</color>
+
+<!--    Orange Theme Colors -->
+    <color name="OrangeprimaryColor">#ffab00</color>
+    <color name="OrangeprimaryLightColor">#ffdd4b</color>
+    <color name="OrangeprimaryDarkColor">#c67c00</color>
+    <color name="OrangesecondaryColor">#ffab40</color>
+    <color name="OrangesecondaryLightColor">#ffdd71</color>
+    <color name="OrangesecondaryDarkColor">#c77c02</color>
+    <color name="OrangeprimaryTextColor">#000000</color>
+    <color name="OrangesecondaryTextColor">#000000</color>
+
+<!--    Yellow Theme Colors  -->
+    <color name="YellowprimaryColor">#ffeb3b</color>
+    <color name="YellowprimaryLightColor">#ffff72</color>
+    <color name="YellowprimaryDarkColor">#c8b900</color>
+    <color name="YellowsecondaryColor">#fff59d</color>
+    <color name="YellowsecondaryLightColor">#ffffcf</color>
+    <color name="YellowsecondaryDarkColor">#cbc26d</color>
+    <color name="YellowprimaryTextColor">#000000</color>
+    <color name="YellowsecondaryTextColor">#000000</color>
+
+<!--    Green Theme Colors-->
+    <color name="GreenprimaryColor">#8bc34a</color>
+    <color name="GreenprimaryLightColor">#bef67a</color>
+    <color name="GreenprimaryDarkColor">#5a9216</color>
+    <color name="GreensecondaryColor">#c5e1a5</color>
+    <color name="GreensecondaryLightColor">#f8ffd7</color>
+    <color name="GreensecondaryDarkColor">#94af76</color>
+    <color name="GreenprimaryTextColor">#000000</color>
+    <color name="GreensecondaryTextColor">#000000</color>
+<!--    <color name="Greenprimary">#8BC34A</color>-->
+<!--    <color name="Greenprimary_dark">#689F38</color>-->
+<!--    <color name="Greenprimary_light">#DCEDC8</color>-->
+<!--    <color name="Greenaccent">#CDDC39</color>-->
+<!--    <color name="Greenprimary_text">#212121</color>-->
+<!--    <color name="Greensecondary_text">#757575</color>-->
+<!--    <color name="Greenicons">#212121</color>-->
+<!--    <color name="Greendivider">#BDBDBD</color>-->
+
+<!--    Blue Theme Colors-->
+    <color name="BlueprimaryColor">#1565c0</color>
+    <color name="BlueprimaryLightColor">#5e92f3</color>
+    <color name="BlueprimaryDarkColor">#003c8f</color>
+    <color name="BluesecondaryColor">#64b5f6</color>
+    <color name="BluesecondaryLightColor">#9be7ff</color>
+    <color name="BluesecondaryDarkColor">#2286c3</color>
+    <color name="BlueprimaryTextColor">#ffffff</color>
+    <color name="BluesecondaryTextColor">#000000</color>
+
+<!--    Purple Theme Colors-->
+    <color name="PurpleprimaryColor">#5e35b1</color>
+    <color name="PurpleprimaryLightColor">#9162e4</color>
+    <color name="PurpleprimaryDarkColor">#280680</color>
+    <color name="PurplesecondaryColor">#b39ddb</color>
+    <color name="PurplesecondaryLightColor">#e6ceff</color>
+    <color name="PurplesecondaryDarkColor">#836fa9</color>
+    <color name="PurpleprimaryTextColor">#ffffff</color>
+    <color name="PurplesecondaryTextColor">#000000</color>
+
 </resources>
