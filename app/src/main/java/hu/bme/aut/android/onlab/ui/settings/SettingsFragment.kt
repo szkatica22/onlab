@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.app.ActivityCompat.recreate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -19,10 +20,22 @@ import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.databinding.FragmentSettingsBinding
 
 class SettingsFragment : Fragment(){
+
+    companion object {
+        private const val KEY_THEME = "AppTheme"
+        private const val RED = R.style.AppTheme_Red
+        private const val ORANGE = R.style.AppTheme_Orange
+        private const val YELLOW = R.style.AppTheme_Yellow
+        private const val GREEN = R.style.AppTheme_Green
+        private const val BLUE = R.style.AppTheme_Blue
+        private const val PURPLE = R.style.AppTheme_Purple
+    }
+
     private lateinit var settingsViewModel: SettingsViewModel
     private var _binding: FragmentSettingsBinding? = null
 
 //    private var navC: NavController? = null
+    private var currentTheme = PURPLE
 
     private val binding get() = _binding!!
 
@@ -31,6 +44,9 @@ class SettingsFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        currentTheme = PreferenceManager.getDefaultSharedPreferences(this.context).getInt(KEY_THEME, PURPLE)
+        super.onCreateView(inflater, container, savedInstanceState)
+
         settingsViewModel =
             ViewModelProvider(this).get(SettingsViewModel::class.java)
 
@@ -66,8 +82,19 @@ class SettingsFragment : Fragment(){
 //            delegate.applyDayNight()
         }
         binding.tvTheme.text = "Theme: $theme"
-
-
+        currentTheme = when(theme){
+            "red" -> RED
+            "orange" -> ORANGE
+            "yellow" -> YELLOW
+            "green" -> GREEN
+            "blue" -> BLUE
+            else -> PURPLE
+        }
+        layoutInflater.context.setTheme(currentTheme)
+//        layoutInflater.context.setTheme(currentTheme)
+//        PreferenceManager.getDefaultSharedPreferences(this.context).edit()
+//            .putInt(KEY_THEME, currentTheme).apply()
+//        Log.d("THEME:", currentTheme.toString())
     }
 
     override fun onDestroyView() {

@@ -13,7 +13,8 @@
         <item name="colorPrimary">@color/RedprimaryColor</item>
         <item name="colorPrimaryDark">@color/RedprimaryDarkColor</item>
         <item name="colorSecondary">@color/RedsecondaryColor</item>
-        <item name="android:textColor">@color/RedprimaryTextColor</item>
+        <item name="colorAccent">@color/RedsecondaryDarkColor</item>
+        <item name="android:textColor">@color/RedsecondaryTextColor</item>
     </style>
 
     <!--    Orange Theme Colors -->
@@ -21,6 +22,7 @@
         <item name="colorPrimary">@color/OrangeprimaryColor</item>
         <item name="colorPrimaryDark">@color/OrangeprimaryDarkColor</item>
         <item name="colorSecondary">@color/OrangesecondaryColor</item>
+        <item name="colorAccent">@color/OrangesecondaryDarkColor</item>
         <item name="android:textColor">@color/OrangeprimaryTextColor</item>
     </style>
 
@@ -29,6 +31,7 @@
         <item name="colorPrimary">@color/YellowprimaryColor</item>
         <item name="colorPrimaryDark">@color/YellowprimaryDarkColor</item>
         <item name="colorSecondary">@color/YellowsecondaryColor</item>
+        <item name="colorAccent">@color/YellowsecondaryDarkColor</item>
         <item name="android:textColor">@color/YellowprimaryTextColor</item>
     </style>
 
@@ -37,6 +40,7 @@
         <item name="colorPrimary">@color/GreenprimaryColor</item>
         <item name="colorPrimaryDark">@color/GreenprimaryDarkColor</item>
         <item name="colorSecondary">@color/GreensecondaryColor</item>
+        <item name="colorAccent">@color/GreensecondaryDarkColor</item>
         <item name="android:textColor">@color/GreenprimaryTextColor</item>
     </style>
 
@@ -45,7 +49,8 @@
         <item name="colorPrimary">@color/BlueprimaryColor</item>
         <item name="colorPrimaryDark">@color/BlueprimaryDarkColor</item>
         <item name="colorSecondary">@color/BluesecondaryColor</item>
-        <item name="android:textColor">@color/BlueprimaryTextColor</item>
+        <item name="colorAccent">@color/BluesecondaryDarkColor</item>
+        <item name="android:textColor">@color/BluesecondaryTextColor</item>
     </style>
 
     <!--    Purple Theme Colors -->
@@ -53,6 +58,7 @@
         <item name="colorPrimary">@color/PurpleprimaryColor</item>
         <item name="colorPrimaryDark">@color/PurpleprimaryDarkColor</item>
         <item name="colorSecondary">@color/PurplesecondaryColor</item>
-        <item name="android:textColor">@color/PurpleprimaryTextColor</item>
+        <item name="colorAccent">@color/PurplesecondaryDarkColor</item>
+        <item name="android:textColor">@color/PurplesecondaryTextColor</item>
     </style>
 </resources>

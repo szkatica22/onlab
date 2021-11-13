@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.findNavController
 import com.airbnb.epoxy.EpoxyController
@@ -48,18 +49,18 @@ class ChangeRecipieController(private var ingredients: ArrayList<ChangeItem>,
             return
         }
         ingredients.forEach{ item ->
-            IngredientEpoxyModel(ingredients, item).id(item.title).addTo(this)
+            IngredientEpoxyModel(ingredients, item, this).id(item.title).addTo(this)
         }
-        IngrFloatingButtonEpoxyController(btn_ingredient, inflater).id(btn_ingredient).addTo(this)
+        IngrFloatingButtonEpoxyController(btn_ingredient, this).id(btn_ingredient).addTo(this)
 
         PreparationTextEpoxyController(prep_title).id(prep_title).addTo(this)
         if(steps.isEmpty()){
             return
         }
         steps.forEach{ item ->
-            PreparationEpoxyModel(item).id(item.title).addTo(this)
+            PreparationEpoxyModel(steps, item, this).id(item.title).addTo(this)
         }
-        StepFloatingButtonEpoxyController(btn_step).id(btn_step).addTo(this)
+        StepFloatingButtonEpoxyController(btn_step, this).id(btn_step).addTo(this)
 
         SaveRecipieEpoxyModel(btn_save).id(btn_save).addTo(this)
 
@@ -99,50 +100,67 @@ class ChangeRecipieController(private var ingredients: ArrayList<ChangeItem>,
         }
     }
 
-    data class IngredientEpoxyModel(var ingredients: ArrayList<ChangeItem>, val ingredient: ChangeItem):
+    data class IngredientEpoxyModel(var ingredients: ArrayList<ChangeItem>, val ingredient: ChangeItem, var controller: ChangeRecipieController):
     ViewBindingKotlinModel<ChangeRecipieItemBinding>(R.layout.change_recipie_item){
         override fun ChangeRecipieItemBinding.bind() {
             tvChangeRecipieItemTitleId.text = ingredient.title
-            llRecipieIngredients
-            //TODO: Elem torles elkeszitese
             ivChangeRecipieDelete.setOnClickListener {
 //                Log.d("DELETE:", "Delete ingredient item")
 //                ingredients.remove(ingredient)
 //                llRecipieIngredients.removeView(llRecipieIngredients)
-
-//                this.notifyDataSetChanged()
-                // TODO: Valahogy a ChangeRecipieController deleteIngredient fv-t kene itt meghivni!!
-//                ChangeRecipieController.deleteIngredient(ingredient)
+                controller.deleteIngredient(ingredients.indexOf(ingredient))
 
             }
         }
     }
 
-    data class IngrFloatingButtonEpoxyController(val title: String, val inflater: LayoutInflater):
+    data class IngrFloatingButtonEpoxyController(val title: String, var controller: ChangeRecipieController): // TODO: INGREDIENT HOZZAADAS ITT
     ViewBindingKotlinModel<ChangeRecipieFloatingButtonBinding>(R.layout.change_recipie_floating_button){
         override fun ChangeRecipieFloatingButtonBinding.bind() {
             fltBtnRecipieItems.text = title
-            //TODO: valahogy megoldani, hogy ezt a viewt letre lehessen hozni!!!
-//            fltBtnRecipieItems.setOnClickListener {
-//                Log.d("ADD", "Add ingredient")
-//                val infl = inflater.inflate(R.layout.change_recipie_item, null)
-//                llRecipieIngredients.addView(infl, llRecipieIngredients.childCount)
-//
-//                val v = inflater.inflate(R.layout.add_step, null)
-//                val ingredient = v.findViewById<EditText>(R.id.et_new_recipie_ingredient)
-//                Log.d("ADD", "$ingredient")
-//                val add_dialog = AlertDialog.Builder(inflater.context)
-//                add_dialog.setView(v)
-//            }
+            fltBtnRecipieItems.setOnClickListener {
+
+                val v = controller.inflater.inflate(R.layout.add_ingredient, null)
+                val ingredient = v.findViewById<EditText>(R.id.et_new_recipie_ingredient)
+                val add_dialog = AlertDialog.Builder(controller.inflater.context)
+                add_dialog.setView(v)
+                add_dialog.setPositiveButton("Ok"){
+                    dialog,_->
+                    controller.addIngredient(ChangeItem(ingredient.text.toString()))
+                    Toast.makeText(controller.inflater.context, "Adding Ingredient", Toast.LENGTH_SHORT).show()
+                    dialog.dismiss()
+                }
+                add_dialog.setNegativeButton("Cancel"){
+                    dialog,_->
+                    Toast.makeText(controller.inflater.context, "Cancel", Toast.LENGTH_SHORT).show()
+                }
+                add_dialog.create()
+                add_dialog.show()
+            }
         }
     }
 
-    data class StepFloatingButtonEpoxyController(val title: String):
+    data class StepFloatingButtonEpoxyController(val title: String, var controller: ChangeRecipieController): // TODO: STEP HOZZAADAS ITT
         ViewBindingKotlinModel<ChangeRecipieFloatingButtonBinding>(R.layout.change_recipie_floating_button){
         override fun ChangeRecipieFloatingButtonBinding.bind() {
             fltBtnRecipieItems.text = title
             fltBtnRecipieItems.setOnClickListener {
-//                it.findNavController().navigate(R.id.action_nav_recipie_to_nav_change_recipie)
+                val v = controller.inflater.inflate(R.layout.add_step, null)
+                val step = v.findViewById<EditText>(R.id.et_new_recipie_step)
+                val add_dialog = AlertDialog.Builder(controller.inflater.context)
+                add_dialog.setView(v)
+                add_dialog.setPositiveButton("Ok"){
+                        dialog,_->
+                    controller.addStep(ChangeItem(step.text.toString()))
+                    Toast.makeText(controller.inflater.context, "Adding Step", Toast.LENGTH_SHORT).show()
+                    dialog.dismiss()
+                }
+                add_dialog.setNegativeButton("Cancel"){
+                        dialog,_->
+                    Toast.makeText(controller.inflater.context, "Cancel", Toast.LENGTH_SHORT).show()
+                }
+                add_dialog.create()
+                add_dialog.show()
             }
         }
     }
@@ -155,10 +173,13 @@ class ChangeRecipieController(private var ingredients: ArrayList<ChangeItem>,
 
     }
 
-    data class PreparationEpoxyModel(val step: ChangeItem):
+    data class PreparationEpoxyModel(val steps: ArrayList<ChangeItem>, val step: ChangeItem, var controller: ChangeRecipieController):
     ViewBindingKotlinModel<ChangeRecipieStepBinding>(R.layout.change_recipie_step){
         override fun ChangeRecipieStepBinding.bind(){
             tvChangeRecipieStepTitleId.text = step.title
+            ivChangeRecipieDelete.setOnClickListener {
+                controller.deleteSteps(steps.indexOf(step))
+            }
         }
     }
 

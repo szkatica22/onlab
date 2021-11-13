@@ -93,4 +93,8 @@
     <string name="new_recipie_flag">Create new recipie</string>
     <string name="change_recipie_title">Change recipie</string>
     <string name="recipie_title">Recipie</string>
+    <string name="dark_mode_text">Dark mode:</string>
+    <string name="theme_text">Theme:</string>
+    <string name="your_username_text">Your Username:</string>
+    <string name="your_profile_picture_name_text">Your profile picture name:</string>
 </resources>
