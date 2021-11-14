@@ -97,4 +97,7 @@
     <string name="theme_text">Theme:</string>
     <string name="your_username_text">Your Username:</string>
     <string name="your_profile_picture_name_text">Your profile picture name:</string>
+    <string name="flags_create_new_flag">Create new flag</string>
+    <string name="add_new_flag">Create new flag</string>
+    <string name="new_flag_name">Enter the new flag name here</string>
 </resources>
