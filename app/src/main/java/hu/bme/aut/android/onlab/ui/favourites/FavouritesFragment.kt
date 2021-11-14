@@ -4,13 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.databinding.FragmentFavouritesBinding
+import hu.bme.aut.android.onlab.ui.flag.RecipieItem
 
 class FavouritesFragment : Fragment() {
 
@@ -20,6 +23,12 @@ class FavouritesFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+    private lateinit var favouriteItemAdapter: FavouriteItemAdapter
+    var favourite_list = mutableListOf(
+        FavouriteItem("Favourite1"), FavouriteItem("Favourite2"),
+        FavouriteItem("Favourite3"), FavouriteItem("Favourite2"),
+        FavouriteItem("Favourite5"), FavouriteItem("Favourite6"))
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,10 +46,9 @@ class FavouritesFragment : Fragment() {
             textView.text = it
         })
 
-        // Teszt gomb a kovi fragmentre valtashoz
-        binding.testButton2.setOnClickListener{
-            findNavController().navigate(R.id.action_nav_favourites_to_nav_recipie)
-        }
+        favouriteItemAdapter = FavouriteItemAdapter(favourite_list)
+        binding.rvFavourites.adapter = favouriteItemAdapter
+        binding.rvFavourites.layoutManager = LinearLayoutManager(this.context)
 
         return root
     }

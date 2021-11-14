@@ -23,7 +23,9 @@ class FlagFragment : Fragment(){
 
     private lateinit var recipieitemAdapter: RecipieItemAdapter
 
-    var recipie_list = mutableListOf(RecipieItem("Recipie1"), RecipieItem("Recipie2"), RecipieItem("Recipie3"), RecipieItem("Recipie4"), RecipieItem("Recipie5"), RecipieItem("Recipie6"))
+    var recipie_list = mutableListOf(RecipieItem("Recipie1"), RecipieItem("Recipie2"),
+        RecipieItem("Recipie3"), RecipieItem("Recipie4"), RecipieItem("Recipie5"),
+        RecipieItem("Recipie6"))
 
     override fun onCreateView(
         inflater: LayoutInflater,
