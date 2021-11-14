@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.databinding.FragmentFlagBinding
 
@@ -19,6 +20,10 @@ class FlagFragment : Fragment(){
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+    private lateinit var recipieitemAdapter: RecipieItemAdapter
+
+    var recipie_list = mutableListOf(RecipieItem("Recipie1"), RecipieItem("Recipie2"), RecipieItem("Recipie3"), RecipieItem("Recipie4"), RecipieItem("Recipie5"), RecipieItem("Recipie6"))
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,14 +36,23 @@ class FlagFragment : Fragment(){
         _binding = FragmentFlagBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textFlag
+        recipieitemAdapter = RecipieItemAdapter(recipie_list)
+        binding.rvRecipies.adapter = recipieitemAdapter
+        binding.rvRecipies.layoutManager = LinearLayoutManager(this.context)
+
+        val textView: TextView = binding.tvFlagName
         flagViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
 
-        // Teszt gomb a kovi fragmentre valtashoz
-        binding.testButton6.setOnClickListener{
+        // New recipie gomb
+        binding.fltBtnNewRecipie.setOnClickListener {
             findNavController().navigate(R.id.action_nav_flag2_to_nav_new_recipie)
+        }
+
+        // Delete gomb - elozo fragmentre lep at
+        binding.btnDeleteFlag.setOnClickListener{
+            findNavController().navigate(R.id.action_nav_flag_to_nav_recipies)
         }
 
         return root

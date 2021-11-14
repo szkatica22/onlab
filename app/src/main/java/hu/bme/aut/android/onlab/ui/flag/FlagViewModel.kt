@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 class FlagViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is flag Fragment"
+        value = "Flag Fragment"
     }
     val text: LiveData<String> = _text
 }

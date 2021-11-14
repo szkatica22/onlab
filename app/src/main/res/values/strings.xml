@@ -49,6 +49,7 @@
     <string name="edit_text">Edit Text</string>
     <string name="delete_text">Delete</string>
     <string name="change_rec_delete_recipie">Delete Recipie</string>
+    <string name="flag_delete_flag">Delete Flag</string>
     <string name="tv_recipie_step_item">Example</string>
     <string name="menu_logout">Logout</string>
     <string name="login_password">Password</string>
@@ -100,4 +101,5 @@
     <string name="flags_create_new_flag">Create new flag</string>
     <string name="add_new_flag">Create new flag</string>
     <string name="new_flag_name">Enter the new flag name here</string>
+    <string name="create_new_recipie">Create new recipie</string>
 </resources>
