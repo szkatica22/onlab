@@ -70,6 +70,7 @@ class ChangeRecipieController(private var ingredients: ArrayList<ChangeItem>,
 
     // Data classes
 
+    // Header
     data class HeaderEpoxyModel(val title: String):
         ViewBindingKotlinModel<ChangeRecipieHeaderBinding>(R.layout.change_recipie_header){
             override fun ChangeRecipieHeaderBinding.bind() {
@@ -80,6 +81,7 @@ class ChangeRecipieController(private var ingredients: ArrayList<ChangeItem>,
             }
     }
 
+    // Information
     data class InformationsEpoxyModel(val flags: ArrayList<String>, val time: String, val abundance: String, ):
     ViewBindingKotlinModel<ChangeRecipieInformationsBinding>(R.layout.change_recipie_informations){
         override fun ChangeRecipieInformationsBinding.bind() {
@@ -100,6 +102,7 @@ class ChangeRecipieController(private var ingredients: ArrayList<ChangeItem>,
         }
     }
 
+    // Ingredients
     data class IngredientEpoxyModel(var ingredients: ArrayList<ChangeItem>, val ingredient: ChangeItem, var controller: ChangeRecipieController):
     ViewBindingKotlinModel<ChangeRecipieItemBinding>(R.layout.change_recipie_item){
         override fun ChangeRecipieItemBinding.bind() {
@@ -114,6 +117,7 @@ class ChangeRecipieController(private var ingredients: ArrayList<ChangeItem>,
         }
     }
 
+    // Ingredients Button
     data class IngrFloatingButtonEpoxyController(val title: String, var controller: ChangeRecipieController): // TODO: INGREDIENT HOZZAADAS ITT
     ViewBindingKotlinModel<ChangeRecipieFloatingButtonBinding>(R.layout.change_recipie_floating_button){
         override fun ChangeRecipieFloatingButtonBinding.bind() {
@@ -140,6 +144,27 @@ class ChangeRecipieController(private var ingredients: ArrayList<ChangeItem>,
         }
     }
 
+    // Preparation Text
+    data class PreparationTextEpoxyController(val title: String):
+        ViewBindingKotlinModel<ChangeRecipiePreparationTextBinding>(R.layout.change_recipie_preparation_text){
+        override fun ChangeRecipiePreparationTextBinding.bind() {
+            tvChangeRecipiePrepTitle.text = title
+        }
+
+    }
+
+    // Preparation Steps
+    data class PreparationEpoxyModel(val steps: ArrayList<ChangeItem>, val step: ChangeItem, var controller: ChangeRecipieController):
+    ViewBindingKotlinModel<ChangeRecipieStepBinding>(R.layout.change_recipie_step){
+        override fun ChangeRecipieStepBinding.bind(){
+            tvChangeRecipieStepTitleId.text = step.title
+            ivChangeRecipieDelete.setOnClickListener {
+                controller.deleteSteps(steps.indexOf(step))
+            }
+        }
+    }
+
+    // Preparation Step Button
     data class StepFloatingButtonEpoxyController(val title: String, var controller: ChangeRecipieController): // TODO: STEP HOZZAADAS ITT
         ViewBindingKotlinModel<ChangeRecipieFloatingButtonBinding>(R.layout.change_recipie_floating_button){
         override fun ChangeRecipieFloatingButtonBinding.bind() {
@@ -165,24 +190,7 @@ class ChangeRecipieController(private var ingredients: ArrayList<ChangeItem>,
         }
     }
 
-    data class PreparationTextEpoxyController(val title: String):
-        ViewBindingKotlinModel<ChangeRecipiePreparationTextBinding>(R.layout.change_recipie_preparation_text){
-        override fun ChangeRecipiePreparationTextBinding.bind() {
-            tvChangeRecipiePrepTitle.text = title
-        }
-
-    }
-
-    data class PreparationEpoxyModel(val steps: ArrayList<ChangeItem>, val step: ChangeItem, var controller: ChangeRecipieController):
-    ViewBindingKotlinModel<ChangeRecipieStepBinding>(R.layout.change_recipie_step){
-        override fun ChangeRecipieStepBinding.bind(){
-            tvChangeRecipieStepTitleId.text = step.title
-            ivChangeRecipieDelete.setOnClickListener {
-                controller.deleteSteps(steps.indexOf(step))
-            }
-        }
-    }
-
+    // Save Button
     data class SaveRecipieEpoxyModel(val title: String):
         ViewBindingKotlinModel<ChangeRecipieSaveBtnBinding>(R.layout.change_recipie_save_btn){
         override fun ChangeRecipieSaveBtnBinding.bind() {
@@ -193,6 +201,7 @@ class ChangeRecipieController(private var ingredients: ArrayList<ChangeItem>,
         }
     }
 
+    // Delete Button
     data class DeleteRecipieEpoxyModel(val title: String):
     ViewBindingKotlinModel<ChangeRecipieDeleteBtnBinding>(R.layout.change_recipie_delete_btn){
         override fun ChangeRecipieDeleteBtnBinding.bind() {

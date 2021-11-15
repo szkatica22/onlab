@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="8dp"
+    app:cardMaxElevation="5dp"
+    android:layout_margin="8dp"
+    tools:context=".ui.new_recipie.NewRecipieFragment">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:id="@+id/ll_recipie_preparations"
+        android:orientation="vertical"
+        android:layout_margin="8dp"
+        android:padding="4dp"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tv_new_recipie_item_title_id"
+            android:text="@string/tv_change_recipie_item_title"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+        <ImageView
+            android:id="@+id/iv_new_recipie_delete"
+            android:src="@drawable/ic_recipie_delete"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:layout_width="34dp"
+            android:layout_height="34dp"/>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

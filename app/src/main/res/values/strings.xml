@@ -102,4 +102,8 @@
     <string name="add_new_flag">Create new flag</string>
     <string name="new_flag_name">Enter the new flag name here</string>
     <string name="create_new_recipie">Create new recipie</string>
+    <string name="cancel_new_recipie">Cancel</string>
+    <string name="new_recipie_name">Enter Name</string>
+    <string name="cooking_time_hint">Enter cooking time</string>
+    <string name="abundance_hint">Enter abundance</string>
 </resources>
