@@ -1,5 +1,6 @@
 package hu.bme.aut.android.onlab.ui.new_recipie
 
+import android.annotation.SuppressLint
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.widget.EditText
@@ -11,6 +12,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.type.Color
 import hu.bme.aut.android.onlab.R
+import hu.bme.aut.android.onlab.R.color.*
 import hu.bme.aut.android.onlab.databinding.*
 import hu.bme.aut.android.onlab.ui.change_recipie.ChangeItem
 import hu.bme.aut.android.onlab.ui.change_recipie.ChangeRecipieController
@@ -70,6 +72,7 @@ class NewRecipieController(private var recipie: NewItem, private var ingredients
     // Header
     data class HeaderEpoxyModel(var recipie: NewItem):
     ViewBindingKotlinModel<NewRecipieHeaderBinding>(R.layout.new_recipie_header){
+        @SuppressLint("ResourceAsColor")
         override fun NewRecipieHeaderBinding.bind() {
             imgBtnCancel.setOnClickListener {
                 it.findNavController().navigate(R.id.action_nav_new_recipie_to_nav_flag)
@@ -78,10 +81,10 @@ class NewRecipieController(private var recipie: NewItem, private var ingredients
 //            imgBtnFavourite.setOnClickListener {
 //                if (!recipie.favourite){
 //                    recipie.favourite = true
-//                    imgBtnFavourite.setBackgroundColor(Color.ALPHA_FIELD_NUMBER)
+//                    imgBtnFavourite.setBackgroundColor(design_default_color_secondary_variant)
 //                } else {
 //                    recipie.favourite = false
-//                    imgBtnFavourite.clearColorFilter()
+//                    imgBtnFavourite.setBackgroundColor(design_default_color_surface)
 //                }
 //
 //            }

@@ -1,18 +1,12 @@
 package hu.bme.aut.android.onlab.ui.settings
 
 import android.content.SharedPreferences
-import android.graphics.Picture
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.app.ActivityCompat.recreate
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
@@ -39,6 +33,11 @@ class SettingsFragment : Fragment(){
 
     private val binding get() = _binding!!
 
+//    var sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+//    private var name: String? = null
+//    private var mode: Boolean = false
+//    private var theme: String? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -57,19 +56,36 @@ class SettingsFragment : Fragment(){
             findNavController().navigate(R.id.action_nav_settings_to_settingsFragment)
         }
 
-        loadSettings()
+//        val appSettingPrefs: SharedPreferences = this.requireActivity().getSharedPreferences("AppSettingsPref", 0)
+//        val sharedPrefsEdit: SharedPreferences.Editor = appSettingPrefs.edit()
+//        val night_mode: Boolean = appSettingPrefs.getBoolean("NightMode", false)
+
+//        if(night_mode){
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+//        } else {
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+//        }
+
+        loadSettings(/*night_mode, sharedPrefsEdit*/)
 
         return root
     }
 
-    fun loadSettings() {
+    fun loadSettings(/*night_mode: Boolean, sharedPrefsEdit: SharedPreferences.Editor*/) {
+
+//        val appSettingPrefs: SharedPreferences = this.requireActivity().getSharedPreferences("AppSettingsPref", 0)
+//        val sharedPrefsEdit: SharedPreferences.Editor = appSettingPrefs.edit()
+//        val night_mode: Boolean = appSettingPrefs.getBoolean("NightMode", false)
 
         val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
         val name: String? = sp.getString("name", "")
+//        name = sp.getString("name", "")
 //        val picture: Picture?
         val mode: Boolean = sp.getBoolean("mode", false)
+//        mode = sp.getBoolean("mode", false)
         val theme: String? = sp.getString("theme", "purple")
+//        theme = sp.getString("theme", "purple")
 
         binding.tvName.text = "Name: $name"
         if(!mode){
@@ -81,6 +97,18 @@ class SettingsFragment : Fragment(){
 //            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 //            delegate.applyDayNight()
         }
+
+//        if(night_mode){
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+//            sharedPrefsEdit.putBoolean("NightMode", false)
+//            sharedPrefsEdit.apply()
+//        } else {
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+//            sharedPrefsEdit.putBoolean("NightMode", true)
+//            sharedPrefsEdit.apply()
+//        }
+
+
         binding.tvTheme.text = "Theme: $theme"
         currentTheme = when(theme){
             "red" -> RED
