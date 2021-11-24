@@ -16,7 +16,11 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
+import hu.bme.aut.android.onlab.ui.favourites.FavouritesFragment
+import hu.bme.aut.android.onlab.ui.recipies.RecipiesFragment
+import hu.bme.aut.android.onlab.ui.shoppinglist.ShoppinglistFragment
 
 class SecondActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -43,7 +47,7 @@ class SecondActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-//        navView.setNavigationItemSelectedListener(this)
+        navView.setNavigationItemSelectedListener(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -58,47 +62,28 @@ class SecondActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        ////        Log.d("ON:", "onnavigationitemselected")
-//////        var last_fragment = R.id.nav_host_fragment_content_main
-////        var fragment: Fragment? = null
-////        val manager = supportFragmentManager
-////        val transaction = manager.beginTransaction()
-////        when (item.itemId) {
-////            R.id.nav_recipies -> {
-////                fragment = RecipiesFragment()
-//////                startNavigation()
-////            }
-////            R.id.nav_favourites -> {
-////                fragment = FavouritesFragment()
-//////                val tmp = last_fragment
-//////                last_fragment = R.id.action_nav_home_to_nav_gallery
-//////                findNavController(tmp).navigate(R.id.action_nav_home_to_nav_gallery)
-////            }
-////            R.id.nav_shopping_list -> {
-////                fragment = ShoppinglistFragment()
-//////                val tmp = last_fragment
-//////                last_fragment = R.id.action_nav_recipies_to_nav_shopping_list
-//////                findNavController(tmp).navigate(R.id.action_nav_recipies_to_nav_shopping_list)
-////            }
-////            R.id.nav_settings -> {
-//////                Log.d("NAV:", "heyho settings")
-////                fragment = SettingsFragment()
-//////                val tmp = last_fragment
-//////                last_fragment = R.id.action_nav_recipies_to_nav_settings
-//////                findNavController(tmp).navigate(R.id.action_nav_recipies_to_nav_settings)
-////            }
-////            R.id.nav_logout -> {
-////                FirebaseAuth.getInstance().signOut()
-////                startActivity(Intent(this, MainActivity::class.java))
-////                finish()
-////            }
-////        }
-////        if(fragment != null){
-//////            Log.d("NAV:", "fragment not null")
-////            transaction.replace(R.id.nav_host_fragment_content_main, fragment)
-////        }
-//
-//        binding.drawerLayout.closeDrawer(GravityCompat.START)
+
+        when (item.itemId) {
+            R.id.nav_recipies -> {
+                findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_global_nav_recipies)
+            }
+            R.id.nav_favourites -> {
+                findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_global_nav_favourites)
+            }
+            R.id.nav_shopping_list -> {
+                findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_global_nav_shopping_list)
+            }
+            R.id.nav_settings -> {
+                findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_global_nav_settings)
+            }
+            R.id.nav_logout -> {
+                FirebaseAuth.getInstance().signOut()
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            }
+        }
+
+        binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
 }

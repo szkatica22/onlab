@@ -142,4 +142,26 @@
             android:id="@+id/action_settingsFragment_to_nav_settings"
             app:destination="@id/nav_settings" />
     </fragment>
+    <action
+        android:id="@+id/action_global_nav_favourites"
+        app:destination="@id/nav_favourites"
+        app:popUpTo="@id/mobile_navigation"
+        app:popUpToInclusive="true" />
+    <action
+        android:id="@+id/action_global_nav_settings"
+        app:destination="@id/nav_settings"
+        app:popUpTo="@id/mobile_navigation"
+        app:popUpToInclusive="true" />
+    <action
+        android:id="@+id/action_global_nav_flag"
+        app:destination="@id/nav_flag"
+        app:popUpTo="@id/mobile_navigation" />
+    <action
+        android:id="@+id/action_global_nav_shopping_list"
+        app:destination="@id/nav_shopping_list"
+        app:popUpTo="@id/mobile_navigation" />
+    <action
+        android:id="@+id/action_global_nav_recipies"
+        app:destination="@id/nav_recipies"
+        app:popUpTo="@id/mobile_navigation" />
 </navigation>

@@ -14,7 +14,9 @@ import hu.bme.aut.android.onlab.databinding.ActivityMainBinding
 import hu.bme.aut.android.onlab.databinding.RegistrationBinding
 import hu.bme.aut.android.onlab.extensions.validateNonEmpty
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import hu.bme.aut.android.onlab.ui.recipies.RecipiesFragment
+import hu.bme.aut.android.onlab.ui.settings.SettingsFragment
 
 class MainActivity : BaseActivity() {
 
@@ -22,6 +24,11 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+//        val currentTheme = PreferenceManager.getDefaultSharedPreferences(this).getInt(
+//            SettingsFragment.KEY_THEME,
+//            SettingsFragment.PURPLE
+//        )
+//        setTheme(currentTheme)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

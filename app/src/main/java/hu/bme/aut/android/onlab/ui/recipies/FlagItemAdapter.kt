@@ -1,24 +1,28 @@
 package hu.bme.aut.android.onlab.ui.recipies
 
+import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.TextView
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.android.onlab.R
+import hu.bme.aut.android.onlab.data.Flag
 import hu.bme.aut.android.onlab.databinding.RecipiesFlagBinding
 
-class FlagItemAdapter (
-    private val flags: MutableList<FlagItem>
-): RecyclerView.Adapter<FlagItemAdapter.FlagItemViewHolder>(){
+class FlagItemAdapter(private val context: Context?) :
+    RecyclerView.Adapter<FlagItemAdapter.FlagItemViewHolder>(){
 
-    class FlagItemViewHolder(val binding: RecipiesFlagBinding): RecyclerView.ViewHolder(binding.root)
+    private var flags: List<Flag> = emptyList()
 
-    fun addFlag(flag: FlagItem){
-        flags.add(flag)
-        notifyItemInserted(flags.size-1)
+    class FlagItemViewHolder(val binding: RecipiesFlagBinding): RecyclerView.ViewHolder(binding.root){
+        val tvFlagTitle: TextView = binding.tvRecipiesFlagTitleId
+    }
+
+    fun addFlag(flag: Flag?){
+        flag ?: return
+
+        flags += flag
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FlagItemViewHolder {
@@ -30,7 +34,7 @@ class FlagItemAdapter (
     override fun onBindViewHolder(holder: FlagItemViewHolder, position: Int) {
         var cur_flag = flags[position]
         holder.binding.let { binding ->
-            binding.tvRecipiesFlagTitleId.text = cur_flag.title
+            binding.tvRecipiesFlagTitleId.text = cur_flag.name
         }
         holder.binding.ivRecipiesFlag.setOnClickListener{ view ->
             view.findNavController().navigate(R.id.action_nav_recipies_to_nav_flag2)

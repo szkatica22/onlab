@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="User informations">
+    <PreferenceCategory android:title="Username" android:icon="@drawable/ic_name">
         <EditTextPreference
             android:title="Enter your name"
-            android:icon="@drawable/ic_name"
             android:key="name" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Profile picture" android:icon="@drawable/ic_account">
         <Preference
-            android:title="Select profile picture"
-            android:icon="@drawable/ic_account"
+            android:layout="@layout/settings_picture_button"
             android:key="picture"
             />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Application settings">
+    <PreferenceCategory android:title="Application settings" android:icon="@drawable/ic_settings">
         <SwitchPreference
             android:title="Dark mode"
             android:icon="@drawable/ic_dark_mode"

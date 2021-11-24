@@ -16,13 +16,13 @@ import hu.bme.aut.android.onlab.databinding.FragmentSettingsBinding
 class SettingsFragment : Fragment(){
 
     companion object {
-        private const val KEY_THEME = "AppTheme"
+        const val KEY_THEME = "AppTheme"
         private const val RED = R.style.AppTheme_Red
         private const val ORANGE = R.style.AppTheme_Orange
         private const val YELLOW = R.style.AppTheme_Yellow
         private const val GREEN = R.style.AppTheme_Green
         private const val BLUE = R.style.AppTheme_Blue
-        private const val PURPLE = R.style.AppTheme_Purple
+        const val PURPLE = R.style.AppTheme_Purple
     }
 
     private lateinit var settingsViewModel: SettingsViewModel
@@ -43,7 +43,7 @@ class SettingsFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        currentTheme = PreferenceManager.getDefaultSharedPreferences(this.context).getInt(KEY_THEME, PURPLE)
+//        currentTheme = PreferenceManager.getDefaultSharedPreferences(this.context).getInt(KEY_THEME, PURPLE)
         super.onCreateView(inflater, container, savedInstanceState)
 
         settingsViewModel =
@@ -110,19 +110,16 @@ class SettingsFragment : Fragment(){
 
 
         binding.tvTheme.text = "Theme: $theme"
-        currentTheme = when(theme){
-            "red" -> RED
-            "orange" -> ORANGE
-            "yellow" -> YELLOW
-            "green" -> GREEN
-            "blue" -> BLUE
-            else -> PURPLE
-        }
-        layoutInflater.context.setTheme(currentTheme)
-//        layoutInflater.context.setTheme(currentTheme)
-//        PreferenceManager.getDefaultSharedPreferences(this.context).edit()
-//            .putInt(KEY_THEME, currentTheme).apply()
-//        Log.d("THEME:", currentTheme.toString())
+//        currentTheme = when(theme){
+//            "red" -> RED
+//            "orange" -> ORANGE
+//            "yellow" -> YELLOW
+//            "green" -> GREEN
+//            "blue" -> BLUE
+//            else -> PURPLE
+//        }
+//        sp.edit().putInt(KEY_THEME, currentTheme).apply()
+//        requireActivity().recreate()
     }
 
     override fun onDestroyView() {
