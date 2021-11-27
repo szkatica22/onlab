@@ -106,6 +106,6 @@
     <string name="new_recipie_name">Enter Name</string>
     <string name="cooking_time_hint">Enter cooking time</string>
     <string name="abundance_hint">Enter abundance</string>
-    <string name="btn_take_new_picture">Take new picture</string>
+    <string name="btn_take_new_picture">Take a picture</string>
     <string name="btn_upload_picture">Upload picture</string>
 </resources>

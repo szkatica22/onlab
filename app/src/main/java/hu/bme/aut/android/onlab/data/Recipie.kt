@@ -1,8 +1,10 @@
 package hu.bme.aut.android.onlab.data
 
 data class Recipie(
-    val name: String? = null,
-    val favourite: Boolean? = null,
-    val imageUrls: List<String?>? = null,
-    val author: String? = null
+    var name: String? = null,
+    var favourite: Boolean? = null,
+    var imageUrls: List<String?>? = null,
+    var author: String? = null,
+    var ingredients: List<String?>? = null,
+    var steps: List<String?>? = null
 )

@@ -52,6 +52,9 @@
             app:exitAnim="@anim/slide_right"
             app:popEnterAnim="@anim/slide_left"
             app:popExitAnim="@anim/slide_right" />
+        <argument
+            android:name="username"
+            app:argType="string" />
     </fragment>
 
     <fragment
@@ -75,6 +78,9 @@
             app:exitAnim="@anim/slide_right"
             app:popEnterAnim="@anim/slide_left"
             app:popExitAnim="@anim/slide_right" />
+        <argument
+            android:name="recipiename"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/nav_change_recipie"
@@ -88,12 +94,19 @@
             app:exitAnim="@anim/slide_right"
             app:popEnterAnim="@anim/slide_left"
             app:popExitAnim="@anim/slide_right" />
+        <argument
+            android:name="recipiename"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/nav_shopping_list"
         android:name="hu.bme.aut.android.onlab.ui.shoppinglist.ShoppinglistFragment"
         android:label="@string/shopping_list_title"
-        tools:layout="@layout/fragment_shopping_list" />
+        tools:layout="@layout/fragment_shopping_list" >
+        <argument
+            android:name="username"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/nav_new_recipie"
         android:name="hu.bme.aut.android.onlab.ui.new_recipie.NewRecipieFragment"
@@ -133,6 +146,9 @@
             app:exitAnim="@anim/slide_right"
             app:popEnterAnim="@anim/slide_left"
             app:popExitAnim="@anim/slide_right" />
+        <argument
+            android:name="flag"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"

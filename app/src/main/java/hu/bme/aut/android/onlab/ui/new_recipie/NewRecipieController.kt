@@ -1,53 +1,62 @@
 package hu.bme.aut.android.onlab.ui.new_recipie
 
 import android.annotation.SuppressLint
-import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.get
 import androidx.navigation.findNavController
 import com.airbnb.epoxy.EpoxyController
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.google.type.Color
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.onlab.R
-import hu.bme.aut.android.onlab.R.color.*
+import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.databinding.*
-import hu.bme.aut.android.onlab.ui.change_recipie.ChangeItem
-import hu.bme.aut.android.onlab.ui.change_recipie.ChangeRecipieController
 import hu.bme.aut.android.onlab.ui.epoxy.ViewBindingKotlinModel
 
 class NewRecipieController(private var recipie: NewItem, private var ingredients: ArrayList<String>,
-    private var steps: ArrayList<String>, private var flags: ArrayList<String>,
-    private var btn_ingredient: String, private var prep_title: String, private var btn_step: String,
+    private var steps: ArrayList<String>, private var btn_ingredient: String,
+                           private var prep_title: String, private var btn_step: String,
     private var btn_save: String, private val inflater: LayoutInflater ) : EpoxyController() {
 
     private val title: String = ""
 
+    private val db = Firebase.firestore
+    private var new_recipie: Recipie = Recipie()
+    private var chipGroup: ChipGroup? = null
+
     fun addIngredient(item: String) {
         ingredients.add(item)
+        new_recipie.ingredients = new_recipie.ingredients?.plus(item)
         requestModelBuild()
     }
 
     fun deleteIngredient(idx: Int) {
         ingredients.removeAt(idx)
+        new_recipie.ingredients?.drop(idx)
         requestModelBuild()
     }
 
     fun addStep(item: String) {
         steps.add(item)
+        new_recipie.steps = new_recipie.steps?.plus(item)
         requestModelBuild()
     }
 
     fun deleteSteps(idx: Int) {
         steps.removeAt(idx)
+        new_recipie.steps?.drop(idx)
         requestModelBuild()
     }
 
     override fun buildModels() {
         HeaderEpoxyModel(recipie).id(recipie.title).addTo(this)
-        InformationsEpoxyModel(flags, title).id(title).addTo(this)
+        InformationsEpoxyModel(db, title, chipGroup).id(title).addTo(this)
         if(!ingredients.isEmpty()){
             ingredients.forEach { item ->
                 IngredientEpoxyModel(ingredients, item, this).id(item).addTo(this)
@@ -63,7 +72,7 @@ class NewRecipieController(private var recipie: NewItem, private var ingredients
         }
         StepFloatingButtonEpoxyController(btn_step, this).id(btn_step).addTo(this)
 
-        SaveRecipieEpoxyModel(btn_save).id(btn_save).addTo(this)
+        SaveRecipieEpoxyModel(btn_save, this).id(btn_save).addTo(this)
 
     }
 
@@ -92,18 +101,35 @@ class NewRecipieController(private var recipie: NewItem, private var ingredients
     }
 
     // Information
-    data class InformationsEpoxyModel(val flags: ArrayList<String>, val title: String):
+    data class InformationsEpoxyModel(
+        val db: FirebaseFirestore,
+        val title: String,
+        var chipGroup: ChipGroup?
+    ):
         ViewBindingKotlinModel<NewRecipieInformationsBinding>(R.layout.new_recipie_informations){
         override fun NewRecipieInformationsBinding.bind() {
-            var chipGroup: ChipGroup = cgRecipieFlags
-            chipGroup.removeAllViews()
-            for (i in 0 until flags.size) {
-                val chip = Chip(chipGroup.context)
-                chip.text = flags[i]
-                chip.isClickable = true
-                chip.isCheckable = true
-                chipGroup.addView(chip)
+
+            chipGroup = cgRecipieFlags
+            chipGroup?.removeAllViews()
+            db.collection("flags").addSnapshotListener { snapshots, error ->
+                if(snapshots != null){
+                    for(snap in snapshots.documents){
+                        val chip = Chip(chipGroup?.context)
+                        chip.text = snap.get("name").toString()
+                        chip.isClickable = true
+                        chip.isCheckable = true
+                        chipGroup?.addView(chip)
+//                        Log.d("FLAGS: ", snap.get("name").toString())
+                    }
+                }
             }
+//            for (i in 0 until flags.size) {
+//                val chip = Chip(chipGroup.context)
+//                chip.text = flags[i]
+//                chip.isClickable = true
+//                chip.isCheckable = true
+//                chipGroup.addView(chip)
+//            }
         }
     }
 
@@ -193,11 +219,20 @@ class NewRecipieController(private var recipie: NewItem, private var ingredients
     }
 
     // Save Recipie Button
-    data class SaveRecipieEpoxyModel(val title: String):
+    data class SaveRecipieEpoxyModel(val title: String, var controller: NewRecipieController):
         ViewBindingKotlinModel<NewRecipieSaveBtnBinding>(R.layout.new_recipie_save_btn){
         override fun NewRecipieSaveBtnBinding.bind() {
             btnSaveNewRecipie.text = title
             btnSaveNewRecipie.setOnClickListener {
+                // Check choosed flags
+                val ids = controller.chipGroup?.checkedChipIds
+                Log.d("IDS: ", ids.toString())
+//                if (ids != null) {
+//                    for (id in ids){
+//                        controller.chipGroup?.get(id)?.let { it1 -> Log.d("CHECKED: ", it1.transitionName) }
+//                    }
+//                }
+
                 it.findNavController().navigate(R.id.action_nav_new_recipie_to_nav_flag)
             }
         }

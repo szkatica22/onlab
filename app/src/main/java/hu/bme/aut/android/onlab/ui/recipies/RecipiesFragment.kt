@@ -1,6 +1,7 @@
 package hu.bme.aut.android.onlab.ui.recipies
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +32,7 @@ class RecipiesFragment : Fragment() {
     private lateinit var flagitemAdapter: FlagItemAdapter
     private val db = Firebase.firestore
 
-    var flag_list = mutableListOf<Flag>() //mutableListOf(Flag("Drinks"), Flag("Soups"), Flag("Main courses"), Flag("Desserts"))
+//    var flag_list = mutableListOf<Flag>() //mutableListOf(Flag("Drinks"), Flag("Soups"), Flag("Main courses"), Flag("Desserts"))
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,59 +61,42 @@ class RecipiesFragment : Fragment() {
             add_dialog.setView(v)
             add_dialog.setPositiveButton("Ok"){
                     dialog,_->
-
                 val new_flag = Flag(flag.text.toString())
-//                val flags = db.getNamedQuery("flags")
 
-                // Check flag is already exists or not
-//                db.collection("flags").whereEqualTo("name", new_flag.name).
-//                addSnapshotListener { querySnapshots, error ->
-//                    Log.d("EQ CHECK:", querySnapshots.toString())
-//
-//                    // check if null
-//                    if(error != null){
-//                        Toast.makeText(this.context, error.toString(), Toast.LENGTH_SHORT).show()
-////                        db.collection("flags").whereEqualTo("creator", new_flag.creator).
-////                            addSnapshotListener { value, e ->
-////                                Log.d("EQ CHECK II:", value.toString())
-////                                // check if null
-////                                if(e != null){
-////                                    // Save to Firebase
-////                                    db.collection("flags").add(new_flag).addOnSuccessListener {
-////                                        Toast.makeText(inflater.context, "Flag created", Toast.LENGTH_SHORT).show()
-////                                    }.addOnFailureListener { e ->
-////                                        Toast.makeText(inflater.context, e.toString(), Toast.LENGTH_SHORT).show()
-////                                    }
-////                                    flagitemAdapter.addFlag(new_flag)
-////                                }
-////                                else{
-////                                    Toast.makeText(inflater.context, "Flag already exist!", Toast.LENGTH_SHORT).show()
-////                                }
-////                            }
-//                    }
-//                    if(querySnapshots != null){
-//                        Log.d("CHECK: ", querySnapshots.toString())
-//                        Toast.makeText(inflater.context, "Flag already exist!", Toast.LENGTH_SHORT).show()
-//                    }
-//                    else{
-//                        // Save to Firebase
-//                        db.collection("flags").add(new_flag).addOnSuccessListener {
-//                            Toast.makeText(inflater.context, "Flag created", Toast.LENGTH_SHORT).show()
-//                        }.addOnFailureListener { e ->
-//                            Toast.makeText(inflater.context, e.toString(), Toast.LENGTH_SHORT).show()
-//                        }
-//                        flagitemAdapter.addFlag(new_flag)
-//                        Toast.makeText(inflater.context, "Flag already exist!", Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-
-//                Toast.makeText(inflater.context, "Adding new flag", Toast.LENGTH_SHORT).show()
-
-                // Save to Firebase
-                uploadFlag(new_flag, inflater)
-
-//                flagitemAdapter.addFlag(new_flag)
-
+                // Check flag already exists or not
+                db.collection("flags").whereEqualTo("name", new_flag.name).
+                addSnapshotListener { querySnapshots, error ->
+                    // check if null
+                    if(error != null){
+                        Toast.makeText(this.context, error.toString(), Toast.LENGTH_SHORT).show()
+//                        db.collection("flags").whereEqualTo("creator", new_flag.creator).
+//                            addSnapshotListener { value, e ->
+//                                Log.d("EQ CHECK II:", value.toString())
+//                                // check if null
+//                                if(e != null){
+//                                    // Save to Firebase
+//                                    db.collection("flags").add(new_flag).addOnSuccessListener {
+//                                        Toast.makeText(inflater.context, "Flag created", Toast.LENGTH_SHORT).show()
+//                                    }.addOnFailureListener { e ->
+//                                        Toast.makeText(inflater.context, e.toString(), Toast.LENGTH_SHORT).show()
+//                                    }
+//                                    flagitemAdapter.addFlag(new_flag)
+//                                }
+//                                else{
+//                                    Toast.makeText(inflater.context, "Flag already exist!", Toast.LENGTH_SHORT).show()
+//                                }
+//                            }
+                    }
+                    if (querySnapshots != null) {
+                        if(querySnapshots.documents.isNotEmpty()){
+                            Toast.makeText(inflater.context, "Flag already exist!", Toast.LENGTH_SHORT).show()
+                        } else{
+                            // Save to Firebase
+                            uploadFlag(new_flag, inflater)
+                            Toast.makeText(inflater.context, "Adding new flag", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
                 dialog.dismiss()
             }
             add_dialog.setNegativeButton("Cancel"){

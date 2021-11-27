@@ -50,7 +50,7 @@ class NewRecipieFragment : Fragment(){
 //        })
 
         newrecipieController = NewRecipieController(recipie, ingredients_list, preparation_list,
-        recipie_flags, btn_ingredient, prep_title, btn_step, btn_save, inflater)
+        btn_ingredient, prep_title, btn_step, btn_save, inflater)
         binding.ervChangeRecipie.setController(newrecipieController)
 
         newrecipieController.requestModelBuild()

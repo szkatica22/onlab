@@ -1,6 +1,8 @@
 package hu.bme.aut.android.onlab.ui.recipies
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -19,10 +21,12 @@ class FlagItemAdapter(private val context: Context?) :
         val tvFlagTitle: TextView = binding.tvRecipiesFlagTitleId
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun addFlag(flag: Flag?){
         flag ?: return
 
         flags += flag
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FlagItemViewHolder {
@@ -37,7 +41,11 @@ class FlagItemAdapter(private val context: Context?) :
             binding.tvRecipiesFlagTitleId.text = cur_flag.name
         }
         holder.binding.ivRecipiesFlag.setOnClickListener{ view ->
-            view.findNavController().navigate(R.id.action_nav_recipies_to_nav_flag2)
+            val bundle = Bundle()
+            bundle.putString("flag", cur_flag.name)
+//            val action = RecipiesFragmentDirections.actionNavRecipiesToNavFlag2(flag = cur_flag.name)
+//            view.findNavController().navigate(action)
+            view.findNavController().navigate(R.id.action_nav_recipies_to_nav_flag2, bundle)
         }
     }
 

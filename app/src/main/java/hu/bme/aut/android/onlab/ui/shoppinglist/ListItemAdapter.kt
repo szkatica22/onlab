@@ -1,13 +1,15 @@
 package hu.bme.aut.android.onlab.ui.shoppinglist
 
+import android.annotation.SuppressLint
 import android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import hu.bme.aut.android.onlab.R
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import hu.bme.aut.android.onlab.data.ShoppingItem
 import hu.bme.aut.android.onlab.databinding.ItemShoppingListBinding
 
 class ListItemAdapter (
@@ -16,6 +18,8 @@ class ListItemAdapter (
 
     class ListItemViewHolder(val binding: ItemShoppingListBinding) : RecyclerView.ViewHolder(binding.root)
 
+    private val db = Firebase.firestore
+    private var list: List<ShoppingItem> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListItemViewHolder {
         return ListItemViewHolder(
@@ -23,15 +27,25 @@ class ListItemAdapter (
         )
     }
 
-    fun addItem(item: ListItem) {
-        items.add(item)
-        notifyItemInserted(items.size-1)
+    @SuppressLint("NotifyDataSetChanged")
+    fun addItem(item: ShoppingItem) {
+//        items.add(item)
+//        notifyItemInserted(items.size-1)
+        list += item
+        Log.d("LIST: ", list.toString())
+        notifyDataSetChanged()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun deletePurchasedItems() {
-        items.removeAll { item ->
-            item.is_checked
+        for(i in list.indices){
+            if(list[i].checked == true){
+                list.drop(i)
+            }
         }
+//        items.removeAll { item ->
+//            item.is_checked
+//        }
         notifyDataSetChanged()
     }
 
@@ -44,20 +58,20 @@ class ListItemAdapter (
     }
 
     override fun onBindViewHolder(holder: ListItemViewHolder, position: Int) {
-        var cur_item = items[position]
+        var cur_item = list[position]
         holder.binding.let { binding ->
-            binding.tvShoppingTitle.text = cur_item.title
-            binding.cbPurchased.isChecked = cur_item.is_checked
-            toggleStrikeThrough(binding.tvShoppingTitle, cur_item.is_checked)
+            binding.tvShoppingTitle.text = cur_item.name
+            binding.cbPurchased.isChecked = cur_item.checked == true
+            toggleStrikeThrough(binding.tvShoppingTitle, cur_item.checked == true)
 
             binding.cbPurchased.setOnCheckedChangeListener { _, is_checked ->
                 toggleStrikeThrough(binding.tvShoppingTitle, is_checked)
-                cur_item.is_checked = !cur_item.is_checked
+                cur_item.checked = !cur_item.checked!!
             }
         }
     }
 
     override fun getItemCount(): Int {
-        return  items.size
+        return  list.size
     }
 }
