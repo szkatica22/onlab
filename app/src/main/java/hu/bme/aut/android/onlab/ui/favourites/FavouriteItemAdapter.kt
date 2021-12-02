@@ -1,43 +1,61 @@
 package hu.bme.aut.android.onlab.ui.favourites
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.android.onlab.R
+import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.databinding.FavouriteItemBinding
 
-class FavouriteItemAdapter(
-    private val favourites: MutableList<FavouriteItem>
-): RecyclerView.Adapter<FavouriteItemAdapter.FavouriteItemViewHolder>(){
+class FavouriteItemAdapter(): RecyclerView.Adapter<FavouriteItemAdapter.FavouriteItemViewHolder>(){
 
-    class FavouriteItemViewHolder(val binding: FavouriteItemBinding): RecyclerView.ViewHolder(binding.root)
+    class FavouriteItemViewHolder(val binding: FavouriteItemBinding): RecyclerView.ViewHolder(binding.root) {
+        val tvFavRecipieNameId: TextView = binding.tvFavRecipieNameId
+        val ivRecipiesFlag: ImageView = binding.ivRecipiesFlag
+    }
 
+    private var recipies: List<Recipie> = emptyList()
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun addRecipie(recipie: Recipie?) {
+        recipie ?: return
+
+        recipies += recipie
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): FavouriteItemAdapter.FavouriteItemViewHolder {
-        return FavouriteItemAdapter.FavouriteItemViewHolder(
+    ): FavouriteItemViewHolder {
+        return FavouriteItemViewHolder(
             FavouriteItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
     override fun onBindViewHolder(
-        holder: FavouriteItemAdapter.FavouriteItemViewHolder,
+        holder: FavouriteItemViewHolder,
         position: Int
     ) {
-        var cur_item = favourites[position]
+        var cur_item = recipies[position]
         holder.binding.let{ binding ->
-            binding.tvFavRecipieNameId.text = cur_item.title
+            holder.tvFavRecipieNameId.text = cur_item.name
         }
-        holder.binding.ivRecipiesFlag.setOnClickListener { view ->
-            view.findNavController().navigate(R.id.action_nav_favourites_to_nav_recipie)
+        holder.ivRecipiesFlag.setOnClickListener { view ->
+            val bundle = Bundle()
+            bundle.putString("recipiename", cur_item.name)
+            view.findNavController().navigate(R.id.action_nav_favourites_to_nav_recipie, bundle)
         }
     }
 
     override fun getItemCount(): Int {
-        return favourites.size
+        return recipies.size
     }
 }

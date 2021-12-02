@@ -42,9 +42,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:layout_marginTop="4dp"
-                    android:src="@drawable/ic_cancel"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:src="@drawable/ic_cancel" />
 
             </LinearLayout>
 

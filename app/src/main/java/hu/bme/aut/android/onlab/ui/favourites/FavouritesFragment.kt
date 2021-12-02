@@ -1,17 +1,23 @@
 package hu.bme.aut.android.onlab.ui.favourites
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.onlab.R
+import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.databinding.FragmentFavouritesBinding
 import hu.bme.aut.android.onlab.ui.flag.RecipieItem
 
@@ -23,12 +29,11 @@ class FavouritesFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private val fav = true
 
     private lateinit var favouriteItemAdapter: FavouriteItemAdapter
-    var favourite_list = mutableListOf(
-        FavouriteItem("Favourite1"), FavouriteItem("Favourite2"),
-        FavouriteItem("Favourite3"), FavouriteItem("Favourite2"),
-        FavouriteItem("Favourite5"), FavouriteItem("Favourite6"))
+
+    private val db = Firebase.firestore
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,11 +51,35 @@ class FavouritesFragment : Fragment() {
             textView.text = it
         })
 
-        favouriteItemAdapter = FavouriteItemAdapter(favourite_list)
+        favouriteItemAdapter = FavouriteItemAdapter()
         binding.rvFavourites.adapter = favouriteItemAdapter
         binding.rvFavourites.layoutManager = LinearLayoutManager(this.context)
 
+        initFavouriteListener()
+
         return root
+    }
+
+    fun initFavouriteListener(){
+        db.collection("recipies").whereEqualTo("favourite", fav).
+        addSnapshotListener { snapshots, error ->
+            if (error != null){
+                Toast.makeText(this.context, error.toString(), Toast.LENGTH_SHORT).show()
+                return@addSnapshotListener
+            }
+            if(snapshots != null){
+                if(snapshots.documents.isEmpty()){
+                    for (dc in snapshots.documentChanges) {
+//                        favouriteItemAdapter.addRecipie(dc.document.toObject<Recipie>())
+                        when(dc.type) {
+                            com.google.firebase.firestore.DocumentChange.Type.ADDED -> favouriteItemAdapter.addRecipie(dc.document.toObject<Recipie>())
+                            com.google.firebase.firestore.DocumentChange.Type.MODIFIED -> Toast.makeText(this.context, dc.document.data.toString(), Toast.LENGTH_SHORT).show()
+                            com.google.firebase.firestore.DocumentChange.Type.REMOVED -> Toast.makeText(this.context, dc.document.data.toString(), Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {

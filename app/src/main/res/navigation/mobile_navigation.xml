@@ -113,12 +113,8 @@
         android:label="@string/new_recipie_flag"
         tools:layout="@layout/fragment_new_recipie" >
         <action
-            android:id="@+id/action_nav_new_recipie_to_nav_flag"
-            app:destination="@id/nav_flag"
-            app:enterAnim="@anim/slide_left"
-            app:exitAnim="@anim/slide_right"
-            app:popEnterAnim="@anim/slide_left"
-            app:popExitAnim="@anim/slide_right" />
+            android:id="@+id/action_nav_new_recipie_to_nav_recipies"
+            app:destination="@id/nav_recipies" />
     </fragment>
     <fragment
         android:id="@+id/nav_flag"

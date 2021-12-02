@@ -46,7 +46,7 @@ class ShoppinglistFragment : Fragment() {
 //            textView.text = it
 //        })
 
-        listitemAdapter = ListItemAdapter(mutableListOf())
+        listitemAdapter = ListItemAdapter(this.context)
         binding.rvShoppingList.adapter = listitemAdapter
         binding.rvShoppingList.layoutManager = LinearLayoutManager(this.context)
 
@@ -57,16 +57,16 @@ class ShoppinglistFragment : Fragment() {
 
                 // Upload to Firebase
                 uploadItem(list_item, inflater)
-                listitemAdapter.addItem(list_item)
+//                listitemAdapter.addItem(list_item)
 
                 binding.etShoppingTitle.text.clear()
             }
         }
 
-        binding.clearTheListBtn.setOnClickListener {
-            listitemAdapter.deletePurchasedItems()
+        binding.clearTheListBtn.setOnClickListener { 
+//            listitemAdapter.deletePurchasedItems()
+            deleteItem(inflater)
         }
-
         initFlagListener()
 
         return root
@@ -79,9 +79,24 @@ class ShoppinglistFragment : Fragment() {
             Toast.makeText(inflater.context, e.toString(), Toast.LENGTH_SHORT).show()
         }
     }
+    fun deleteItem(inflater: LayoutInflater){
+
+        db.collection("shopping_list").whereEqualTo("checked", true).
+        addSnapshotListener { snapshot, e ->
+            if(e != null){
+                Toast.makeText(this.context, e.toString(), Toast.LENGTH_SHORT).show()
+            }
+            if(snapshot != null){
+                for(doc in snapshot.documents){
+                    db.collection("shopping_list").document(doc.id).delete()
+                    Toast.makeText(inflater.context, "Item deleted", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
 
     fun initFlagListener() {
-        db.collection("shopping_items").
+        db.collection("shopping_list").
         addSnapshotListener { snapshots, error ->
             if (error != null){
                 Toast.makeText(this.context, error.toString(), Toast.LENGTH_SHORT).show()
@@ -91,8 +106,8 @@ class ShoppinglistFragment : Fragment() {
             for (dc in snapshots!!.documentChanges) {
                 when(dc.type) {
                     com.google.firebase.firestore.DocumentChange.Type.ADDED -> listitemAdapter.addItem(dc.document.toObject<ShoppingItem>())
-                    com.google.firebase.firestore.DocumentChange.Type.MODIFIED -> Toast.makeText(this.context, dc.document.data.toString(), Toast.LENGTH_SHORT).show()
-                    com.google.firebase.firestore.DocumentChange.Type.REMOVED -> Toast.makeText(this.context, dc.document.data.toString(), Toast.LENGTH_SHORT).show()
+//                    com.google.firebase.firestore.DocumentChange.Type.MODIFIED -> listitemAdapter.changeChecked(dc.document.toObject<ShoppingItem>())
+                    com.google.firebase.firestore.DocumentChange.Type.REMOVED -> listitemAdapter.deletePurchasedItems()
                 }
             }
         }

@@ -1,11 +1,13 @@
 package hu.bme.aut.android.onlab.ui.shoppinglist
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -13,7 +15,7 @@ import hu.bme.aut.android.onlab.data.ShoppingItem
 import hu.bme.aut.android.onlab.databinding.ItemShoppingListBinding
 
 class ListItemAdapter (
-    private val items: MutableList<ListItem>
+    private val context: Context?
 ) : RecyclerView.Adapter<ListItemAdapter.ListItemViewHolder>() {
 
     class ListItemViewHolder(val binding: ItemShoppingListBinding) : RecyclerView.ViewHolder(binding.root)
@@ -32,20 +34,18 @@ class ListItemAdapter (
 //        items.add(item)
 //        notifyItemInserted(items.size-1)
         list += item
-        Log.d("LIST: ", list.toString())
+//        Log.d("LIST: ", list.toString())
         notifyDataSetChanged()
     }
 
     @SuppressLint("NotifyDataSetChanged")
     fun deletePurchasedItems() {
-        for(i in list.indices){
-            if(list[i].checked == true){
-                list.drop(i)
+        for(item in list){
+            if(item.checked == true){
+                list = list.minusElement(item)
             }
         }
-//        items.removeAll { item ->
-//            item.is_checked
-//        }
+//        Log.d("LIST: ", list.toString())
         notifyDataSetChanged()
     }
 
@@ -54,6 +54,21 @@ class ListItemAdapter (
             tvShoppingTitle.paintFlags = tvShoppingTitle.paintFlags or STRIKE_THRU_TEXT_FLAG
         } else {
             tvShoppingTitle.paintFlags = tvShoppingTitle.paintFlags and  STRIKE_THRU_TEXT_FLAG.inv()
+        }
+    }
+
+    fun changeChecked(item: ShoppingItem){
+        db.collection("shopping_list").whereEqualTo("name", item.name).
+        addSnapshotListener { snapshot, e ->
+//                    if(e != null){
+//                        Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
+//                    }
+            if(snapshot != null){
+                if(snapshot.documents.isNotEmpty()){
+//                            Log.d("SNAP: ", snapshot.documents[0].id.toString())
+                    db.collection("shopping_list").document(snapshot.documents[0].id).update("checked", item.checked)
+                }
+            }
         }
     }
 
@@ -67,6 +82,20 @@ class ListItemAdapter (
             binding.cbPurchased.setOnCheckedChangeListener { _, is_checked ->
                 toggleStrikeThrough(binding.tvShoppingTitle, is_checked)
                 cur_item.checked = !cur_item.checked!!
+                changeChecked(cur_item)
+//                db.collection("shopping_list").whereEqualTo("name", cur_item.name).
+//                addSnapshotListener { snapshot, e ->
+////                    if(e != null){
+////                        Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
+////                    }
+//                    if(snapshot != null){
+//                        if(snapshot.documents.isNotEmpty()){
+////                            Log.d("SNAP: ", snapshot.documents[0].id.toString())
+//                            db.collection("shopping_list").document(snapshot.documents[0].id).update("checked", cur_item.checked)
+//                        }
+//                    }
+//                }
+
             }
         }
     }
