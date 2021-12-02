@@ -47,7 +47,6 @@ class FlagFragment : Fragment(){
 
         // Get data from previous Fragment
         val flag = this.arguments?.get("flag").toString()
-//        Log.d("FLAG DATA: ", flag?.get("flag").toString())
 
         recipieitemAdapter = RecipieItemAdapter(this.context)
         binding.rvRecipies.adapter = recipieitemAdapter
@@ -91,36 +90,33 @@ class FlagFragment : Fragment(){
 
                     // Update recipie - delete the extra flag from recipie's flags
                     db.collection("recipies").document(doc.id).update("flags", tmp_flags)
-                    Toast.makeText(this.context, "Recipie updated", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this.context, "Recipie updated", Toast.LENGTH_SHORT).show()
                 }
             }
         }
 
         // Delete Flag
-        db.collection("flags").whereEqualTo("name", flag).
-        addSnapshotListener { snapshot, e ->
-            if(e != null){
-                Toast.makeText(this.context, e.toString(), Toast.LENGTH_SHORT).show()
-            }
+        db.collection("flags").whereEqualTo("name", flag).get().
+        addOnSuccessListener { snapshot ->
             if(snapshot != null){
                 for(doc in snapshot.documents){
                     db.collection("flags").document(doc.id).delete()
                     Toast.makeText(this.context, "Flag deleted", Toast.LENGTH_SHORT).show()
-//                    return@addSnapshotListener
                 }
             }
         }
     }
 
     fun initRecipieListener(flag: String) {
-        db.collection("recipies").whereEqualTo("flag", flag).
+
+        db.collection("recipies").whereArrayContains("flags", flag).
         addSnapshotListener { snapshots, error ->
             if (error != null){
                 Toast.makeText(this.context, error.toString(), Toast.LENGTH_SHORT).show()
                 return@addSnapshotListener
             }
             if(snapshots != null){
-                if(snapshots.documents.isEmpty()){
+                if(snapshots.documents.isNotEmpty()){
                     for (dc in snapshots.documentChanges) {
                         when(dc.type) {
                             com.google.firebase.firestore.DocumentChange.Type.ADDED -> recipieitemAdapter.addRecipie(dc.document.toObject<Recipie>())

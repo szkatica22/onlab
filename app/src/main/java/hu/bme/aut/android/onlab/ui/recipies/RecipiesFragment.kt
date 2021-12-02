@@ -46,9 +46,11 @@ class RecipiesFragment : Fragment() {
         _binding = FragmentRecipiesBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        val rec_name = this.arguments?.get("recipiename").toString()
+
         val textView: TextView = binding.textRecipies
         recipiesViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+            textView.text = rec_name
         })
 
         flagitemAdapter = FlagItemAdapter(this.context)
@@ -90,11 +92,11 @@ class RecipiesFragment : Fragment() {
                     }
                     if (querySnapshots != null) {
                         if(querySnapshots.documents.isNotEmpty()){
-                            Toast.makeText(inflater.context, "Flag already exist!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this.context, "Flag already exist!", Toast.LENGTH_SHORT).show()
                         } else{
                             // Save to Firebase
-                            uploadFlag(new_flag, inflater)
-                            Toast.makeText(inflater.context, "Adding new flag", Toast.LENGTH_SHORT).show()
+                            uploadFlag(new_flag)
+                            Toast.makeText(this.context, "Adding new flag", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -102,7 +104,7 @@ class RecipiesFragment : Fragment() {
             }
             add_dialog.setNegativeButton("Cancel"){
                     dialog,_->
-                Toast.makeText(inflater.context, "Cancel", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this.context, "Cancel", Toast.LENGTH_SHORT).show()
             }
             add_dialog.create()
             add_dialog.show()
@@ -113,11 +115,11 @@ class RecipiesFragment : Fragment() {
         return root
     }
 
-    fun uploadFlag(new_flag: Flag, inflater: LayoutInflater){
+    fun uploadFlag(new_flag: Flag){
         db.collection("flags").add(new_flag).addOnSuccessListener {
-            Toast.makeText(inflater.context, "Flag created", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.context, "Flag created", Toast.LENGTH_SHORT).show()
         }.addOnFailureListener { e ->
-            Toast.makeText(inflater.context, e.toString(), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.context, e.toString(), Toast.LENGTH_SHORT).show()
         }
     }
 

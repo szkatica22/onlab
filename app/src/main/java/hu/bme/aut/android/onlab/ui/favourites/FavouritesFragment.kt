@@ -1,25 +1,20 @@
 package hu.bme.aut.android.onlab.ui.favourites
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.databinding.FragmentFavouritesBinding
-import hu.bme.aut.android.onlab.ui.flag.RecipieItem
 
 class FavouritesFragment : Fragment() {
 
@@ -46,10 +41,10 @@ class FavouritesFragment : Fragment() {
         _binding = FragmentFavouritesBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textFavourites
-        favouritesViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
+//        val textView: TextView = binding.textFavourites
+//        favouritesViewModel.text.observe(viewLifecycleOwner, Observer {
+//            textView.text = it
+//        })
 
         favouriteItemAdapter = FavouriteItemAdapter()
         binding.rvFavourites.adapter = favouriteItemAdapter

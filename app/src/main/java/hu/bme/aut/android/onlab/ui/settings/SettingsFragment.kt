@@ -1,5 +1,6 @@
 package hu.bme.aut.android.onlab.ui.settings
 
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -39,6 +40,10 @@ class SettingsFragment : Fragment(){
     private lateinit var settingsViewModel: SettingsViewModel
     private var _binding: FragmentSettingsBinding? = null
 
+    var name: String? = null
+    var mode: Boolean = false
+    var theme: String = "purple"
+
 //    private var navC: NavController? = null
 //    private var currentTheme = PURPLE
 
@@ -76,41 +81,49 @@ class SettingsFragment : Fragment(){
         return root
     }
 
-    fun saveSettings(){
+    override fun onResume() {
+        super.onResume()
         val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        name = sp.getString("name", "")
+        mode = sp.getBoolean("mode", false)
+        theme = sp.getString("theme", "purple")!!
 
-        val name: String? = sp.getString("name", "")
-//        name = sp.getString("name", "")
-//        val picture: Picture?
-        val mode: Boolean = sp.getBoolean("mode", false)
-//        mode = sp.getBoolean("mode", false)
-        val theme: String? = sp.getString("theme", "purple")
+        saveSettings()
 
-        db.collection("users").whereEqualTo("email", firebaseUser?.email).
-        addSnapshotListener { snapshots, error ->
-            if (error != null){
-                Toast.makeText(this.context, error.toString(), Toast.LENGTH_SHORT).show()
-            }
+    }
+
+    fun saveSettings(){
+//        val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+//
+//        val name: String? = sp.getString("name", "")
+////        name = sp.getString("name", "")
+////        val picture: Picture?
+//        val mode: Boolean = sp.getBoolean("mode", false)
+////        mode = sp.getBoolean("mode", false)
+//        val theme: String? = sp.getString("theme", "purple")
+
+        db.collection("users").whereEqualTo("email", firebaseUser?.email).get().
+        addOnSuccessListener { snapshots ->
             if (snapshots != null) {
                 if(snapshots.documents.isNotEmpty()){
                     // Update user informations
                     db.collection("users").document(snapshots.documents[0].id).
                     update("name", name, "theme", theme, "mode", mode)
-
+                    Toast.makeText(this.context, "Changes saved", Toast.LENGTH_SHORT).show()
 
                 } else{
                     // Save new user infromation
                     val new_usr = User(firebaseUser?.email, name, null, theme, mode)
                     db.collection("users").add(new_usr)
+                    Toast.makeText(this.context, "User informations saved", Toast.LENGTH_SHORT).show()
                 }
             }
         }
 
     }
 
+    @SuppressLint("SetTextI18n")
     fun loadSettings(/*night_mode: Boolean, sharedPrefsEdit: SharedPreferences.Editor*/) {
-
-        saveSettings()
 
 //        val appSettingPrefs: SharedPreferences = this.requireActivity().getSharedPreferences("AppSettingsPref", 0)
 //        val sharedPrefsEdit: SharedPreferences.Editor = appSettingPrefs.edit()
@@ -118,16 +131,14 @@ class SettingsFragment : Fragment(){
 
         val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
-        val name: String? = sp.getString("name", "")
-//        name = sp.getString("name", "")
-//        val picture: Picture?
-        val mode: Boolean = sp.getBoolean("mode", false)
-//        mode = sp.getBoolean("mode", false)
-        val theme: String? = sp.getString("theme", "purple")
-//        theme = sp.getString("theme", "purple")
+//        val name: String? = sp.getString("name", "")
+////        val picture: Picture?
+//        val mode: Boolean = sp.getBoolean("mode", false)
+//        val theme: String? = sp.getString("theme", "purple")
 
-        binding.tvName.text = "Name: $name"
-        if(!mode){
+
+        binding.tvName.text = "Name: ${sp.getString("name", "")}"
+        if(!sp.getBoolean("mode", false)){
             binding.tvMode.text = "Dark mode: off"
 //            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 //            delegate.applyDayNight()
@@ -148,7 +159,7 @@ class SettingsFragment : Fragment(){
 //        }
 
 
-        binding.tvTheme.text = "Theme: $theme"
+        binding.tvTheme.text = "Theme: ${sp.getString("theme", "purple")}"
 //        currentTheme = when(theme){
 //            "red" -> RED
 //            "orange" -> ORANGE
