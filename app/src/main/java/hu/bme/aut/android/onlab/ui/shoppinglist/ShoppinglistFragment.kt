@@ -56,7 +56,7 @@ class ShoppinglistFragment : Fragment() {
                 val list_item = ShoppingItem(shoppingTitle, checked = false)
 
                 // Upload to Firebase
-                uploadItem(list_item, inflater)
+                uploadItem(list_item)
 //                listitemAdapter.addItem(list_item)
 
                 binding.etShoppingTitle.text.clear()
@@ -65,31 +65,28 @@ class ShoppinglistFragment : Fragment() {
 
         binding.clearTheListBtn.setOnClickListener { 
 //            listitemAdapter.deletePurchasedItems()
-            deleteItem(inflater)
+            deleteItem()
         }
         initFlagListener()
 
         return root
     }
 
-    fun uploadItem(new_item: ShoppingItem, inflater: LayoutInflater){
+    fun uploadItem(new_item: ShoppingItem){
         db.collection("shopping_list").add(new_item).addOnSuccessListener {
-            Toast.makeText(inflater.context, "Item created", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.context, "Item created", Toast.LENGTH_SHORT).show()
         }.addOnFailureListener { e ->
-            Toast.makeText(inflater.context, e.toString(), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.context, e.toString(), Toast.LENGTH_SHORT).show()
         }
     }
-    fun deleteItem(inflater: LayoutInflater){
+    fun deleteItem(){
 
-        db.collection("shopping_list").whereEqualTo("checked", true).
-        addSnapshotListener { snapshot, e ->
-            if(e != null){
-                Toast.makeText(this.context, e.toString(), Toast.LENGTH_SHORT).show()
-            }
+        db.collection("shopping_list").whereEqualTo("checked", true).get().
+        addOnSuccessListener { snapshot ->
             if(snapshot != null){
                 for(doc in snapshot.documents){
                     db.collection("shopping_list").document(doc.id).delete()
-                    Toast.makeText(inflater.context, "Item deleted", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this.context, "Item deleted", Toast.LENGTH_SHORT).show()
                 }
             }
         }

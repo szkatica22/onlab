@@ -65,7 +65,7 @@ class FlagFragment : Fragment(){
 
         // Delete gomb - elozo fragmentre lep at
         binding.btnDeleteFlag.setOnClickListener{
-            deleteFlag(flag, inflater)
+            deleteFlag(flag)
             findNavController().navigate(R.id.action_nav_flag_to_nav_recipies)
         }
 
@@ -74,15 +74,12 @@ class FlagFragment : Fragment(){
         return root
     }
 
-    fun deleteFlag(flag: String, inflater: LayoutInflater){
+    fun deleteFlag(flag: String){
         // Todo I: Eloszor torolni a receptek flag-jet ha van bennuk ilyen flag - szerintem mukodik!!
         // Todo II: Flag torlese
         // Update recipies
-        db.collection("recipies").whereArrayContains("flags", flag).
-        addSnapshotListener { snapshots, e ->
-            if(e != null){
-                Toast.makeText(this.context, e.toString(), Toast.LENGTH_SHORT).show()
-            }
+        db.collection("recipies").whereArrayContains("flags", flag).get().
+        addOnSuccessListener { snapshots ->
             if(snapshots != null && snapshots.documents.isNotEmpty()){
                 for(doc in snapshots.documents){
                     // Delete extra flag
@@ -94,7 +91,7 @@ class FlagFragment : Fragment(){
 
                     // Update recipie - delete the extra flag from recipie's flags
                     db.collection("recipies").document(doc.id).update("flags", tmp_flags)
-                    Toast.makeText(inflater.context, "Recipie updated", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this.context, "Recipie updated", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -108,7 +105,7 @@ class FlagFragment : Fragment(){
             if(snapshot != null){
                 for(doc in snapshot.documents){
                     db.collection("flags").document(doc.id).delete()
-                    Toast.makeText(inflater.context, "Flag deleted", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this.context, "Flag deleted", Toast.LENGTH_SHORT).show()
 //                    return@addSnapshotListener
                 }
             }
@@ -127,8 +124,8 @@ class FlagFragment : Fragment(){
                     for (dc in snapshots.documentChanges) {
                         when(dc.type) {
                             com.google.firebase.firestore.DocumentChange.Type.ADDED -> recipieitemAdapter.addRecipie(dc.document.toObject<Recipie>())
-                            com.google.firebase.firestore.DocumentChange.Type.MODIFIED -> Toast.makeText(this.context, dc.document.data.toString(), Toast.LENGTH_SHORT).show()
-                            com.google.firebase.firestore.DocumentChange.Type.REMOVED -> Toast.makeText(this.context, dc.document.data.toString(), Toast.LENGTH_SHORT).show()
+//                            com.google.firebase.firestore.DocumentChange.Type.MODIFIED -> Toast.makeText(this.context, dc.document.data.toString(), Toast.LENGTH_SHORT).show()
+//                            com.google.firebase.firestore.DocumentChange.Type.REMOVED -> Toast.makeText(this.context, dc.document.data.toString(), Toast.LENGTH_SHORT).show()
                         }
                     }
                 }

@@ -68,13 +68,13 @@ class FavouritesFragment : Fragment() {
                 return@addSnapshotListener
             }
             if(snapshots != null){
-                if(snapshots.documents.isEmpty()){
+                if(snapshots.documents.isNotEmpty()){
                     for (dc in snapshots.documentChanges) {
 //                        favouriteItemAdapter.addRecipie(dc.document.toObject<Recipie>())
                         when(dc.type) {
                             com.google.firebase.firestore.DocumentChange.Type.ADDED -> favouriteItemAdapter.addRecipie(dc.document.toObject<Recipie>())
-                            com.google.firebase.firestore.DocumentChange.Type.MODIFIED -> Toast.makeText(this.context, dc.document.data.toString(), Toast.LENGTH_SHORT).show()
-                            com.google.firebase.firestore.DocumentChange.Type.REMOVED -> Toast.makeText(this.context, dc.document.data.toString(), Toast.LENGTH_SHORT).show()
+//                            com.google.firebase.firestore.DocumentChange.Type.MODIFIED -> Toast.makeText(this.context, dc.document.data.toString(), Toast.LENGTH_SHORT).show()
+//                            com.google.firebase.firestore.DocumentChange.Type.REMOVED -> Toast.makeText(this.context, dc.document.data.toString(), Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
