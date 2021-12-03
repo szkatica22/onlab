@@ -10,7 +10,7 @@
         android:id="@+id/tv_recipie_prep_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#4BCCCCCC"
+        android:background="@color/GreensecondaryColor"
         android:textColor="#90000000"
         android:paddingTop="16dp"
         android:textStyle="italic"

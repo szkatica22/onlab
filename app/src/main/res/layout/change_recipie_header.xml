@@ -19,7 +19,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:layout_marginTop="4dp"
-                    android:src="@drawable/ic_recipie_favorite_border" />
+                    android:src="@drawable/ic_recipie_favorite_border"
+                    app:tint="@color/GreenprimaryVariant"/>
 
                 <EditText
                     android:id="@+id/et_change_recipie_name"
@@ -59,7 +60,8 @@
                     android:layout_marginTop="4dp"
                     android:src="@drawable/ic_recipie_edit"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/GreenprimaryVariant"/>
 
             </LinearLayout>
 

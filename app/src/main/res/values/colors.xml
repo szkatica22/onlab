@@ -42,6 +42,7 @@
     <color name="GreenprimaryColor">#8bc34a</color>
     <color name="GreenprimaryLightColor">#bef67a</color>
     <color name="GreenprimaryDarkColor">#5a9216</color>
+    <color name="GreenprimaryVariant">#385E09</color>
     <color name="GreensecondaryColor">#c5e1a5</color>
     <color name="GreensecondaryLightColor">#f8ffd7</color>
     <color name="GreensecondaryDarkColor">#94af76</color>

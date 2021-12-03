@@ -13,7 +13,7 @@ import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.databinding.FragmentRecipieBinding
 
-class RecipieFragment/*(listener:)*/ : Fragment(){
+class RecipieFragment: Fragment(){
     private lateinit var recipieViewModel: RecipieViewModel
     private var _binding: FragmentRecipieBinding? = null
 
@@ -21,17 +21,6 @@ class RecipieFragment/*(listener:)*/ : Fragment(){
     private var db = Firebase.firestore
 
     private lateinit var recipieController: RecipieController
-    var ingredients_list = arrayListOf(Item("1 cup espresso"), Item("6 egg yolks"),
-        Item("6 Tbsp rum"), Item("30 ladyfingers"))
-    var preparation_list = arrayListOf(Item("step1"), Item("step2"), Item("step3"),
-        Item("step4"))
-    var recipie_name: String = "Change Test Recipie"
-    var recipie_flags = arrayListOf<String>("Desserst", "Drinks", "Soups", "Main courses")
-    var time: String = "30 minutes"
-    var abundance: String = "4 servings"
-    var btn_ingredient: String = "Add new ingredient"
-    var btn_step: String = "Add new step"
-    var btn_delete: String = "Delete recipie"
     var prep_title: String = "Preparation"
 
     override fun onCreateView(
@@ -57,9 +46,7 @@ class RecipieFragment/*(listener:)*/ : Fragment(){
                     tmp_data?.get("author").toString(), tmp_data?.get("ingredients") as List<String?>?,
                     tmp_data?.get("steps") as List<String?>?)
 
-                recipieController = RecipieController(tmp_rec, rec_name, ingredients_list, preparation_list,
-                    recipie_name, recipie_flags, time, abundance, btn_ingredient,
-                    prep_title, btn_step, btn_delete, inflater)
+                recipieController = RecipieController(tmp_rec, prep_title)
                 binding.ervRecipie.setController(recipieController)
 
                 recipieController.requestModelBuild()

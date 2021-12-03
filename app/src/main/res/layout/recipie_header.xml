@@ -18,7 +18,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:src="@drawable/ic_recipie_delete" />
+            android:src="@drawable/ic_recipie_delete"
+            app:tint="@color/GreenprimaryVariant"/>
 
         <TextView
             android:id="@+id/tv_recipie_name"
@@ -40,7 +41,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:src="@drawable/ic_recipie_favorite_border" />
+            android:src="@drawable/ic_recipie_favorite_border"
+            app:tint="@color/GreenprimaryVariant" />
 
         <ImageButton
             android:id="@+id/img_btn_edit"
@@ -49,7 +51,8 @@
             android:layout_weight="2"
             android:src="@drawable/ic_recipie_edit"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/GreenprimaryVariant"/>
 
     </LinearLayout>
 

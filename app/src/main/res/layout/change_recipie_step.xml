@@ -37,7 +37,8 @@
             android:layout_gravity="center"
             android:layout_margin="8dp"
             android:layout_width="34dp"
-            android:layout_height="34dp"/>
+            android:layout_height="34dp"
+            app:tint="@color/GreenprimaryVariant"/>
 <!--        <ImageView-->
 <!--            android:id="@+id/iv_change_recipie_options"-->
 <!--            android:src="@drawable/ic_change_recipie_more"-->

@@ -14,7 +14,8 @@
         android:src="@drawable/ic_recipie_circle"
         app:layout_constraintBottom_toBottomOf="@+id/tv_ingredient"
         app:layout_constraintTop_toTopOf="@+id/tv_ingredient"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        app:tint="@color/GreenprimaryColor"/>
 
     <TextView
         android:id="@+id/tv_ingredient"

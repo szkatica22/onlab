@@ -38,6 +38,7 @@
     <!--    Green Theme Colors -->
     <style name="AppTheme.Green" parent="AppTheme">
         <item name="colorPrimary">@color/GreenprimaryColor</item>
+        <item name="colorPrimaryVariant">@color/GreenprimaryVariant</item>
         <item name="colorPrimaryDark">@color/GreenprimaryDarkColor</item>
         <item name="colorSecondary">@color/GreensecondaryColor</item>
         <item name="colorAccent">@color/GreensecondaryDarkColor</item>
