@@ -46,11 +46,9 @@ class RecipiesFragment : Fragment() {
         _binding = FragmentRecipiesBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val rec_name = this.arguments?.get("recipiename").toString()
-
         val textView: TextView = binding.textRecipies
         recipiesViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = rec_name
+            textView.text = it
         })
 
         flagitemAdapter = FlagItemAdapter(this.context)

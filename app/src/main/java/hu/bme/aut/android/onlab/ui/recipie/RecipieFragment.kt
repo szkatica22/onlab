@@ -8,6 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.databinding.FragmentRecipieBinding
 
 class RecipieFragment/*(listener:)*/ : Fragment(){
@@ -15,6 +18,7 @@ class RecipieFragment/*(listener:)*/ : Fragment(){
     private var _binding: FragmentRecipieBinding? = null
 
     private val binding get() = _binding!!
+    private var db = Firebase.firestore
 
     private lateinit var recipieController: RecipieController
     var ingredients_list = arrayListOf(Item("1 cup espresso"), Item("6 egg yolks"),
@@ -41,14 +45,37 @@ class RecipieFragment/*(listener:)*/ : Fragment(){
         _binding = FragmentRecipieBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        recipieController = RecipieController(ingredients_list, preparation_list,
-            recipie_name, recipie_flags, time, abundance, btn_ingredient,
-            prep_title, btn_step, btn_delete)
-        binding.ervRecipie.setController(recipieController)
+        val rec_name = this.arguments?.get("recipiename").toString()
 
-        recipieController.requestModelBuild()
-        binding.ervRecipie.addItemDecoration(DividerItemDecoration(requireActivity(),
-            RecyclerView.VERTICAL))
+        db.collection("recipies").whereEqualTo("name", rec_name).get().
+        addOnSuccessListener { snapshot ->
+            if(snapshot.documents.isNotEmpty()){
+                val tmp_data = snapshot.documents[0].data
+                val tmp_rec = Recipie(rec_name, tmp_data?.get("favourite") as Boolean,
+                    tmp_data?.get("flags") as List<String?>?, tmp_data?.get("imageUrls") as List<String?>?,
+                    tmp_data?.get("time").toString(), tmp_data?.get("abundance").toString(),
+                    tmp_data?.get("author").toString(), tmp_data?.get("ingredients") as List<String?>?,
+                    tmp_data?.get("steps") as List<String?>?)
+
+                recipieController = RecipieController(tmp_rec, rec_name, ingredients_list, preparation_list,
+                    recipie_name, recipie_flags, time, abundance, btn_ingredient,
+                    prep_title, btn_step, btn_delete, inflater)
+                binding.ervRecipie.setController(recipieController)
+
+                recipieController.requestModelBuild()
+                binding.ervRecipie.addItemDecoration(DividerItemDecoration(requireActivity(),
+                    RecyclerView.VERTICAL))
+            }
+        }
+
+//        recipieController = RecipieController(rec_name, ingredients_list, preparation_list,
+//            recipie_name, recipie_flags, time, abundance, btn_ingredient,
+//            prep_title, btn_step, btn_delete, inflater)
+//        binding.ervRecipie.setController(recipieController)
+//
+//        recipieController.requestModelBuild()
+//        binding.ervRecipie.addItemDecoration(DividerItemDecoration(requireActivity(),
+//            RecyclerView.VERTICAL))
 
 //        val textView: TextView = binding.tvRecipieName //recipie_fragment_recipiename
 //        recipieViewModel.text.observe(viewLifecycleOwner, Observer {

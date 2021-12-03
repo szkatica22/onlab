@@ -71,23 +71,23 @@ class NewRecipieFragment : Fragment(){
         return root
     }
 
-    fun initFlagListener() {
-        db.collection("recipies").
-        addSnapshotListener { snapshots, error ->
-            if (error != null){
-                Toast.makeText(this.context, error.toString(), Toast.LENGTH_SHORT).show()
-                return@addSnapshotListener
-            }
-
-            for (dc in snapshots!!.documentChanges) {
-                when(dc.type) {
-                    com.google.firebase.firestore.DocumentChange.Type.ADDED -> newrecipieController.saveRecipie(/*dc.document.toObject<Recipie>()*/)
-//                    com.google.firebase.firestore.DocumentChange.Type.MODIFIED -> Toast.makeText(this.context, dc.document.data.toString(), Toast.LENGTH_SHORT).show()
-//                    com.google.firebase.firestore.DocumentChange.Type.REMOVED -> Toast.makeText(this.context, dc.document.data.toString(), Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
+//    fun initFlagListener() {
+//        db.collection("recipies").
+//        addSnapshotListener { snapshots, error ->
+//            if (error != null){
+//                Toast.makeText(this.context, error.toString(), Toast.LENGTH_SHORT).show()
+//                return@addSnapshotListener
+//            }
+//
+//            for (dc in snapshots!!.documentChanges) {
+//                when(dc.type) {
+//                    com.google.firebase.firestore.DocumentChange.Type.ADDED -> newrecipieController.saveRecipie(/*dc.document.toObject<Recipie>()*/)
+////                    com.google.firebase.firestore.DocumentChange.Type.MODIFIED -> Toast.makeText(this.context, dc.document.data.toString(), Toast.LENGTH_SHORT).show()
+////                    com.google.firebase.firestore.DocumentChange.Type.REMOVED -> Toast.makeText(this.context, dc.document.data.toString(), Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//        }
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()
