@@ -1,10 +1,10 @@
 package hu.bme.aut.android.onlab.ui.change_recipie
 
-import android.graphics.Color
-import android.util.Log
+import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.widget.EditText
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.findNavController
@@ -14,15 +14,60 @@ import hu.bme.aut.android.onlab.databinding.*
 import hu.bme.aut.android.onlab.ui.epoxy.ViewBindingKotlinModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import hu.bme.aut.android.onlab.data.Recipie
 
-class ChangeRecipieController(private var ingredients: ArrayList<ChangeItem>,
-    private var steps: ArrayList<ChangeItem>, private val recipie_name: String,
-    private var flags: ArrayList<String>, private var time: String,
-    private var abundance: String, private var btn_ingredient: String, private var prep_title: String,
-    private var btn_step: String, private var btn_delete: String, private var btn_save: String, private val inflater: LayoutInflater
-    ) : EpoxyController() {
+class ChangeRecipieController(
+    private var tmp_rec: Recipie,
+    private var btn_ingredient: String,
+    private var prep_title: String,
+    private var btn_step: String,
+    private var btn_delete: String,
+    private var btn_save: String,
+    private val inflater: LayoutInflater
+) : EpoxyController() {
 
-    fun addIngredient(item: ChangeItem) {
+    private val db = Firebase.firestore
+    private val original_rec_name = tmp_rec.name
+    private var ingredients: ArrayList<String> = tmp_rec.ingredients as ArrayList<String>
+    private var steps: ArrayList<String> = tmp_rec.steps as ArrayList<String>
+
+    private val name_watcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+        }
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            tmp_rec.name = s.toString()
+//            if (start == 12) {
+//                Toast.makeText(inflater.context, "Maximum Limit Reached", Toast.LENGTH_SHORT)
+//                    .show()
+//            }
+        }
+    }
+
+    private val time_watcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+        }
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            tmp_rec.time = s.toString()
+        }
+    }
+
+    private val abundance_watcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+        }
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            tmp_rec.abundance = s.toString()
+        }
+    }
+
+    fun addIngredient(item: String) {
         ingredients.add(item)
         requestModelBuild()
     }
@@ -32,7 +77,7 @@ class ChangeRecipieController(private var ingredients: ArrayList<ChangeItem>,
         requestModelBuild()
     }
 
-    fun addStep(item: ChangeItem) {
+    fun addStep(item: String) {
         steps.add(item)
         requestModelBuild()
     }
@@ -42,83 +87,147 @@ class ChangeRecipieController(private var ingredients: ArrayList<ChangeItem>,
         requestModelBuild()
     }
 
+    fun updateLists(){
+        tmp_rec.ingredients = ingredients
+        tmp_rec.steps = steps
+    }
+
+    fun deleteRecipie(){
+        db.collection("recipies").whereEqualTo("name", original_rec_name).get().
+        addOnSuccessListener { snapshot ->
+            if(snapshot != null){
+                for(doc in snapshot.documents){
+                    db.collection("recipies").document(doc.id).delete()
+                    Toast.makeText(inflater.context, "Recipie deleted", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    fun saveChanges(){
+        updateLists()
+        db.collection("recipies").whereEqualTo("name", original_rec_name).get().
+        addOnSuccessListener { snapshot ->
+            if(snapshot != null){
+                if(snapshot.documents.isNotEmpty()){
+                    db.collection("recipies").document(snapshot.documents[0].id).
+                    update("abundance", tmp_rec.abundance, "favourite",
+                        tmp_rec.favourite, "flags", tmp_rec.flags, "imageUrls", tmp_rec.imageUrls,
+                        "ingredients", tmp_rec.ingredients, "name", tmp_rec.name, "steps",
+                        tmp_rec.steps, "time", tmp_rec.time)
+                    Toast.makeText(inflater.context, "Changes saved", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+
     override fun buildModels() {
-        HeaderEpoxyModel(recipie_name).id(recipie_name).addTo(this)
-        InformationsEpoxyModel(flags, time, abundance).id(time).addTo(this)
-        if(ingredients.isEmpty()){
-            return
+        HeaderEpoxyModel(this).id(original_rec_name).addTo(this)
+        InformationsEpoxyModel(this).id(tmp_rec.time).addTo(this)
+        if(!ingredients.isEmpty()){
+            ingredients.forEach{ item ->
+                IngredientEpoxyModel(item, this).id(item).addTo(this)
+            }
         }
-        ingredients.forEach{ item ->
-            IngredientEpoxyModel(ingredients, item, this).id(item.title).addTo(this)
-        }
+
         IngrFloatingButtonEpoxyController(btn_ingredient, this).id(btn_ingredient).addTo(this)
 
         PreparationTextEpoxyController(prep_title).id(prep_title).addTo(this)
-        if(steps.isEmpty()){
-            return
+        if(!steps.isEmpty()){
+            steps.forEach{ item ->
+                PreparationEpoxyModel(item, this).id(item).addTo(this)
+            }
         }
-        steps.forEach{ item ->
-            PreparationEpoxyModel(steps, item, this).id(item.title).addTo(this)
-        }
+
         StepFloatingButtonEpoxyController(btn_step, this).id(btn_step).addTo(this)
 
-        SaveRecipieEpoxyModel(btn_save).id(btn_save).addTo(this)
+        SaveRecipieEpoxyModel(btn_save, this).id(btn_save).addTo(this)
 
-        DeleteRecipieEpoxyModel(btn_delete).id(btn_delete).addTo(this)
+        DeleteRecipieEpoxyModel(btn_delete, this).id(btn_delete).addTo(this)
 
     }
 
     // Data classes
 
     // Header
-    data class HeaderEpoxyModel(val title: String):
+    data class HeaderEpoxyModel(
+        val controller: ChangeRecipieController
+    ):
         ViewBindingKotlinModel<ChangeRecipieHeaderBinding>(R.layout.change_recipie_header){
             override fun ChangeRecipieHeaderBinding.bind() {
-                etChangeRecipieName.setText(title)
+                etChangeRecipieName.setText(controller.original_rec_name)
+                etChangeRecipieName.addTextChangedListener(controller.name_watcher)
                 imgBtnEdit.setOnClickListener {
-                    it.findNavController().navigate(R.id.action_nav_change_recipie_to_nav_recipie)
+                    val bundle = Bundle()
+                    bundle.putString("recipiename", controller.original_rec_name)
+                    it.findNavController().navigate(R.id.action_nav_change_recipie_to_nav_recipie, bundle)
+                }
+                // Check & set favourite boolean
+                imgBtnFavourite.setOnClickListener {
+                    if (controller.tmp_rec.favourite == true){
+                        controller.tmp_rec.favourite = false
+                        imgBtnFavourite.setImageResource(R.drawable.ic_recipie_favorite_border)
+                    } else {
+                        controller.tmp_rec.favourite = true
+                        imgBtnFavourite.setImageResource(R.drawable.ic_menu_favourites)
+                    }
                 }
             }
     }
 
     // Information
-    data class InformationsEpoxyModel(val flags: ArrayList<String>, val time: String, val abundance: String, ):
+    data class InformationsEpoxyModel(val controller: ChangeRecipieController):
     ViewBindingKotlinModel<ChangeRecipieInformationsBinding>(R.layout.change_recipie_informations){
         override fun ChangeRecipieInformationsBinding.bind() {
-            etRecipieTime.setText(time)
-            etRecipieAbundance.setText(abundance)
+            etRecipieTime.setText(controller.tmp_rec.time)
+            etRecipieTime.addTextChangedListener(controller.time_watcher)
+            etRecipieAbundance.setText(controller.tmp_rec.abundance)
+            etRecipieAbundance.addTextChangedListener(controller.abundance_watcher)
 
-            var chipGroup: ChipGroup = cgRecipieFlags
+            val chipGroup: ChipGroup = cgRecipieFlags
             chipGroup.removeAllViews()
-            for (i in 0 until flags.size) {
-                val chip = Chip(chipGroup.context)
-                chip.text = flags[i]
-                chip.isClickable = true
-                chip.isCheckable = true
-//                chip.setCheckedIconTintResource(Color.parseColor("396200EE").toInt())
-//                chip.isCloseIconVisible = false
-                chipGroup.addView(chip)
+            controller.db.collection("flags").get().addOnSuccessListener { snapshots ->
+                if(snapshots != null){
+                    for(snap in snapshots.documents){
+                        val chip = Chip(chipGroup.context)
+                        chip.text = snap.get("name").toString()
+                        chip.isClickable = true
+                        chip.isCheckable = true
+                        chipGroup.addView(chip)
+
+//                        Log.d("GROUP: ", chipGroup?.checkedChipIds.toString())
+                    }
+
+//                    val ids = chipGroup?.checkedChipIds
+////                  Log.d("IDS: ", ids.toString())
+//                    if (ids != null) {
+//                        for (id in ids){
+//                            chipGroup?.get(id)?.let { it1 ->
+////                              Log.d("CHECKED: ", it1.transitionName)
+//                                controller.saveChip(it1.transitionName)
+//                            }
+//                        }
+//                    }
+                }
             }
         }
     }
 
     // Ingredients
-    data class IngredientEpoxyModel(var ingredients: ArrayList<ChangeItem>, val ingredient: ChangeItem, var controller: ChangeRecipieController):
+    data class IngredientEpoxyModel(val ingredient: String, var controller: ChangeRecipieController):
     ViewBindingKotlinModel<ChangeRecipieItemBinding>(R.layout.change_recipie_item){
         override fun ChangeRecipieItemBinding.bind() {
-            tvChangeRecipieItemTitleId.text = ingredient.title
+            tvChangeRecipieItemTitleId.text = ingredient
             ivChangeRecipieDelete.setOnClickListener {
-//                Log.d("DELETE:", "Delete ingredient item")
-//                ingredients.remove(ingredient)
-//                llRecipieIngredients.removeView(llRecipieIngredients)
-                controller.deleteIngredient(ingredients.indexOf(ingredient))
+                controller.deleteIngredient(controller.ingredients.indexOf(ingredient))
 
             }
         }
     }
 
     // Ingredients Button
-    data class IngrFloatingButtonEpoxyController(val title: String, var controller: ChangeRecipieController): // TODO: INGREDIENT HOZZAADAS ITT
+    data class IngrFloatingButtonEpoxyController(val title: String, var controller: ChangeRecipieController):
     ViewBindingKotlinModel<ChangeRecipieFloatingButtonBinding>(R.layout.change_recipie_floating_button){
         override fun ChangeRecipieFloatingButtonBinding.bind() {
             fltBtnRecipieItems.text = title
@@ -130,7 +239,7 @@ class ChangeRecipieController(private var ingredients: ArrayList<ChangeItem>,
                 add_dialog.setView(v)
                 add_dialog.setPositiveButton("Ok"){
                     dialog,_->
-                    controller.addIngredient(ChangeItem(ingredient.text.toString()))
+                    controller.addIngredient(ingredient.text.toString())
                     Toast.makeText(controller.inflater.context, "Adding Ingredient", Toast.LENGTH_SHORT).show()
                     dialog.dismiss()
                 }
@@ -154,18 +263,18 @@ class ChangeRecipieController(private var ingredients: ArrayList<ChangeItem>,
     }
 
     // Preparation Steps
-    data class PreparationEpoxyModel(val steps: ArrayList<ChangeItem>, val step: ChangeItem, var controller: ChangeRecipieController):
+    data class PreparationEpoxyModel(val step: String, var controller: ChangeRecipieController):
     ViewBindingKotlinModel<ChangeRecipieStepBinding>(R.layout.change_recipie_step){
         override fun ChangeRecipieStepBinding.bind(){
-            tvChangeRecipieStepTitleId.text = step.title
+            tvChangeRecipieStepTitleId.text = step
             ivChangeRecipieDelete.setOnClickListener {
-                controller.deleteSteps(steps.indexOf(step))
+                controller.deleteSteps(controller.steps.indexOf(step))
             }
         }
     }
 
     // Preparation Step Button
-    data class StepFloatingButtonEpoxyController(val title: String, var controller: ChangeRecipieController): // TODO: STEP HOZZAADAS ITT
+    data class StepFloatingButtonEpoxyController(val title: String, var controller: ChangeRecipieController):
         ViewBindingKotlinModel<ChangeRecipieFloatingButtonBinding>(R.layout.change_recipie_floating_button){
         override fun ChangeRecipieFloatingButtonBinding.bind() {
             fltBtnRecipieItems.text = title
@@ -176,7 +285,7 @@ class ChangeRecipieController(private var ingredients: ArrayList<ChangeItem>,
                 add_dialog.setView(v)
                 add_dialog.setPositiveButton("Ok"){
                         dialog,_->
-                    controller.addStep(ChangeItem(step.text.toString()))
+                    controller.addStep(step.text.toString())
                     Toast.makeText(controller.inflater.context, "Adding Step", Toast.LENGTH_SHORT).show()
                     dialog.dismiss()
                 }
@@ -191,23 +300,27 @@ class ChangeRecipieController(private var ingredients: ArrayList<ChangeItem>,
     }
 
     // Save Button
-    data class SaveRecipieEpoxyModel(val title: String):
+    data class SaveRecipieEpoxyModel(val title: String, val controller: ChangeRecipieController):
         ViewBindingKotlinModel<ChangeRecipieSaveBtnBinding>(R.layout.change_recipie_save_btn){
         override fun ChangeRecipieSaveBtnBinding.bind() {
             btnSaveRecipie.text = title
             btnSaveRecipie.setOnClickListener {
-                it.findNavController().navigate(R.id.action_nav_change_recipie_to_nav_recipie)
+                controller.saveChanges()
+                var bundle = Bundle()
+                bundle.putString("recipiename", controller.tmp_rec.name)
+                it.findNavController().navigate(R.id.action_nav_change_recipie_to_nav_recipie, bundle)
             }
         }
     }
 
     // Delete Button
-    data class DeleteRecipieEpoxyModel(val title: String):
+    data class DeleteRecipieEpoxyModel(val title: String, val controller: ChangeRecipieController):
     ViewBindingKotlinModel<ChangeRecipieDeleteBtnBinding>(R.layout.change_recipie_delete_btn){
         override fun ChangeRecipieDeleteBtnBinding.bind() {
             btnDeleteRecipie.text = title
             btnDeleteRecipie.setOnClickListener {
-                it.findNavController().navigate(R.id.action_nav_change_recipie_to_nav_recipie)
+                controller.deleteRecipie()
+                it.findNavController().navigate(R.id.action_nav_change_recipie_to_nav_recipies)
             }
         }
     }

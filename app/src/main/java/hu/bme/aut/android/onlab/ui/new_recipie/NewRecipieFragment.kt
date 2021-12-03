@@ -33,12 +33,6 @@ class NewRecipieFragment : Fragment(){
     private val binding get() = _binding!!
     val db = Firebase.firestore
 
-//    private val inflater: LayoutInflater
-
-    var recipie: NewItem = NewItem("", false)
-    var ingredients_list = arrayListOf<String>()
-    var preparation_list = arrayListOf<String>()
-    var recipie_flags = arrayListOf<String>("Desserst", "Drinks", "Soups", "Main courses")
     var btn_ingredient: String = "Add new ingredient"
     var btn_step: String = "Add new step"
     var btn_save: String = "Save"

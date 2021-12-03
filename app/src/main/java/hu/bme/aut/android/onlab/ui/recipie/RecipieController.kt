@@ -1,22 +1,42 @@
 package hu.bme.aut.android.onlab.ui.recipie
 
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.widget.Toast
 import com.airbnb.epoxy.EpoxyController
 import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.databinding.*
 import androidx.navigation.findNavController
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.ui.epoxy.ViewBindingKotlinModel
 
-class RecipieController (
+class RecipieController(
     private val saved_rec: Recipie,
-    private var prep_title: String
+    private var prep_title: String,
+    private val inflater: LayoutInflater
 ) : EpoxyController()
 {
+    fun deleteRecipie(rec_name: String?, inflater: LayoutInflater){
+
+        val db = Firebase.firestore
+        db.collection("recipies").whereEqualTo("name", rec_name).get().
+        addOnSuccessListener { snapshot ->
+            if(snapshot != null){
+                for(doc in snapshot.documents){
+                    db.collection("recipies").document(doc.id).delete()
+                    Toast.makeText(inflater.context, "Recipie deleted", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
     override fun buildModels() {
 
-        HeaderEpoxyModel(saved_rec).id(saved_rec.name).addTo(this)
+        HeaderEpoxyModel(this, saved_rec).id(saved_rec.name).addTo(this)
         InformationsEpoxyModel(saved_rec).id(saved_rec.time).addTo(this)
 
         if(saved_rec.ingredients?.isEmpty()!!){
@@ -36,15 +56,24 @@ class RecipieController (
     }
 
     // Data classes
-    data class HeaderEpoxyModel(val saved_rec: Recipie):
+    data class HeaderEpoxyModel(
+        val controller: RecipieController,
+        val saved_rec: Recipie,
+    ):
         ViewBindingKotlinModel<RecipieHeaderBinding>(R.layout.recipie_header){
         override fun RecipieHeaderBinding.bind() {
             tvRecipieName.text = saved_rec.name
             imgBtnEdit.setOnClickListener {
-                it.findNavController().navigate(R.id.action_nav_recipie_to_nav_change_recipie)
+                val bundle = Bundle()
+                bundle.putString("recipiename", saved_rec.name)
+                it.findNavController().navigate(R.id.action_nav_recipie_to_nav_change_recipie, bundle)
             }
             if(saved_rec.favourite == true){
                 imgBtnFavourite.setImageResource(R.drawable.ic_menu_favourites)
+            }
+            imgBtnDelete.setOnClickListener {
+                controller.deleteRecipie(saved_rec.name, controller.inflater)
+                it.findNavController().navigate(R.id.action_nav_recipie_to_nav_recipies)
             }
         }
     }

@@ -21,7 +21,7 @@ class RecipieFragment: Fragment(){
     private var db = Firebase.firestore
 
     private lateinit var recipieController: RecipieController
-    var prep_title: String = "Preparation"
+    private var prep_title: String = "Preparation"
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,7 +46,7 @@ class RecipieFragment: Fragment(){
                     tmp_data?.get("author").toString(), tmp_data?.get("ingredients") as List<String?>?,
                     tmp_data?.get("steps") as List<String?>?)
 
-                recipieController = RecipieController(tmp_rec, prep_title)
+                recipieController = RecipieController(tmp_rec, prep_title, inflater)
                 binding.ervRecipie.setController(recipieController)
 
                 recipieController.requestModelBuild()
@@ -54,76 +54,6 @@ class RecipieFragment: Fragment(){
                     RecyclerView.VERTICAL))
             }
         }
-
-//        recipieController = RecipieController(rec_name, ingredients_list, preparation_list,
-//            recipie_name, recipie_flags, time, abundance, btn_ingredient,
-//            prep_title, btn_step, btn_delete, inflater)
-//        binding.ervRecipie.setController(recipieController)
-//
-//        recipieController.requestModelBuild()
-//        binding.ervRecipie.addItemDecoration(DividerItemDecoration(requireActivity(),
-//            RecyclerView.VERTICAL))
-
-//        val textView: TextView = binding.tvRecipieName //recipie_fragment_recipiename
-//        recipieViewModel.text.observe(viewLifecycleOwner, Observer {
-//            textView.text = it
-//        })
-
-        // Teszt gomb a kovi fragmentre valtashoz
-//        binding.imgBtnEdit.setOnClickListener{
-//            findNavController().navigate(R.id.action_nav_recipie_to_nav_change_recipie)
-//        }
-//
-//
-//        val flags_array_adapter =
-//            context?.let { ArrayAdapter(it, android.R.layout.simple_spinner_item, flags) }!!
-//
-//        // attached arrayadapter to spinner
-//        binding.spnrRecipieCategory.adapter = flags_array_adapter
-//
-//        binding.spnrRecipieCategory.onItemSelectedListener = object :
-//            AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-//                binding.tvRecipieSpinnerSelected.text = flags[p2]
-//            }
-//
-//            override fun onNothingSelected(p0: AdapterView<*>?) {
-//            }
-//
-//        }
-//
-//        //Teszt hozzavalokra es elkeszitesi lepesekre
-//
-//        ingredientItemAdapter = IngredientItemAdapter(mutableListOf(Item("1 cup espresso"), Item("6 egg yolks"), Item("6 Tbsp rum"), Item("30 ladyfingers")))
-//        binding.rvRecipieIngredients.adapter = ingredientItemAdapter
-//        binding.rvRecipieIngredients.layoutManager = LinearLayoutManager(this.context)
-//
-//        preparationItemAdapter = PreparationItemAdapter(mutableListOf(Item("step1"), Item("step2"), Item("step3"), Item("step4")))
-//        binding.rvRecipiePreparation.adapter = preparationItemAdapter
-//        binding.rvRecipiePreparation.layoutManager = LinearLayoutManager(this.context)
-
-
-        // Recipie Ingredients
-//        val ingr_array_adapter: ArrayAdapter<*>
-//        val ingredients = arrayOf("1 cup espresso", "6 egg yolks", "6 Tbsp rum", "30 ladyfingers",
-//            "3/4 cup sugar", "425 g mascarpone", "2 cups heavy whipping cream", "2-3 TBSP cocoa powder")
-//
-//        var ingr_list_view = binding.lvRecipieIngredients
-//        ingr_array_adapter =
-//            context?.let { ArrayAdapter(it, android.R.layout.simple_list_item_1, ingredients) }!!
-//        ingr_list_view.adapter = ingr_array_adapter
-//
-//        // Recipie Preparation
-//        val prep_array_adapter: ArrayAdapter<*>
-//        val steps = arrayOf("step1", "step2", "step3", "step4", "step5")
-//
-//        var prep_list_view = binding.lvRecipiePreparation
-//        prep_array_adapter =
-//            context?.let { ArrayAdapter(it, android.R.layout.simple_list_item_1, steps) }!!
-//        prep_list_view.adapter = prep_array_adapter
-//
-//
-        
         return root
     }
 

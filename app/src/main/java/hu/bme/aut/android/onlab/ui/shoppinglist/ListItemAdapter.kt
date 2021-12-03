@@ -31,10 +31,7 @@ class ListItemAdapter (
 
     @SuppressLint("NotifyDataSetChanged")
     fun addItem(item: ShoppingItem) {
-//        items.add(item)
-//        notifyItemInserted(items.size-1)
         list += item
-//        Log.d("LIST: ", list.toString())
         notifyDataSetChanged()
     }
 
@@ -45,7 +42,6 @@ class ListItemAdapter (
                 list = list.minusElement(item)
             }
         }
-//        Log.d("LIST: ", list.toString())
         notifyDataSetChanged()
     }
 
@@ -58,14 +54,10 @@ class ListItemAdapter (
     }
 
     fun changeChecked(item: ShoppingItem){
-        db.collection("shopping_list").whereEqualTo("name", item.name).
-        addSnapshotListener { snapshot, e ->
-//                    if(e != null){
-//                        Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
-//                    }
+        db.collection("shopping_list").whereEqualTo("name", item.name).get().
+        addOnSuccessListener { snapshot ->
             if(snapshot != null){
                 if(snapshot.documents.isNotEmpty()){
-//                            Log.d("SNAP: ", snapshot.documents[0].id.toString())
                     db.collection("shopping_list").document(snapshot.documents[0].id).update("checked", item.checked)
                 }
             }
@@ -83,19 +75,6 @@ class ListItemAdapter (
                 toggleStrikeThrough(binding.tvShoppingTitle, is_checked)
                 cur_item.checked = !cur_item.checked!!
                 changeChecked(cur_item)
-//                db.collection("shopping_list").whereEqualTo("name", cur_item.name).
-//                addSnapshotListener { snapshot, e ->
-////                    if(e != null){
-////                        Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
-////                    }
-//                    if(snapshot != null){
-//                        if(snapshot.documents.isNotEmpty()){
-////                            Log.d("SNAP: ", snapshot.documents[0].id.toString())
-//                            db.collection("shopping_list").document(snapshot.documents[0].id).update("checked", cur_item.checked)
-//                        }
-//                    }
-//                }
-
             }
         }
     }

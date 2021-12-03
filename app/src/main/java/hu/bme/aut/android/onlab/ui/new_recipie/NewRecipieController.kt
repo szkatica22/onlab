@@ -1,11 +1,15 @@
 package hu.bme.aut.android.onlab.ui.new_recipie
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.get
+import androidx.core.view.iterator
+import androidx.core.widget.addTextChangedListener
 import androidx.navigation.findNavController
 import com.airbnb.epoxy.EpoxyController
 import com.google.android.material.chip.Chip
@@ -20,20 +24,49 @@ import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.databinding.*
 import hu.bme.aut.android.onlab.ui.epoxy.ViewBindingKotlinModel
 
-class NewRecipieController(/*private var recipie: NewItem, private var Ingredients: ArrayList<String>,
-    private var Steps: ArrayList<String>, */private var btn_ingredient: String,
-                           private var prep_title: String, private var btn_step: String,
-    private var btn_save: String, private val inflater: LayoutInflater) : EpoxyController() {
-
-    private val title: String = " "
+class NewRecipieController(private var btn_ingredient: String, private var prep_title: String,
+                           private var btn_step: String, private var btn_save: String,
+                           private val inflater: LayoutInflater) : EpoxyController() {
 
     private val db = Firebase.firestore
     private var new_recipie: Recipie = Recipie()
     private var chipGroup: ChipGroup? = null
     private var ingredients: ArrayList<String> = arrayListOf<String>()
     private var steps: ArrayList<String> = arrayListOf<String>()
-    private var choosed_chips: ArrayList<String> = arrayListOf<String>()
-    private var tmp_chips: ChipGroup? = null
+
+    private val name_watcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+        }
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            new_recipie.name = s.toString()
+//            if (start == 12) {
+//                Toast.makeText(inflater.context, "Maximum Limit Reached", Toast.LENGTH_SHORT)
+//                    .show()
+//            }
+        }
+    }
+
+    private val time_watcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+        }
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            new_recipie.time = s.toString()
+        }
+    }
+
+    private val abundance_watcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+        }
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            new_recipie.abundance = s.toString()
+        }
+    }
 
     private val firebaseUser: FirebaseUser?
         get() = FirebaseAuth.getInstance().currentUser
@@ -45,13 +78,11 @@ class NewRecipieController(/*private var recipie: NewItem, private var Ingredien
 
     fun deleteIngredient(idx: Int) {
         ingredients.removeAt(idx)
-        Log.d("INGR: ", ingredients.toString())
         requestModelBuild()
     }
 
     fun addStep(item: String) {
         steps.add(item)
-        Log.d("STEPS: ", steps.toString())
         requestModelBuild()
     }
 
@@ -60,24 +91,24 @@ class NewRecipieController(/*private var recipie: NewItem, private var Ingredien
         requestModelBuild()
     }
 
-    fun updateName(name: String){
-        new_recipie.name = name
-    }
-    fun updateFavourite(){
-        if (new_recipie.favourite != null){
-            new_recipie.favourite = new_recipie.favourite == false
-        }
-        else {
-            new_recipie.favourite = true
-        }
-    }
-    fun updateUrl(url: String){
-        new_recipie.imageUrls?.plus(url)
-    }
-    fun updateInfos(time: String, abundance: String){
-        new_recipie.time = time
-        new_recipie.abundance = abundance
-    }
+//    fun updateName(name: String){
+//        new_recipie.name = name
+//    }
+//    fun updateFavourite(){
+//        if (new_recipie.favourite != null){
+//            new_recipie.favourite = new_recipie.favourite == false
+//        }
+//        else {
+//            new_recipie.favourite = true
+//        }
+//    }
+//    fun updateUrl(url: String){
+//        new_recipie.imageUrls?.plus(url)
+//    }
+//    fun updateInfos(time: String, abundance: String){
+//        new_recipie.time = time
+//        new_recipie.abundance = abundance
+//    }
     fun updateAuthor(){
         new_recipie.author = firebaseUser?.email
     }
@@ -85,16 +116,24 @@ class NewRecipieController(/*private var recipie: NewItem, private var Ingredien
         new_recipie.ingredients = ingredients
         new_recipie.steps = steps
     }
-    fun updateFlags(flag: String){
-        new_recipie.flags = new_recipie.flags?.plus(flag)
-    }
-
-//    fun saveChip(chipGroup: ChipGroup?) {
-//        tmp_chips = chipGroup
-//
-////        Log.d("SAVE: ", chip)
-////        choosed_chips.add(chip)
+//    fun updateFlags(flag: String){
+//        new_recipie.flags = new_recipie.flags?.plus(flag)
 //    }
+
+    fun saveChip(/*chipGroup: ChipGroup?*/) {
+        val ids = chipGroup?.checkedChipIds
+
+        if (ids != null) {
+            for (id in ids){
+                chipGroup?.get(id)?.let { it1 ->
+                    Log.d("CHECKED: ", it1.transitionName)
+
+                }
+            }
+        }
+//        Log.d("SAVE: ", chip)
+//        choosed_chips.add(chip)
+    }
 
 
     fun saveRecipie(){
@@ -107,7 +146,7 @@ class NewRecipieController(/*private var recipie: NewItem, private var Ingredien
         }
 
         // Check choosed flags
-//        tmp_chips?.transitionName?.let { Log.d("CHIPS: ", it) }
+//        saveChip()
 
         db.collection("recipies").add(new_recipie).addOnSuccessListener {
             Toast.makeText(inflater.context, "Recipie saved", Toast.LENGTH_SHORT).show()
@@ -119,7 +158,7 @@ class NewRecipieController(/*private var recipie: NewItem, private var Ingredien
 
     override fun buildModels() {
         HeaderEpoxyModel(this).id(new_recipie.name).addTo(this)
-        InformationsEpoxyModel(this, db, title, chipGroup).id(title).addTo(this)
+        InformationsEpoxyModel(this, chipGroup).id(new_recipie.time).addTo(this)
         if(!ingredients.isEmpty()){
             ingredients.forEach { item ->
                 IngredientEpoxyModel(ingredients, item,this).id(item).addTo(this)
@@ -137,7 +176,7 @@ class NewRecipieController(/*private var recipie: NewItem, private var Ingredien
 
         StepFloatingButtonEpoxyController(btn_step, this).id(btn_step).addTo(this)
 
-        SaveRecipieEpoxyModel(new_recipie, btn_save, this).id(btn_save).addTo(this)
+        SaveRecipieEpoxyModel(btn_save, this).id(btn_save).addTo(this)
 
     }
 
@@ -147,18 +186,17 @@ class NewRecipieController(/*private var recipie: NewItem, private var Ingredien
     data class HeaderEpoxyModel(var controller: NewRecipieController):
     ViewBindingKotlinModel<NewRecipieHeaderBinding>(R.layout.new_recipie_header){
         override fun NewRecipieHeaderBinding.bind() {
-            controller.updateName(etNewRecipieName.text.toString())
-            // TODO: lecsekkolni ez igy jo-e => nem valami jo - kijavitani!!!
+//            controller.updateName(etNewRecipieName.text.toString())
+            etNewRecipieName.addTextChangedListener(controller.name_watcher)
+
             imgBtnFavourite.setOnClickListener {
-                controller.updateFavourite()
-//                recipie.favourite = recipie.favourite == false
-//                if (recipie.favourite == false){
-//                    recipie.favourite = true
-////                    imgBtnFavourite.setBackgroundColor(design_default_color_secondary_variant)
-//                } else {
-//                    recipie.favourite = false
-////                    imgBtnFavourite.setBackgroundColor(design_default_color_surface)
-//                }
+                if (controller.new_recipie.favourite == null || controller.new_recipie.favourite == false){
+                    controller.new_recipie.favourite = true
+                    imgBtnFavourite.setImageResource(R.drawable.ic_menu_favourites)
+                } else {
+                    controller.new_recipie.favourite = false
+                    imgBtnFavourite.setImageResource(R.drawable.ic_recipie_favorite_border)
+                }
             }
             imgBtnCancel.setOnClickListener {
                 it.findNavController().navigate(R.id.action_nav_new_recipie_to_nav_recipies)
@@ -169,8 +207,6 @@ class NewRecipieController(/*private var recipie: NewItem, private var Ingredien
     // Information
     data class InformationsEpoxyModel(
         var controller: NewRecipieController,
-        val db: FirebaseFirestore,
-        val title: String,
         var chipGroup: ChipGroup?
     ):
         ViewBindingKotlinModel<NewRecipieInformationsBinding>(R.layout.new_recipie_informations){
@@ -178,7 +214,7 @@ class NewRecipieController(/*private var recipie: NewItem, private var Ingredien
 
             chipGroup = cgRecipieFlags
             chipGroup?.removeAllViews()
-            db.collection("flags").addSnapshotListener { snapshots, error ->
+            controller.db.collection("flags").get().addOnSuccessListener { snapshots ->
                 if(snapshots != null){
                     for(snap in snapshots.documents){
                         val chip = Chip(chipGroup?.context)
@@ -187,9 +223,7 @@ class NewRecipieController(/*private var recipie: NewItem, private var Ingredien
                         chip.isCheckable = true
                         chipGroup?.addView(chip)
 
-                        Log.d("GROUP: ", chipGroup?.checkedChipIds.toString())
-
-//                        Log.d("FLAGS: ", snap.get("name").toString())
+//                        Log.d("GROUP: ", chipGroup?.checkedChipIds.toString())
                     }
 
 //                    val ids = chipGroup?.checkedChipIds
@@ -204,9 +238,18 @@ class NewRecipieController(/*private var recipie: NewItem, private var Ingredien
 //                    }
                 }
             }
-//            controller.saveChip(chipGroup)
 
-            controller.updateInfos(etRecipieTime.text.toString(), etRecipieAbundance.text.toString())
+            chipGroup?.setOnCheckedChangeListener { group, checkedId ->
+                Log.d("GROUP: ", group.toString())
+                Log.d("C_ID: ", checkedId.toString())
+
+            }
+
+//            controller.saveChip(chipGroup)
+            etRecipieTime.addTextChangedListener(controller.time_watcher)
+            etRecipieAbundance.addTextChangedListener(controller.abundance_watcher)
+
+//            controller.updateInfos(etRecipieTime.text.toString(), etRecipieAbundance.text.toString())
 //            for (i in 0 until flags.size) {
 //                val chip = Chip(chipGroup.context)
 //                chip.text = flags[i]
@@ -218,7 +261,8 @@ class NewRecipieController(/*private var recipie: NewItem, private var Ingredien
     }
 
     // Ingredients
-    data class IngredientEpoxyModel(var ingredients: List<String>, val ingredient: String, var controller: NewRecipieController):
+    data class IngredientEpoxyModel(var ingredients: List<String>, val ingredient: String,
+                                    var controller: NewRecipieController):
         ViewBindingKotlinModel<NewRecipieItemBinding>(R.layout.new_recipie_item){
         override fun NewRecipieItemBinding.bind() {
             tvNewRecipieItemTitleId.text = ingredient
@@ -303,11 +347,12 @@ class NewRecipieController(/*private var recipie: NewItem, private var Ingredien
     }
 
     // Save Recipie Button
-    data class SaveRecipieEpoxyModel(var recipie: Recipie, val title: String, var controller: NewRecipieController):
+    data class SaveRecipieEpoxyModel(val title: String, var controller: NewRecipieController):
         ViewBindingKotlinModel<NewRecipieSaveBtnBinding>(R.layout.new_recipie_save_btn){
         override fun NewRecipieSaveBtnBinding.bind() {
             btnSaveNewRecipie.text = title
             btnSaveNewRecipie.setOnClickListener {
+                controller.saveChip()
                 controller.saveRecipie()
                 // Check choosed flags
 //                val ids = controller.chipGroup?.checkedChipIds

@@ -14,6 +14,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.ChipGroup
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -32,6 +34,8 @@ class RecipiesFragment : Fragment() {
 
     private lateinit var flagitemAdapter: FlagItemAdapter
     private val db = Firebase.firestore
+    private val firebaseUser: FirebaseUser?
+        get() = FirebaseAuth.getInstance().currentUser
 
 //    var flag_list = mutableListOf<Flag>() //mutableListOf(Flag("Drinks"), Flag("Soups"), Flag("Main courses"), Flag("Desserts"))
 
@@ -62,32 +66,11 @@ class RecipiesFragment : Fragment() {
             add_dialog.setView(v)
             add_dialog.setPositiveButton("Ok"){
                     dialog,_->
-                val new_flag = Flag(flag.text.toString())
+                val new_flag = Flag(flag.text.toString(), firebaseUser?.email)
 
                 // Check flag already exists or not
-                db.collection("flags").whereEqualTo("name", new_flag.name).
-                addSnapshotListener { querySnapshots, error ->
-                    // check if null
-                    if(error != null){
-                        Toast.makeText(this.context, error.toString(), Toast.LENGTH_SHORT).show()
-//                        db.collection("flags").whereEqualTo("creator", new_flag.creator).
-//                            addSnapshotListener { value, e ->
-//                                Log.d("EQ CHECK II:", value.toString())
-//                                // check if null
-//                                if(e != null){
-//                                    // Save to Firebase
-//                                    db.collection("flags").add(new_flag).addOnSuccessListener {
-//                                        Toast.makeText(inflater.context, "Flag created", Toast.LENGTH_SHORT).show()
-//                                    }.addOnFailureListener { e ->
-//                                        Toast.makeText(inflater.context, e.toString(), Toast.LENGTH_SHORT).show()
-//                                    }
-//                                    flagitemAdapter.addFlag(new_flag)
-//                                }
-//                                else{
-//                                    Toast.makeText(inflater.context, "Flag already exist!", Toast.LENGTH_SHORT).show()
-//                                }
-//                            }
-                    }
+                db.collection("flags").whereEqualTo("name", new_flag.name).get().
+                addOnSuccessListener { querySnapshots ->
                     if (querySnapshots != null) {
                         if(querySnapshots.documents.isNotEmpty()){
                             Toast.makeText(this.context, "Flag already exist!", Toast.LENGTH_SHORT).show()
@@ -132,8 +115,7 @@ class RecipiesFragment : Fragment() {
             for (dc in snapshots!!.documentChanges) {
                 when(dc.type) {
                     com.google.firebase.firestore.DocumentChange.Type.ADDED -> flagitemAdapter.addFlag(dc.document.toObject<Flag>())
-//                    com.google.firebase.firestore.DocumentChange.Type.MODIFIED -> Toast.makeText(this.context, dc.document.data.toString(), Toast.LENGTH_SHORT).show()
-//                    com.google.firebase.firestore.DocumentChange.Type.REMOVED -> Toast.makeText(this.context, dc.document.data.toString(), Toast.LENGTH_SHORT).show()
+                    com.google.firebase.firestore.DocumentChange.Type.REMOVED -> flagitemAdapter.deleteFlag(dc.document.toObject<Flag>())
                 }
             }
         }

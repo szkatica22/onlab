@@ -29,6 +29,14 @@ class FlagItemAdapter(private val context: Context?) :
         notifyDataSetChanged()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun deleteFlag(flag: Flag?){
+        flag ?: return
+
+        flags -= flag
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FlagItemViewHolder {
         return FlagItemViewHolder(
             RecipiesFlagBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -43,8 +51,6 @@ class FlagItemAdapter(private val context: Context?) :
         holder.binding.ivRecipiesFlag.setOnClickListener{ view ->
             val bundle = Bundle()
             bundle.putString("flag", cur_flag.name)
-//            val action = RecipiesFragmentDirections.actionNavRecipiesToNavFlag2(flag = cur_flag.name)
-//            view.findNavController().navigate(action)
             view.findNavController().navigate(R.id.action_nav_recipies_to_nav_flag2, bundle)
         }
     }

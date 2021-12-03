@@ -90,7 +90,6 @@ class FlagFragment : Fragment(){
 
                     // Update recipie - delete the extra flag from recipie's flags
                     db.collection("recipies").document(doc.id).update("flags", tmp_flags)
-//                    Toast.makeText(this.context, "Recipie updated", Toast.LENGTH_SHORT).show()
                 }
             }
         }
