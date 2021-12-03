@@ -28,7 +28,6 @@ class ChangeRecipieFragment : Fragment(){
     var prep_title: String = "Preparation"
 
     private val binding get() = _binding!!
-    private val rec_name = this.arguments?.get("recipiename").toString()
     private val db = Firebase.firestore
 
     override fun onCreateView(
@@ -41,6 +40,8 @@ class ChangeRecipieFragment : Fragment(){
 
         _binding = FragmentChangeRecipieBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        val rec_name = this.arguments?.get("recipiename").toString()
 
         db.collection("recipies").whereEqualTo("name", rec_name).get().
         addOnSuccessListener { snapshot ->
