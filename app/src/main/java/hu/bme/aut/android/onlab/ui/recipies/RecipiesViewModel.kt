@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 class RecipiesViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "Recipies Fragment"
+        value = "Recipes Fragment"
     }
     var text: LiveData<String> = _text
 }

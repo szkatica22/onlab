@@ -17,9 +17,7 @@ class FlagItemAdapter(private val context: Context?) :
 
     private var flags: List<Flag> = emptyList()
 
-    class FlagItemViewHolder(val binding: RecipiesFlagBinding): RecyclerView.ViewHolder(binding.root){
-        val tvFlagTitle: TextView = binding.tvRecipiesFlagTitleId
-    }
+    class FlagItemViewHolder(val binding: RecipiesFlagBinding): RecyclerView.ViewHolder(binding.root){}
 
     @SuppressLint("NotifyDataSetChanged")
     fun addFlag(flag: Flag?){

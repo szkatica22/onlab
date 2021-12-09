@@ -74,8 +74,6 @@ class FlagFragment : Fragment(){
     }
 
     fun deleteFlag(flag: String){
-        // Todo I: Eloszor torolni a receptek flag-jet ha van bennuk ilyen flag - szerintem mukodik!!
-        // Todo II: Flag torlese
         // Update recipies
         db.collection("recipies").whereArrayContains("flags", flag).get().
         addOnSuccessListener { snapshots ->

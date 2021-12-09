@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.children
 import androidx.core.view.get
 import androidx.core.view.iterator
 import androidx.core.widget.addTextChangedListener
@@ -33,6 +34,7 @@ class NewRecipieController(private var btn_ingredient: String, private var prep_
     private var chipGroup: ChipGroup? = null
     private var ingredients: ArrayList<String> = arrayListOf<String>()
     private var steps: ArrayList<String> = arrayListOf<String>()
+    private var choosed_chips = mutableListOf<String>()
 
     private val name_watcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
@@ -40,11 +42,13 @@ class NewRecipieController(private var btn_ingredient: String, private var prep_
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
         }
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            new_recipie.name = s.toString()
-//            if (start == 12) {
-//                Toast.makeText(inflater.context, "Maximum Limit Reached", Toast.LENGTH_SHORT)
-//                    .show()
-//            }
+            if (start == 22) {
+                Toast.makeText(inflater.context, "Maximum Limit Reached", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                new_recipie.name = s.toString()
+            }
+
         }
     }
 
@@ -91,24 +95,6 @@ class NewRecipieController(private var btn_ingredient: String, private var prep_
         requestModelBuild()
     }
 
-//    fun updateName(name: String){
-//        new_recipie.name = name
-//    }
-//    fun updateFavourite(){
-//        if (new_recipie.favourite != null){
-//            new_recipie.favourite = new_recipie.favourite == false
-//        }
-//        else {
-//            new_recipie.favourite = true
-//        }
-//    }
-//    fun updateUrl(url: String){
-//        new_recipie.imageUrls?.plus(url)
-//    }
-//    fun updateInfos(time: String, abundance: String){
-//        new_recipie.time = time
-//        new_recipie.abundance = abundance
-//    }
     fun updateAuthor(){
         new_recipie.author = firebaseUser?.email
     }
@@ -116,25 +102,13 @@ class NewRecipieController(private var btn_ingredient: String, private var prep_
         new_recipie.ingredients = ingredients
         new_recipie.steps = steps
     }
-//    fun updateFlags(flag: String){
-//        new_recipie.flags = new_recipie.flags?.plus(flag)
-//    }
 
-    fun saveChip(/*chipGroup: ChipGroup?*/) {
-        val ids = chipGroup?.checkedChipIds
-
-        if (ids != null) {
-            for (id in ids){
-                chipGroup?.get(id)?.let { it1 ->
-                    Log.d("CHECKED: ", it1.transitionName)
-
-                }
-            }
-        }
-//        Log.d("SAVE: ", chip)
-//        choosed_chips.add(chip)
+    fun addChip(chip_name: String){
+        choosed_chips.add(chip_name)
     }
-
+    fun removeChip(chip_name: String){
+        choosed_chips.remove(chip_name)
+    }
 
     fun saveRecipie(){
         // TODO: kivalasztott chip-eket itt kellene belementeni majd
@@ -146,7 +120,7 @@ class NewRecipieController(private var btn_ingredient: String, private var prep_
         }
 
         // Check choosed flags
-//        saveChip()
+        new_recipie.flags = choosed_chips
 
         db.collection("recipies").add(new_recipie).addOnSuccessListener {
             Toast.makeText(inflater.context, "Recipie saved", Toast.LENGTH_SHORT).show()
@@ -157,8 +131,8 @@ class NewRecipieController(private var btn_ingredient: String, private var prep_
     }
 
     override fun buildModels() {
-        HeaderEpoxyModel(this).id(new_recipie.name).addTo(this)
-        InformationsEpoxyModel(this, chipGroup).id(new_recipie.time).addTo(this)
+        HeaderEpoxyModel(this).id(name_watcher.toString()).addTo(this)
+        InformationsEpoxyModel(this, chipGroup).id(time_watcher.toString()).addTo(this)
         if(!ingredients.isEmpty()){
             ingredients.forEach { item ->
                 IngredientEpoxyModel(ingredients, item,this).id(item).addTo(this)
@@ -223,40 +197,19 @@ class NewRecipieController(private var btn_ingredient: String, private var prep_
                         chip.isCheckable = true
                         chipGroup?.addView(chip)
 
-//                        Log.d("GROUP: ", chipGroup?.checkedChipIds.toString())
+                        chip.setOnCheckedChangeListener { view, is_checked ->
+                            if(is_checked){
+                                controller.addChip(view.text.toString())
+                            } else {
+                                controller.removeChip(view.text.toString())
+                            }
+                        }
                     }
-
-//                    val ids = chipGroup?.checkedChipIds
-////                  Log.d("IDS: ", ids.toString())
-//                    if (ids != null) {
-//                        for (id in ids){
-//                            chipGroup?.get(id)?.let { it1 ->
-////                              Log.d("CHECKED: ", it1.transitionName)
-//                                controller.saveChip(it1.transitionName)
-//                            }
-//                        }
-//                    }
                 }
             }
 
-            chipGroup?.setOnCheckedChangeListener { group, checkedId ->
-                Log.d("GROUP: ", group.toString())
-                Log.d("C_ID: ", checkedId.toString())
-
-            }
-
-//            controller.saveChip(chipGroup)
             etRecipieTime.addTextChangedListener(controller.time_watcher)
             etRecipieAbundance.addTextChangedListener(controller.abundance_watcher)
-
-//            controller.updateInfos(etRecipieTime.text.toString(), etRecipieAbundance.text.toString())
-//            for (i in 0 until flags.size) {
-//                val chip = Chip(chipGroup.context)
-//                chip.text = flags[i]
-//                chip.isClickable = true
-//                chip.isCheckable = true
-//                chipGroup.addView(chip)
-//            }
         }
     }
 
@@ -352,16 +305,7 @@ class NewRecipieController(private var btn_ingredient: String, private var prep_
         override fun NewRecipieSaveBtnBinding.bind() {
             btnSaveNewRecipie.text = title
             btnSaveNewRecipie.setOnClickListener {
-                controller.saveChip()
                 controller.saveRecipie()
-                // Check choosed flags
-//                val ids = controller.chipGroup?.checkedChipIds
-//                Log.d("IDS: ", ids.toString())
-//                if (ids != null) {
-//                    for (id in ids){
-//                        controller.chipGroup?.get(id)?.let { it1 -> Log.d("CHECKED: ", it1.transitionName) }
-//                    }
-//                }
                 it.findNavController().navigate(R.id.action_nav_new_recipie_to_nav_recipies)
             }
         }

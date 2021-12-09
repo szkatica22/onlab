@@ -5,22 +5,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.AppBarConfiguration
 import hu.bme.aut.android.onlab.databinding.ActivitySecondBinding
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.core.view.GravityCompat
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
-import hu.bme.aut.android.onlab.ui.favourites.FavouritesFragment
-import hu.bme.aut.android.onlab.ui.recipies.RecipiesFragment
-import hu.bme.aut.android.onlab.ui.shoppinglist.ShoppinglistFragment
 
 class SecondActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -45,6 +39,8 @@ class SecondActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             ), drawerLayout
         )
 
+
+
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         navView.setNavigationItemSelectedListener(this)
@@ -52,7 +48,7 @@ class SecondActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
+//        menuInflater.inflate(R.menu.main, menu)
         return true
     }
 

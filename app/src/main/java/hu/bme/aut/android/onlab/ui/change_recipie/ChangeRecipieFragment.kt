@@ -1,8 +1,6 @@
 package hu.bme.aut.android.onlab.ui.change_recipie
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +21,7 @@ class ChangeRecipieFragment : Fragment(){
 
     var btn_ingredient: String = "Add new ingredient"
     var btn_step: String = "Add new step"
-    var btn_delete: String = "Delete recipie"
+    var btn_delete: String = "Delete recipe"
     var btn_save: String = "Save"
     var prep_title: String = "Preparation"
 
@@ -46,7 +44,6 @@ class ChangeRecipieFragment : Fragment(){
         db.collection("recipies").whereEqualTo("name", rec_name).get().
         addOnSuccessListener { snapshot ->
             if(snapshot.documents.isNotEmpty()){
-                Log.d("CHANGE_REC_FRAGMENT: ", rec_name)
                 val tmp_data = snapshot.documents[0].data
                 val tmp_rec = Recipie(rec_name, tmp_data?.get("favourite") as Boolean,
                     tmp_data?.get("flags") as List<String?>?, tmp_data?.get("imageUrls") as List<String?>?,

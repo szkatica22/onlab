@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -32,6 +33,7 @@ class ChangeRecipieController(
     private val original_rec_name = tmp_rec.name
     private var ingredients: ArrayList<String> = tmp_rec.ingredients as ArrayList<String>
     private var steps: ArrayList<String> = tmp_rec.steps as ArrayList<String>
+    private var choosed_chips = mutableListOf<String>()
 
     private val name_watcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
@@ -39,11 +41,12 @@ class ChangeRecipieController(
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
         }
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            tmp_rec.name = s.toString()
-//            if (start == 12) {
-//                Toast.makeText(inflater.context, "Maximum Limit Reached", Toast.LENGTH_SHORT)
-//                    .show()
-//            }
+            if (start == 22) {
+                Toast.makeText(inflater.context, "Maximum Limit Reached", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                tmp_rec.name = s.toString()
+            }
         }
     }
 
@@ -92,20 +95,28 @@ class ChangeRecipieController(
         tmp_rec.steps = steps
     }
 
+    fun addChip(chip_name: String){
+        choosed_chips.add(chip_name)
+    }
+    fun removeChip(chip_name: String){
+        choosed_chips.remove(chip_name)
+    }
+
     fun deleteRecipie(){
         db.collection("recipies").whereEqualTo("name", original_rec_name).get().
         addOnSuccessListener { snapshot ->
             if(snapshot != null){
                 for(doc in snapshot.documents){
                     db.collection("recipies").document(doc.id).delete()
-                    Toast.makeText(inflater.context, "Recipie deleted", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(inflater.context, "Recipe deleted", Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
 
-    fun saveChanges(){
+    fun saveChanges(view: View) {
         updateLists()
+        tmp_rec.flags = choosed_chips
         db.collection("recipies").whereEqualTo("name", original_rec_name).get().
         addOnSuccessListener { snapshot ->
             if(snapshot != null){
@@ -115,6 +126,11 @@ class ChangeRecipieController(
                         tmp_rec.favourite, "flags", tmp_rec.flags, "imageUrls", tmp_rec.imageUrls,
                         "ingredients", tmp_rec.ingredients, "name", tmp_rec.name, "steps",
                         tmp_rec.steps, "time", tmp_rec.time)
+
+                    val bundle = Bundle()
+                    bundle.putString("recipiename", tmp_rec.name)
+                    view.findNavController().navigate(R.id.action_nav_change_recipie_to_nav_recipie, bundle)
+
                     Toast.makeText(inflater.context, "Changes saved", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -196,19 +212,14 @@ class ChangeRecipieController(
                         chip.isCheckable = true
                         chipGroup.addView(chip)
 
-//                        Log.d("GROUP: ", chipGroup?.checkedChipIds.toString())
+                        chip.setOnCheckedChangeListener { view, is_checked ->
+                            if(is_checked){
+                                controller.addChip(view.text.toString())
+                            } else {
+                                controller.removeChip(view.text.toString())
+                            }
+                        }
                     }
-
-//                    val ids = chipGroup?.checkedChipIds
-////                  Log.d("IDS: ", ids.toString())
-//                    if (ids != null) {
-//                        for (id in ids){
-//                            chipGroup?.get(id)?.let { it1 ->
-////                              Log.d("CHECKED: ", it1.transitionName)
-//                                controller.saveChip(it1.transitionName)
-//                            }
-//                        }
-//                    }
                 }
             }
         }
@@ -305,10 +316,7 @@ class ChangeRecipieController(
         override fun ChangeRecipieSaveBtnBinding.bind() {
             btnSaveRecipie.text = title
             btnSaveRecipie.setOnClickListener {
-                controller.saveChanges()
-                var bundle = Bundle()
-                bundle.putString("recipiename", controller.tmp_rec.name)
-                it.findNavController().navigate(R.id.action_nav_change_recipie_to_nav_recipie, bundle)
+                controller.saveChanges(it)
             }
         }
     }
@@ -324,25 +332,4 @@ class ChangeRecipieController(
             }
         }
     }
-
-
-
-//
-//
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChangeIngredientViewHolder {
-//
-//        return ChangeIngredientViewHolder(
-//            ChangeRecipieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-//        )
-//    }
-//
-//    override fun onBindViewHolder(holder: ChangeIngredientViewHolder, position: Int) {
-//        val cur_item = items[position]
-//        holder.binding.tvChangeRecipieItemTitleId.text = cur_item.title
-////        holder.binding.tvShoppingTitle.text = cur_item.title
-//    }
-//
-//    override fun getItemCount(): Int {
-//        return items.size
-//    }
 }
