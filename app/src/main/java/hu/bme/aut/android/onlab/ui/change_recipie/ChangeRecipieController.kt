@@ -179,6 +179,9 @@ class ChangeRecipieController(
                     bundle.putString("recipiename", controller.original_rec_name)
                     it.findNavController().navigate(R.id.action_nav_change_recipie_to_nav_recipie, bundle)
                 }
+                if (controller.tmp_rec.favourite == true){
+                    imgBtnFavourite.setImageResource(R.drawable.ic_menu_favourites)
+                }
                 // Check & set favourite boolean
                 imgBtnFavourite.setOnClickListener {
                     if (controller.tmp_rec.favourite == true){
