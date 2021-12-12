@@ -73,11 +73,15 @@ class RecipiesFragment : Fragment() {
                 addOnSuccessListener { querySnapshots ->
                     if (querySnapshots != null) {
                         if(querySnapshots.documents.isNotEmpty()){
-                            Toast.makeText(this.context, "Flag already exist!", Toast.LENGTH_SHORT).show()
+                            if(querySnapshots.documents[0]["creator"] == firebaseUser?.email){
+                                Toast.makeText(this.context, "Flag already exist!", Toast.LENGTH_SHORT).show()
+                            }
                         } else{
-                            // Save to Firebase
-                            uploadFlag(new_flag)
-                            Toast.makeText(this.context, "Adding new flag", Toast.LENGTH_SHORT).show()
+                                // Save to Firebase (before that i would like to check the author, just in case)
+                                if(new_flag.creator == firebaseUser?.email){
+                                    uploadFlag(new_flag)
+                                    Toast.makeText(this.context, "Adding new flag", Toast.LENGTH_SHORT).show()
+                                }
                         }
                     }
                 }
@@ -97,10 +101,12 @@ class RecipiesFragment : Fragment() {
     }
 
     fun uploadFlag(new_flag: Flag){
-        db.collection("flags").add(new_flag).addOnSuccessListener {
-            Toast.makeText(this.context, "Flag created", Toast.LENGTH_SHORT).show()
-        }.addOnFailureListener { e ->
-            Toast.makeText(this.context, e.toString(), Toast.LENGTH_SHORT).show()
+        if(new_flag.creator == firebaseUser?.email){ // check it, just in case
+            db.collection("flags").add(new_flag).addOnSuccessListener {
+                Toast.makeText(this.context, "Flag created", Toast.LENGTH_SHORT).show()
+            }.addOnFailureListener { e ->
+                Toast.makeText(this.context, e.toString(), Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -113,9 +119,13 @@ class RecipiesFragment : Fragment() {
             }
 
             for (dc in snapshots!!.documentChanges) {
-                when(dc.type) {
-                    com.google.firebase.firestore.DocumentChange.Type.ADDED -> flagitemAdapter.addFlag(dc.document.toObject<Flag>())
-                    com.google.firebase.firestore.DocumentChange.Type.REMOVED -> flagitemAdapter.deleteFlag(dc.document.toObject<Flag>())
+                if(dc.document["creator"] == firebaseUser?.email) {
+                    when (dc.type) {
+                        com.google.firebase.firestore.DocumentChange.Type.ADDED -> flagitemAdapter.
+                        addFlag(dc.document.toObject<Flag>())
+                        com.google.firebase.firestore.DocumentChange.Type.REMOVED -> flagitemAdapter.
+                        deleteFlag(dc.document.toObject<Flag>())
+                    }
                 }
             }
         }

@@ -14,6 +14,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -33,6 +35,8 @@ class FlagFragment : Fragment(){
     private lateinit var recipieitemAdapter: RecipieItemAdapter
 
     private val db = Firebase.firestore
+    private val firebaseUser: FirebaseUser?
+        get() = FirebaseAuth.getInstance().currentUser
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,7 +71,6 @@ class FlagFragment : Fragment(){
             deleteFlag(flag)
             findNavController().navigate(R.id.action_nav_flag_to_nav_recipies)
         }
-
         initRecipieListener(flag)
 
         return root
@@ -79,15 +82,17 @@ class FlagFragment : Fragment(){
         addOnSuccessListener { snapshots ->
             if(snapshots != null && snapshots.documents.isNotEmpty()){
                 for(doc in snapshots.documents){
-                    // Delete extra flag
-                    var tmp = doc.data?.get("flags").toString()
-                    tmp = tmp.drop(1)
-                    tmp = tmp.dropLast(1)
-                    var tmp_flags = tmp.split(", ")
-                    tmp_flags = tmp_flags.minus(flag)
+                    if(doc["author"] == firebaseUser?.email){
+                        // Delete extra flag
+                        var tmp = doc.data?.get("flags").toString()
+                        tmp = tmp.drop(1)
+                        tmp = tmp.dropLast(1)
+                        var tmp_flags = tmp.split(", ")
+                        tmp_flags = tmp_flags.minus(flag)
 
-                    // Update recipie - delete the extra flag from recipie's flags
-                    db.collection("recipies").document(doc.id).update("flags", tmp_flags)
+                        // Update recipie - delete the extra flag from recipie's flags
+                        db.collection("recipies").document(doc.id).update("flags", tmp_flags)
+                    }
                 }
             }
         }
@@ -97,8 +102,10 @@ class FlagFragment : Fragment(){
         addOnSuccessListener { snapshot ->
             if(snapshot != null){
                 for(doc in snapshot.documents){
-                    db.collection("flags").document(doc.id).delete()
-                    Toast.makeText(this.context, "Flag deleted", Toast.LENGTH_SHORT).show()
+                    if(doc["creator"] == firebaseUser?.email){
+                        db.collection("flags").document(doc.id).delete()
+                        Toast.makeText(this.context, "Flag deleted", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
@@ -115,11 +122,14 @@ class FlagFragment : Fragment(){
             if(snapshots != null){
                 if(snapshots.documents.isNotEmpty()){
                     for (dc in snapshots.documentChanges) {
-                        when(dc.type) {
-                            com.google.firebase.firestore.DocumentChange.Type.ADDED -> recipieitemAdapter.addRecipie(dc.document.toObject<Recipie>())
+                        if(dc.document["author"] == firebaseUser?.email){
+                            when(dc.type) {
+                                com.google.firebase.firestore.DocumentChange.Type.ADDED -> recipieitemAdapter.addRecipie(dc.document.toObject<Recipie>())
 //                            com.google.firebase.firestore.DocumentChange.Type.MODIFIED -> Toast.makeText(this.context, dc.document.data.toString(), Toast.LENGTH_SHORT).show()
 //                            com.google.firebase.firestore.DocumentChange.Type.REMOVED -> Toast.makeText(this.context, dc.document.data.toString(), Toast.LENGTH_SHORT).show()
+                            }
                         }
+
                     }
                 }
             }

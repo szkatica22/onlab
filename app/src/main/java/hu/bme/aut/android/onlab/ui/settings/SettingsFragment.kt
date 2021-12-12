@@ -81,8 +81,25 @@ class SettingsFragment : Fragment(){
         return root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onResume() {
         super.onResume()
+//        db.collection("users").whereEqualTo("email", firebaseUser?.email).get().
+//        addOnSuccessListener { snapshots ->
+//            if (snapshots != null) {
+//                if (snapshots.documents.isNotEmpty()) {
+//                    name = snapshots.documents[0]["name"].toString()
+//                    binding.tvName.text = "Name: ${snapshots.documents[0]["name"]}"
+//                    if(snapshots.documents[0]["mode"] == false){
+//                        binding.tvMode.text = "Dark mode: off"
+//
+//                    } else {
+//                        binding.tvMode.text = "Dark mode: on"
+//                    }
+//                    binding.tvTheme.text = "Theme: ${snapshots.documents[0]["theme"]}"
+//                }
+//            }
+//        }
         val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
         name = sp.getString("name", "")
         mode = sp.getBoolean("mode", false)
@@ -136,17 +153,33 @@ class SettingsFragment : Fragment(){
 //        val mode: Boolean = sp.getBoolean("mode", false)
 //        val theme: String? = sp.getString("theme", "purple")
 
+        db.collection("users").whereEqualTo("email", firebaseUser?.email).get().
+        addOnSuccessListener { snapshots ->
+            if (snapshots != null) {
+                if (snapshots.documents.isNotEmpty()) {
+                    binding.tvName.text = "Name: ${snapshots.documents[0]["name"]}"
+                    if(snapshots.documents[0]["mode"] == false){
+                        binding.tvMode.text = "Dark mode: off"
 
-        binding.tvName.text = "Name: ${sp.getString("name", "")}"
-        if(!sp.getBoolean("mode", false)){
-            binding.tvMode.text = "Dark mode: off"
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-//            delegate.applyDayNight()
-        } else {
-            binding.tvMode.text = "Dark mode: on"
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-//            delegate.applyDayNight()
+                    } else {
+                        binding.tvMode.text = "Dark mode: on"
+                    }
+                    binding.tvTheme.text = "Theme: ${snapshots.documents[0]["theme"]}"
+                }
+            }
         }
+
+
+//        binding.tvName.text = "Name: ${sp.getString("name", "")}"
+//        if(!sp.getBoolean("mode", false)){
+//            binding.tvMode.text = "Dark mode: off"
+////            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+////            delegate.applyDayNight()
+//        } else {
+//            binding.tvMode.text = "Dark mode: on"
+////            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+////            delegate.applyDayNight()
+//        }
 
 //        if(night_mode){
 //            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -159,7 +192,8 @@ class SettingsFragment : Fragment(){
 //        }
 
 
-        binding.tvTheme.text = "Theme: ${sp.getString("theme", "purple")}"
+//        binding.tvTheme.text = "Theme: ${sp.getString("theme", "purple")}"
+
 //        currentTheme = when(theme){
 //            "red" -> RED
 //            "orange" -> ORANGE

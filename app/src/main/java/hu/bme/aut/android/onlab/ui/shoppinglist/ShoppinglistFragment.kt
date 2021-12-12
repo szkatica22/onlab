@@ -1,6 +1,7 @@
 package hu.bme.aut.android.onlab.ui.shoppinglist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -25,6 +28,8 @@ class ShoppinglistFragment : Fragment() {
 
     private lateinit var listitemAdapter: ListItemAdapter
     private val db = Firebase.firestore
+    private val firebaseUser: FirebaseUser?
+        get() = FirebaseAuth.getInstance().currentUser
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,11 +42,6 @@ class ShoppinglistFragment : Fragment() {
         _binding = FragmentShoppingListBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-//        val textView: TextView = binding.textShoppinglist
-//        shoppinglistViewModel.text.observe(viewLifecycleOwner, Observer {
-//            textView.text = it
-//        })
-
         listitemAdapter = ListItemAdapter(this.context)
         binding.rvShoppingList.adapter = listitemAdapter
         binding.rvShoppingList.layoutManager = LinearLayoutManager(this.context)
@@ -49,18 +49,16 @@ class ShoppinglistFragment : Fragment() {
         binding.btnShoppingListAddItem.setOnClickListener {
             val shoppingTitle = binding.etShoppingTitle.text.toString()
             if(shoppingTitle.isNotEmpty()){
-                val list_item = ShoppingItem(shoppingTitle, checked = false)
+                val list_item = ShoppingItem(shoppingTitle, author = firebaseUser?.email, checked = false)
 
                 // Upload to Firebase
                 uploadItem(list_item)
-//                listitemAdapter.addItem(list_item)
 
                 binding.etShoppingTitle.text.clear()
             }
         }
 
         binding.clearTheListBtn.setOnClickListener { 
-//            listitemAdapter.deletePurchasedItems()
             deleteItem()
         }
         initFlagListener()
@@ -81,8 +79,10 @@ class ShoppinglistFragment : Fragment() {
         addOnSuccessListener { snapshot ->
             if(snapshot != null){
                 for(doc in snapshot.documents){
-                    db.collection("shopping_list").document(doc.id).delete()
-                    Toast.makeText(this.context, "Item deleted", Toast.LENGTH_SHORT).show()
+                    if(doc["author"] == firebaseUser?.email){
+                        db.collection("shopping_list").document(doc.id).delete()
+                        Toast.makeText(this.context, "Item deleted", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
@@ -97,10 +97,12 @@ class ShoppinglistFragment : Fragment() {
             }
 
             for (dc in snapshots!!.documentChanges) {
-                when(dc.type) {
-                    com.google.firebase.firestore.DocumentChange.Type.ADDED -> listitemAdapter.addItem(dc.document.toObject<ShoppingItem>())
+                if (dc.document["author"] == firebaseUser?.email){
+                    when(dc.type) {
+                        com.google.firebase.firestore.DocumentChange.Type.ADDED -> listitemAdapter.addItem(dc.document.toObject<ShoppingItem>())
 //                    com.google.firebase.firestore.DocumentChange.Type.MODIFIED -> listitemAdapter.changeChecked(dc.document.toObject<ShoppingItem>())
-                    com.google.firebase.firestore.DocumentChange.Type.REMOVED -> listitemAdapter.deletePurchasedItems()
+                        com.google.firebase.firestore.DocumentChange.Type.REMOVED -> listitemAdapter.deletePurchasedItems()
+                    }
                 }
             }
         }

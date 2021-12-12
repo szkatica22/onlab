@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -29,6 +31,8 @@ class FavouritesFragment : Fragment() {
     private lateinit var favouriteItemAdapter: FavouriteItemAdapter
 
     private val db = Firebase.firestore
+    private val firebaseUser: FirebaseUser?
+        get() = FirebaseAuth.getInstance().currentUser
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,11 +44,6 @@ class FavouritesFragment : Fragment() {
 
         _binding = FragmentFavouritesBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-//        val textView: TextView = binding.textFavourites
-//        favouritesViewModel.text.observe(viewLifecycleOwner, Observer {
-//            textView.text = it
-//        })
 
         favouriteItemAdapter = FavouriteItemAdapter()
         binding.rvFavourites.adapter = favouriteItemAdapter
@@ -65,11 +64,12 @@ class FavouritesFragment : Fragment() {
             if(snapshots != null){
                 if(snapshots.documents.isNotEmpty()){
                     for (dc in snapshots.documentChanges) {
-//                        favouriteItemAdapter.addRecipie(dc.document.toObject<Recipie>())
-                        when(dc.type) {
-                            com.google.firebase.firestore.DocumentChange.Type.ADDED -> favouriteItemAdapter.addRecipie(dc.document.toObject<Recipie>())
+                        if(dc.document["author"] == firebaseUser?.email){
+                            when(dc.type) {
+                                com.google.firebase.firestore.DocumentChange.Type.ADDED -> favouriteItemAdapter.addRecipie(dc.document.toObject<Recipie>())
 //                            com.google.firebase.firestore.DocumentChange.Type.MODIFIED -> Toast.makeText(this.context, dc.document.data.toString(), Toast.LENGTH_SHORT).show()
 //                            com.google.firebase.firestore.DocumentChange.Type.REMOVED -> Toast.makeText(this.context, dc.document.data.toString(), Toast.LENGTH_SHORT).show()
+                            }
                         }
                     }
                 }

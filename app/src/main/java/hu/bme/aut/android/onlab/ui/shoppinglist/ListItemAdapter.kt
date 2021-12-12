@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.onlab.data.ShoppingItem
@@ -65,7 +67,7 @@ class ListItemAdapter (
     }
 
     override fun onBindViewHolder(holder: ListItemViewHolder, position: Int) {
-        var cur_item = list[position]
+        val cur_item = list[position]
         holder.binding.let { binding ->
             binding.tvShoppingTitle.text = cur_item.name
             binding.cbPurchased.isChecked = cur_item.checked == true
