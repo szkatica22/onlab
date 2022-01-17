@@ -46,7 +46,7 @@ class RecipieFragment: Fragment(){
                     tmp_data?.get("author").toString(), tmp_data?.get("ingredients") as List<String?>?,
                     tmp_data?.get("steps") as List<String?>?)
 
-                recipieController = RecipieController(tmp_rec, prep_title, inflater)
+                recipieController = RecipieController(this.context, tmp_rec, prep_title, inflater)
                 binding.ervRecipie.setController(recipieController)
 
                 recipieController.requestModelBuild()

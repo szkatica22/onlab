@@ -1,6 +1,8 @@
 package hu.bme.aut.android.onlab.ui.recipie
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Toast
 import com.airbnb.epoxy.EpoxyController
@@ -9,20 +11,28 @@ import hu.bme.aut.android.onlab.databinding.*
 import androidx.navigation.findNavController
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.onlab.data.Recipie
+import hu.bme.aut.android.onlab.data.ShoppingItem
 import hu.bme.aut.android.onlab.ui.epoxy.ViewBindingKotlinModel
 
+
 class RecipieController(
+    private val context: Context?,
     private val saved_rec: Recipie,
     private var prep_title: String,
     private val inflater: LayoutInflater
 ) : EpoxyController()
 {
+    private val db = Firebase.firestore
+    private val firebaseUser: FirebaseUser?
+        get() = FirebaseAuth.getInstance().currentUser
+
     fun deleteRecipie(rec_name: String?, inflater: LayoutInflater){
 
-        val db = Firebase.firestore
         db.collection("recipies").whereEqualTo("name", rec_name).get().
         addOnSuccessListener { snapshot ->
             if(snapshot != null){
@@ -30,6 +40,29 @@ class RecipieController(
                     db.collection("recipies").document(doc.id).delete()
                     Toast.makeText(inflater.context, "Recipie deleted", Toast.LENGTH_SHORT).show()
                 }
+            }
+        }
+    }
+
+    fun saveCart(){
+
+        if(saved_rec.ingredients?.isEmpty()!!){
+            return
+        }
+
+        var flag_ok = true
+        saved_rec.ingredients!!.forEach{ item ->
+            val new_item = ShoppingItem(item, author = firebaseUser?.email, checked = false)
+            db.collection("shopping_list").add(new_item).addOnFailureListener{
+                flag_ok = false
+            }
+        }
+        when {
+            flag_ok -> {
+                Toast.makeText(this.context, "All successfully added", Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+                Toast.makeText(this.context, "Add failed", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -53,6 +86,7 @@ class RecipieController(
         saved_rec.steps!!.forEach { item ->
             PreparationEpoxyModel(item).id(item).addTo(this)
         }
+        AddCartEpoxyModel(this).id(this.toString()).addTo(this)
     }
 
     // Data classes
@@ -119,5 +153,13 @@ class RecipieController(
         }
     }
 
+    data class AddCartEpoxyModel(val controller: RecipieController):
+            ViewBindingKotlinModel<AddShopListFltBtnBinding>(R.layout.add_shop_list_flt_btn){
+        override fun AddShopListFltBtnBinding.bind() {
+            fltBtnAddCart.setOnClickListener {
+                controller.saveCart()
+            }
+        }
+    }
 }
 
