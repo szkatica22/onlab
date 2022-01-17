@@ -38,6 +38,13 @@
             app:exitAnim="@anim/slide_right"
             app:popEnterAnim="@anim/slide_left"
             app:popExitAnim="@anim/slide_right" />
+        <action
+            android:id="@+id/action_nav_recipies_to_searchFragment"
+            app:destination="@id/searchFragment"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/slide_right"
+            app:popEnterAnim="@anim/slide_left"
+            app:popExitAnim="@anim/slide_right" />
     </fragment>
 
     <fragment
@@ -210,4 +217,24 @@
         android:id="@+id/action_global_nav_recipies"
         app:destination="@id/nav_recipies"
         app:popUpTo="@id/mobile_navigation" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="hu.bme.aut.android.onlab.ui.search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_nav_recipies"
+            app:destination="@id/nav_recipies"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/slide_right"
+            app:popEnterAnim="@anim/slide_left"
+            app:popExitAnim="@anim/slide_right" />
+        <action
+            android:id="@+id/action_searchFragment_to_nav_recipie"
+            app:destination="@id/nav_recipie"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/slide_right"
+            app:popEnterAnim="@anim/slide_left"
+            app:popExitAnim="@anim/slide_right" />
+    </fragment>
 </navigation>

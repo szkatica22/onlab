@@ -3,14 +3,10 @@ package hu.bme.aut.android.onlab.ui.shoppinglist
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.onlab.data.ShoppingItem

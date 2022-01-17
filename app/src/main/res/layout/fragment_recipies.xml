@@ -11,12 +11,26 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_margin="8dp"
+        android:paddingTop="18dp"
+        android:paddingBottom="18dp"
         android:text="@string/flags_create_new_flag"
         app:icon="@drawable/ic_create_new_folder"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/flt_btn_search"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/flt_btn_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:clickable="true"
+        android:src="@drawable/ic_search"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:focusable="true" />
 
     <TextView
         android:id="@+id/text_recipies"
@@ -44,7 +58,7 @@
         android:id="@+id/rv_flags"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/flt_btn_add_new_flag"
+        app:layout_constraintBottom_toTopOf="@+id/flt_btn_search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_recipies" />

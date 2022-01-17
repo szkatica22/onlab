@@ -108,4 +108,8 @@
     <string name="abundance_hint">Enter abundance</string>
     <string name="btn_take_new_picture">Take a picture</string>
     <string name="btn_upload_picture">Upload picture</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search_recipie">Please enter the name</string>
+    <string name="search">Search</string>
 </resources>

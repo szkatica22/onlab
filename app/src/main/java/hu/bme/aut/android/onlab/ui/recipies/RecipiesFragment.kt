@@ -1,7 +1,7 @@
 package hu.bme.aut.android.onlab.ui.recipies
 
 import android.os.Bundle
-import android.util.Log
+import androidx.navigation.fragment.findNavController
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.ChipGroup
 import com.google.firebase.auth.FirebaseAuth
@@ -58,6 +59,10 @@ class RecipiesFragment : Fragment() {
         flagitemAdapter = FlagItemAdapter(this.context)
         binding.rvFlags.adapter = flagitemAdapter
         binding.rvFlags.layoutManager = LinearLayoutManager(this.context)
+
+        binding.fltBtnSearch.setOnClickListener{
+            findNavController().navigate(R.id.action_nav_recipies_to_searchFragment)
+        }
 
         binding.fltBtnAddNewFlag.setOnClickListener{
             val v = inflater.inflate(R.layout.add_flag, null)
