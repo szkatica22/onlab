@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Recept Neked</string>
+    <string name="app_name">Recipe for You</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Example Username</string>
@@ -112,4 +112,15 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search_recipie">Please enter the name</string>
     <string name="search">Search</string>
+    <string name="photos_and_videos">Photos and videos</string>
+    <string name="share_recipe">Share Recipe</string>
+    <string name="menu_shares">Shared Recipes</string>
+    <string name="shared_recipes">Shared Recipes</string>
+    <string name="add_all_ingredients_to_shopping_list">Add all ingredients to shopping list</string>
+    <string name="tv_recipie_author">Author</string>
+    <string name="et_recipie_author">author</string>
+    <string name="create_and_save_new_photo">Create and save new photo</string>
+    <string name="language">Language</string>
+    <string name="enter_quantity">Enter quantity</string>
+    <string name="enter_the_quantity_here">Enter the quantity here</string>
 </resources>

@@ -1,8 +1,7 @@
-package hu.bme.aut.android.onlab.ui.recipie
+package hu.bme.aut.android.onlab.ui.shared_recipie
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -21,11 +20,10 @@ import hu.bme.aut.android.onlab.data.ShoppingItem
 import hu.bme.aut.android.onlab.ui.epoxy.ViewBindingKotlinModel
 
 
-class RecipieController(
+class SharedRecipieController(
     private val context: Context?,
     private val saved_rec: Recipie,
     private var prep_title: String,
-    private var other_users: List<String>,
     private val inflater: LayoutInflater
 ) : EpoxyController()
 {
@@ -33,14 +31,19 @@ class RecipieController(
     private val firebaseUser: FirebaseUser?
         get() = FirebaseAuth.getInstance().currentUser
 
-    fun deleteRecipie(rec_name: String?, inflater: LayoutInflater){
-
+    fun deleteShare(rec_name: String?){
         db.collection("recipies").whereEqualTo("name", rec_name).get().
         addOnSuccessListener { snapshot ->
             if(snapshot != null){
                 for(doc in snapshot.documents){
-                    db.collection("recipies").document(doc.id).delete()
-                    Toast.makeText(inflater.context, "Recipie deleted", Toast.LENGTH_SHORT).show()
+                    if(doc["author"] != firebaseUser?.email){
+                        val tmp_list = doc["shares"] as ArrayList<*>
+                        tmp_list.remove(firebaseUser?.email)
+                        db.collection("recipies").document(doc.id).
+                        update("shares", tmp_list)
+                    }
+                    Toast.makeText(inflater.context, "Share deleted successfully",
+                        Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -69,23 +72,6 @@ class RecipieController(
         }
     }
 
-    fun saveShares(tmp_users: List<String>) {
-
-        // Recept: saved_rec
-
-        db.collection("recipies").whereEqualTo("name", saved_rec.name).get().
-        addOnSuccessListener { snapshot ->
-            if(snapshot != null){
-                if(snapshot.documents.isNotEmpty()){
-                    db.collection("recipies").document(snapshot.documents[0].id).
-                    update("shares", tmp_users)
-                    Toast.makeText(this.context, "Recipe Shared Successfully",
-                        Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
-
     override fun buildModels() {
 
         HeaderEpoxyModel(this, saved_rec).id(saved_rec.name).addTo(this)
@@ -95,8 +81,7 @@ class RecipieController(
             return
         }
         saved_rec.ingredients!!.forEach{ item ->
-            val idx = saved_rec.ingredients!!.indexOf(item)
-            IngredientEpoxyModel(item, saved_rec.ingr_quantities?.get(idx)).id(item).addTo(this)
+            IngredientEpoxyModel(item).id(item).addTo(this)
         }
         PreparationTextEpoxyModel(prep_title).id(prep_title).addTo(this)
 
@@ -111,30 +96,26 @@ class RecipieController(
 
     // Data classes
     data class HeaderEpoxyModel(
-        val controller: RecipieController,
+        val controller: SharedRecipieController,
         val saved_rec: Recipie,
     ):
-        ViewBindingKotlinModel<RecipieHeaderBinding>(R.layout.recipie_header){
-        override fun RecipieHeaderBinding.bind() {
+        ViewBindingKotlinModel<SharedRecipieHeaderBinding>(R.layout.shared_recipie_header){
+        override fun SharedRecipieHeaderBinding.bind() {
             tvRecipieName.text = saved_rec.name
-            imgBtnEdit.setOnClickListener {
-                val bundle = Bundle()
-                bundle.putString("recipiename", saved_rec.name)
-                it.findNavController().navigate(R.id.action_nav_recipie_to_nav_change_recipie, bundle)
-            }
             if(saved_rec.favourite == true){
                 imgBtnFavourite.setImageResource(R.drawable.ic_menu_favourites)
             }
-            imgBtnDelete.setOnClickListener {
-                controller.deleteRecipie(saved_rec.name, controller.inflater)
-                it.findNavController().navigate(R.id.action_nav_recipie_to_nav_recipies)
+            imgBtnUnshare.setOnClickListener {
+                controller.deleteShare(saved_rec.name)
+                it.findNavController().navigate(R.id.action_nav_shared_recipie_to_nav_shares)
             }
         }
     }
 
     data class InformationsEpoxyModel(val saved_rec: Recipie):
-        ViewBindingKotlinModel<RecipieInformationsBinding>(R.layout.recipie_informations){
-        override fun RecipieInformationsBinding.bind() {
+        ViewBindingKotlinModel<SharedRecipieInformationsBinding>(R.layout.shared_recipie_informations){
+        override fun SharedRecipieInformationsBinding.bind() {
+            tvRecipieAuthor.text = saved_rec.author
             tvRecipieTime.text = saved_rec.time
             tvRecipieAbundance.text = saved_rec.abundance
             var chipGroup: ChipGroup = cgRecipieFlags
@@ -152,11 +133,10 @@ class RecipieController(
         }
     }
 
-    data class IngredientEpoxyModel(val ingredient: String?, val quantity: String?):
+    data class IngredientEpoxyModel(val ingredient: String?):
             ViewBindingKotlinModel<RecipeIngredientItemBinding>(R.layout.recipe_ingredient_item){
         override fun RecipeIngredientItemBinding.bind() {
             tvIngredient.text = ingredient
-            tvQuantity.text = quantity
         }
     }
 
@@ -174,51 +154,12 @@ class RecipieController(
         }
     }
 
-    data class AddCartEpoxyModel(val controller: RecipieController):
-            ViewBindingKotlinModel<AddShopListFltBtnBinding>(R.layout.add_shop_list_flt_btn){
-        override fun AddShopListFltBtnBinding.bind() {
+    data class AddCartEpoxyModel(val controller: SharedRecipieController):
+        ViewBindingKotlinModel<SharedRecipieFltBtnBinding>(R.layout.shared_recipie_flt_btn){
+        override fun SharedRecipieFltBtnBinding.bind() {
             fltBtnAddCart.setOnClickListener {
                 controller.saveCart()
             }
-            // Share button
-            var all_user = controller.other_users.toTypedArray() // arrayOf(/*"valami@valami.hu",*/ "s@s.hu", "teszt@nev.com", "meg@egy.com")
-            var chose_users = booleanArrayOf()
-            for(itm in all_user){
-                if(controller.saved_rec.shares?.contains(itm) == true){
-                    chose_users += true
-                } else {
-                    chose_users += false
-                }
-            }
-//            var chose_users = booleanArrayOf(false, false, false)
-            fltBtnShareRecipe.setOnClickListener {
-                val add_dialog = AlertDialog.Builder(controller.inflater.context)
-
-                add_dialog.setTitle("Share with:")
-                add_dialog.setMultiChoiceItems(all_user, chose_users){ dialog, position, isChecked ->
-                    chose_users[position] = isChecked
-                }
-                add_dialog.setPositiveButton("Ok"){
-                        dialog,_->
-                    // Save chose users
-                    var tmp_users = emptyList<String>()
-                    for (idx in chose_users.indices){
-                        if(chose_users[idx]){
-                            tmp_users += all_user[idx]
-                        }
-                    }
-                    controller.saveShares(tmp_users)
-                    dialog.dismiss()
-                }
-                add_dialog.setNegativeButton("Cancel"){
-                        dialog,_->
-                    Toast.makeText(controller.inflater.context, "Cancel", Toast.LENGTH_SHORT).show()
-                    dialog.dismiss()
-                }
-                add_dialog.create()
-                add_dialog.show()
-            }
         }
-    }
-}
+    }}
 

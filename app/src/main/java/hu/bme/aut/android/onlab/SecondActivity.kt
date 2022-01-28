@@ -35,7 +35,7 @@ class SecondActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_recipies, R.id.nav_favourites, R.id.nav_shopping_list, R.id.nav_settings, R.id.nav_logout
+                R.id.nav_recipies, R.id.nav_favourites, R.id.nav_shares, R.id.nav_shopping_list, R.id.nav_settings, R.id.nav_logout
             ), drawerLayout
         )
 
@@ -65,6 +65,9 @@ class SecondActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             }
             R.id.nav_favourites -> {
                 findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_global_nav_favourites)
+            }
+            R.id.nav_shares -> {
+                findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_global_nav_shares)
             }
             R.id.nav_shopping_list -> {
                 findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_global_nav_shopping_list)

@@ -9,6 +9,7 @@ data class Recipie(
     var abundance: String? = null,
     var author: String? = null,
     var ingredients: List<String?>? = null,
+    var ingr_quantities: List<String?>? = null,
     var steps: List<String?>? = null,
     var shares: List<String?>? = null
 )

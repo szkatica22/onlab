@@ -14,6 +14,14 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Application settings" android:icon="@drawable/ic_settings">
+        <ListPreference
+            android:title="Language"
+            android:icon="@drawable/ic_language"
+            android:summary="Please select"
+            android:key="language"
+            android:entries="@array/language_option_labels"
+            android:entryValues="@array/language_option_values"
+            />
         <SwitchPreference
             android:title="Dark mode"
             android:icon="@drawable/ic_dark_mode"

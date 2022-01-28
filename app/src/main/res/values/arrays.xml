@@ -18,6 +18,34 @@
         <item>@string/pref_color_yellow_value</item>
         <item>@string/pref_color_orange_value</item>
     </array>
+
+
+    <array name="language_option_labels">
+        <item>@string/language_label_english</item>
+        <item>@string/language_label_hun</item>
+    </array>
+    <array name="language_option_values">
+        <item>@string/language_english</item>
+        <item>@string/language_hun</item>
+    </array>
+
+
+<!--  Array of Units for Shopping List and Ingredients  -->
+    <string-array name="units_array">
+        <item>@string/units_kg</item>
+        <item>@string/units_dkg</item>
+        <item>@string/units_g</item>
+        <item>@string/units_l</item>
+        <item>@string/units_dl</item>
+        <item>@string/units_ml</item>
+        <item>@string/units_tbs</item>
+        <item>@string/units_ts</item>
+        <item>@string/units_cs</item>
+        <item>@string/units_ms</item>
+        <item>@string/units_pc</item>
+        <item>@string/units_pkg</item>
+    </string-array>
+
     <!-- Reply Preference -->
     <string-array name="reply_entries">
         <item>Reply</item>
@@ -28,4 +56,20 @@
         <item>reply</item>
         <item>reply_all</item>
     </string-array>
+    <string name="language_english">English</string>
+    <string name="language_hun">Hungary</string>
+    <string name="language_label_english">english</string>
+    <string name="language_label_hun">hungary</string>
+    <string name="units_kg">kg</string>
+    <string name="units_dkg">dkg</string>
+    <string name="units_g">g</string>
+    <string name="units_l">l</string>
+    <string name="units_dl">dl</string>
+    <string name="units_ml">ml</string>
+    <string name="units_tbs">tbs</string>
+    <string name="units_ts">ts</string>
+    <string name="units_cs">cs</string>
+    <string name="units_ms">ms</string>
+    <string name="units_pc">pc</string>
+    <string name="units_pkg">pkg</string>
 </resources>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Recept Neked</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Példa Felhasználónév</string>
+    <string name="nav_header_subtitle">email@example.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Beállítások</string>
+
+    <string name="menu_recipies">Receptek</string>
+    <string name="menu_favourites">Kedvencek</string>
+    <string name="menu_shoppinglist">Bevásárlólista</string>
+    <string name="menu_settings">Beállítások</string>
+
+    <string name="change_settings">Beállítások szerkesztése</string>
+    <string name="test_button">Klikk!</string>
+    <string name="new_flag">Új mappa létrehozása</string>
+    <string name="flag">Aktuális mappa név</string>
+    <string name="recipie">Aktuális Recept</string>
+    <string name="new_recipie">Új Recept létrehozása</string>
+    <string name="change_recipie">Aktuális Recept Szerkesztése</string>
+    <string name="flag_button">Irány a Mappák menüpont</string>
+    <!-- Shopping list    -->
+    <string name="btn_shopping_list_delete">Megvásárolt termékek törlése</string>
+    <string name="et_hint_shopping_list">Kérem adja meg az elemet!</string>
+    <string name="btn_shopping_list_add">Hozzáadás</string>
+    <string name="tv_item">Példa</string>
+    <string name="recipie_fragment_recipiename">Teszt Recept Név</string>
+    <string name="tv_recipie_category">Mappák/Kategóriák</string>
+    <string name="tv_recipie_time_info">Főzési idő és mennyiség</string>
+    <string name="et_recipie_time">30 perc</string>
+    <string name="et_recipie_abundance">4 adag</string>
+    <string name="tv_recipie_ingredients">Hozzávalók</string>
+    <string name="tv_recipie_ingredient_item">Példa</string>
+    <string name="tv_recipie_spinner_selected">Példa</string>
+    <string name="tv_recipie_preparation">Elkészítés</string>
+    <string name="change_recipie_fragment_recipiename">Teszt Recept Szerkesztése</string>
+    <string name="chip_recipie_flag_desserts">Desszertek</string>
+    <string name="chip_recipie_flag_main_courses">Főételek</string>
+    <string name="chip_recipie_flag_soups">Levesek</string>
+    <string name="chip_recipie_flag_drinks">Italok</string>
+    <string name="tv_change_recipie_item_title">Cím</string>
+    <string name="btn_add_new_ingredient">Új Hozzávaló Megadása</string>
+    <string name="btn_add_new_step">Új Lépés Megadása</string>
+    <string name="add_ingredient_tv_add_new_ingredients">Új Hozzávaló Hozzáadása</string>
+    <string name="hint_for_new_ingredient">Adja meg itt az új hozzávalót és annak mennyiségét</string>
+    <string name="add_new_steps">Új Lépés MHozzáadása</string>
+    <string name="enter_the_new_step_here">Adja meg itt az új lépést</string>
+    <string name="edit_text">Edit Text</string>
+    <string name="delete_text">Törlés</string>
+    <string name="change_rec_delete_recipie">Recept Törlése</string>
+    <string name="flag_delete_flag">Mappa Törlése</string>
+    <string name="tv_recipie_step_item">Példa</string>
+    <string name="menu_logout">Kijelentkezés</string>
+    <string name="login_password">Jelszó</string>
+    <string name="login_login">Bejelentkezés</string>
+    <string name="login_register">Regisztráció</string>
+    <string name="registration">Regisztráció</string>
+    <string name="login_password_again">Jelszó újra</string>
+    <string name="login_email">Email</string>
+    <string name="login_cancel">Mégse</string>
+    <string name="change_rec_save">Mentés</string>
+
+    <!-- Settings - colors -->
+    <string name="pref_color_label_red">Piros</string>
+    <string name="pref_color_label_blue">Kék</string>
+    <string name="pref_color_label_green">Zöld</string>
+    <string name="pref_color_label_purple">Lila</string>
+    <string name="pref_color_label_yellow">Sárga</string>
+    <string name="pref_color_label_orange">Narancs</string>
+    <string name="pref_color_red_value">piros</string>
+    <string name="pref_color_blue_value">kék</string>
+    <string name="pref_color_green_value">zöld</string>
+    <string name="pref_color_purple_value">lila</string>
+    <string name="pref_color_yellow_value">sárga</string>
+    <string name="pref_color_orange_value">narancs</string>
+    <!-- Preference Titles -->
+    <string name="messages_header">Üzenetek</string>
+    <string name="sync_header">Szinkronizáció</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
+
+    <string name="shopping_list_title">Beváráslólista</string>
+    <string name="flags_title">Mappák</string>
+    <string name="new_flag_title">Új mappa létrehozása</string>
+    <string name="new_recipie_flag">Új recept létrehozása</string>
+    <string name="change_recipie_title">Recept szerkesztése</string>
+    <string name="recipie_title">Recept</string>
+    <string name="dark_mode_text">Sötét mód:</string>
+    <string name="theme_text">Téma:</string>
+    <string name="your_username_text">Felhasználóneve:</string>
+    <string name="your_profile_picture_name_text">Profilképének a neve:</string>
+    <string name="flags_create_new_flag">Új mappa létrehozása</string>
+    <string name="add_new_flag">Új mappa létrehozása</string>
+    <string name="new_flag_name">Adja meg itt az új mappanevet</string>
+    <string name="create_new_recipie">Új recept létrehozása</string>
+    <string name="cancel_new_recipie">Mégsem</string>
+    <string name="new_recipie_name">Adja meg a nevet</string>
+    <string name="cooking_time_hint">Adja meg a főzési időt</string>
+    <string name="abundance_hint">Adja meg a mennyiséget</string>
+    <string name="btn_take_new_picture">Kép készítése</string>
+    <string name="btn_upload_picture">Kép feltöltése</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search_recipie">Kérem adjon meg egy nevet</string>
+    <string name="search">Keresés</string>
+    <string name="photos_and_videos">Képek és Videók</string>
+    <string name="share_recipe">Recept Megosztása</string>
+    <string name="menu_shares">Megosztott Receptek</string>
+    <string name="shared_recipes">Megosztott Receptek</string>
+    <string name="add_all_ingredients_to_shopping_list">Összes hozzávaló mentése a bevásárlólistára</string>
+    <string name="tv_recipie_author">Szerző</string>
+    <string name="et_recipie_author">szerző</string>
+    <string name="create_and_save_new_photo">Új fotó készítése és mentése</string>
+    <string name="language">Nyelv</string>
+    <string name="enter_quantity">Mennyiség megadása</string>
+    <string name="enter_the_quantity_here">Enter the quantity here</string>
+</resources>

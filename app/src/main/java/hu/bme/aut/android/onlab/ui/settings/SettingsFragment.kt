@@ -1,7 +1,9 @@
 package hu.bme.aut.android.onlab.ui.settings
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,6 +22,7 @@ import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.data.User
 import hu.bme.aut.android.onlab.databinding.FragmentSettingsBinding
+import java.util.*
 
 class SettingsFragment : Fragment(){
 
@@ -43,6 +46,7 @@ class SettingsFragment : Fragment(){
     var name: String? = null
     var mode: Boolean = false
     var theme: String = "purple"
+    var language: String = "english"
 
 //    private var navC: NavController? = null
 //    private var currentTheme = PURPLE
@@ -104,10 +108,27 @@ class SettingsFragment : Fragment(){
         name = sp.getString("name", "")
         mode = sp.getBoolean("mode", false)
         theme = sp.getString("theme", "purple")!!
+        language = sp.getString("language", "english")!!
+
+        //Change Application Language
+//        setLocate()
 
         saveSettings()
 
     }
+
+//    fun setLocate(){
+//        val locale = Locale(language)
+//        val config = Configuration()
+//
+//        Locale.setDefault(locale)
+//        config.locale = locale
+//        baseContext.resources.updateConfiguration(config, baseContext.resources.displayMetrics)
+//
+//        val editor = getSharedPreferences("Settings", Context.MODE_PRIVATE).edit()
+//        editor.putString("language", language)
+//        editor.apply()
+//    }
 
     fun saveSettings(){
 //        val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
@@ -125,12 +146,12 @@ class SettingsFragment : Fragment(){
                 if(snapshots.documents.isNotEmpty()){
                     // Update user informations
                     db.collection("users").document(snapshots.documents[0].id).
-                    update("name", name, "theme", theme, "mode", mode)
+                    update("name", name, "theme", theme, "language", language, "mode", mode)
                     Toast.makeText(this.context, "Changes saved", Toast.LENGTH_SHORT).show()
 
                 } else{
                     // Save new user infromation
-                    val new_usr = User(firebaseUser?.email, name, null, theme, mode)
+                    val new_usr = User(firebaseUser?.email, name, null, theme, language, mode)
                     db.collection("users").add(new_usr)
                     Toast.makeText(this.context, "User informations saved", Toast.LENGTH_SHORT).show()
                 }
@@ -165,6 +186,7 @@ class SettingsFragment : Fragment(){
                         binding.tvMode.text = "Dark mode: on"
                     }
                     binding.tvTheme.text = "Theme: ${snapshots.documents[0]["theme"]}"
+                    binding.tvLanguage.text = snapshots.documents[0]["language"].toString()
                 }
             }
         }

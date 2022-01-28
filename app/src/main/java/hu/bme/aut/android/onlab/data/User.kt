@@ -5,5 +5,6 @@ data class User(
     var name: String? = null,
     var pictureUrl: String? = null,
     var theme: String? = null,
+    var language: String? = null,
     var mode: Boolean? = null,
 )

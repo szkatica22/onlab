@@ -1,16 +1,17 @@
 package hu.bme.aut.android.onlab.ui.new_recipie
 
+import android.content.Intent
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.EditText
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.children
-import androidx.core.view.get
-import androidx.core.view.iterator
-import androidx.core.widget.addTextChangedListener
+import androidx.core.app.ActivityCompat.startActivityForResult
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.airbnb.epoxy.EpoxyController
 import com.google.android.material.chip.Chip
@@ -33,8 +34,16 @@ class NewRecipieController(private var btn_ingredient: String, private var prep_
     private var new_recipie: Recipie = Recipie()
     private var chipGroup: ChipGroup? = null
     private var ingredients: ArrayList<String> = arrayListOf<String>()
+    private var ingr_quantities: ArrayList<String> = arrayListOf<String>()
     private var steps: ArrayList<String> = arrayListOf<String>()
     private var choosed_chips = mutableListOf<String>()
+
+    companion object {
+        private const val REQUEST_CODE = 101
+        private const val ALL_PERMISSIONS_RESULT = 107
+        private const val IMAGE_RESULT = 200
+        private const val REQUEST_IMAGE_CAPTURE = 12345
+    }
 
     private val name_watcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
@@ -75,13 +84,15 @@ class NewRecipieController(private var btn_ingredient: String, private var prep_
     private val firebaseUser: FirebaseUser?
         get() = FirebaseAuth.getInstance().currentUser
 
-    fun addIngredient(item: String) {
+    fun addIngredient(item: String, quantity: String) {
         ingredients.add(item)
+        ingr_quantities.add(quantity)
         requestModelBuild()
     }
 
     fun deleteIngredient(idx: Int) {
         ingredients.removeAt(idx)
+        ingr_quantities.removeAt(idx)
         requestModelBuild()
     }
 
@@ -100,6 +111,7 @@ class NewRecipieController(private var btn_ingredient: String, private var prep_
     }
     fun updateLists(){
         new_recipie.ingredients = ingredients
+        new_recipie.ingr_quantities = ingr_quantities
         new_recipie.steps = steps
     }
 
@@ -111,8 +123,6 @@ class NewRecipieController(private var btn_ingredient: String, private var prep_
     }
 
     fun saveRecipie(){
-        // TODO: kivalasztott chip-eket itt kellene belementeni majd
-    //  TODO: - vegigmenni rajtuk egyesevel elmentegetni a recept peldanyokat
         updateAuthor()
         updateLists()
         if(new_recipie.favourite == null){
@@ -135,7 +145,8 @@ class NewRecipieController(private var btn_ingredient: String, private var prep_
         InformationsEpoxyModel(this, chipGroup).id(time_watcher.toString()).addTo(this)
         if(!ingredients.isEmpty()){
             ingredients.forEach { item ->
-                IngredientEpoxyModel(ingredients, item,this).id(item).addTo(this)
+                val idx = ingredients.indexOf(item)
+                IngredientEpoxyModel(ingredients, ingr_quantities, item, idx, this).id(item).addTo(this)
             }
         }
         IngrFloatingButtonEpoxyController(btn_ingredient, this).id(btn_ingredient).addTo(this)
@@ -178,6 +189,20 @@ class NewRecipieController(private var btn_ingredient: String, private var prep_
         }
     }
 
+    // Photos
+    data class PhotosEpoxyModel(var controller: NewRecipieController):
+    ViewBindingKotlinModel<NewRecipiePhotosBinding>(R.layout.new_recipie_photos){
+        override fun NewRecipiePhotosBinding.bind() {
+            fltBtnAttach.setOnClickListener {
+//                val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//                Fragment.startActivityForResult(takePictureIntent, REQUEST_CODE)
+            }
+            fltBtnUpload.setOnClickListener {
+
+            }
+        }
+    }
+
     // Information
     data class InformationsEpoxyModel(
         var controller: NewRecipieController,
@@ -214,11 +239,12 @@ class NewRecipieController(private var btn_ingredient: String, private var prep_
     }
 
     // Ingredients
-    data class IngredientEpoxyModel(var ingredients: List<String>, val ingredient: String,
-                                    var controller: NewRecipieController):
+    data class IngredientEpoxyModel(var ingredients: List<String>, var ingr_quantities: List<String>,
+                                    val ingredient: String, val idx: Int, var controller: NewRecipieController):
         ViewBindingKotlinModel<NewRecipieItemBinding>(R.layout.new_recipie_item){
         override fun NewRecipieItemBinding.bind() {
             tvNewRecipieItemTitleId.text = ingredient
+            tvNewRecipieItemQuantity.text = ingr_quantities[idx]
             ivNewRecipieDelete.setOnClickListener {
                 controller.deleteIngredient(ingredients.indexOf(ingredient))
             }
@@ -234,11 +260,14 @@ class NewRecipieController(private var btn_ingredient: String, private var prep_
 
                 val v = controller.inflater.inflate(R.layout.add_ingredient, null)
                 val ingredient = v.findViewById<EditText>(R.id.et_new_recipie_ingredient)
+                val quantity = v.findViewById<EditText>(R.id.et_new_recipie_quantity)
+                val unit = v.findViewById<Spinner>(R.id.spinner_unit)
+                val info: String = quantity.text.toString() + " " + unit.selectedItem.toString()
                 val add_dialog = AlertDialog.Builder(controller.inflater.context)
                 add_dialog.setView(v)
                 add_dialog.setPositiveButton("Ok"){
                         dialog,_->
-                    controller.addIngredient(ingredient.text.toString())
+                    controller.addIngredient(ingredient.text.toString(), info)
                     Toast.makeText(controller.inflater.context, "Adding Ingredient", Toast.LENGTH_SHORT).show()
                     dialog.dismiss()
                 }

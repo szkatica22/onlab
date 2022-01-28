@@ -1,12 +1,14 @@
 package hu.bme.aut.android.onlab.ui.change_recipie
 
+import android.content.Context
+import android.content.res.Resources
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.findNavController
 import com.airbnb.epoxy.EpoxyController
@@ -20,6 +22,7 @@ import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.onlab.data.Recipie
 
 class ChangeRecipieController(
+    private val context: Context?,
     private var tmp_rec: Recipie,
     private var btn_ingredient: String,
     private var prep_title: String,
@@ -32,6 +35,7 @@ class ChangeRecipieController(
     private val db = Firebase.firestore
     private val original_rec_name = tmp_rec.name
     private var ingredients: ArrayList<String> = tmp_rec.ingredients as ArrayList<String>
+    private var ingr_quantities: ArrayList<String> = tmp_rec.ingr_quantities as ArrayList<String>
     private var steps: ArrayList<String> = tmp_rec.steps as ArrayList<String>
     private var choosed_chips = mutableListOf<String>()
 
@@ -70,13 +74,17 @@ class ChangeRecipieController(
         }
     }
 
-    fun addIngredient(item: String) {
+    fun addIngredient(item: String, quantity: String?) {
         ingredients.add(item)
+        if(quantity != null){
+            ingr_quantities.add(quantity)
+        }
         requestModelBuild()
     }
 
     fun deleteIngredient(idx: Int) {
         ingredients.removeAt(idx)
+        ingr_quantities.removeAt(idx)
         requestModelBuild()
     }
 
@@ -92,6 +100,7 @@ class ChangeRecipieController(
 
     fun updateLists(){
         tmp_rec.ingredients = ingredients
+        tmp_rec.ingr_quantities = ingr_quantities
         tmp_rec.steps = steps
     }
 
@@ -124,8 +133,8 @@ class ChangeRecipieController(
                     db.collection("recipies").document(snapshot.documents[0].id).
                     update("abundance", tmp_rec.abundance, "favourite",
                         tmp_rec.favourite, "flags", tmp_rec.flags, "imageUrls", tmp_rec.imageUrls,
-                        "ingredients", tmp_rec.ingredients, "name", tmp_rec.name, "steps",
-                        tmp_rec.steps, "time", tmp_rec.time)
+                        "ingredients", tmp_rec.ingredients, "ingr_quantities", tmp_rec.ingr_quantities,
+                        "name", tmp_rec.name, "steps", tmp_rec.steps, "time", tmp_rec.time)
 
                     val bundle = Bundle()
                     bundle.putString("recipiename", tmp_rec.name)
@@ -143,7 +152,8 @@ class ChangeRecipieController(
         InformationsEpoxyModel(this).id(tmp_rec.time).addTo(this)
         if(!ingredients.isEmpty()){
             ingredients.forEach{ item ->
-                IngredientEpoxyModel(item, this).id(item).addTo(this)
+                val idx = ingredients.indexOf(item)
+                IngredientEpoxyModel(item, ingr_quantities[idx], this).id(item).addTo(this)
             }
         }
 
@@ -229,10 +239,12 @@ class ChangeRecipieController(
     }
 
     // Ingredients
-    data class IngredientEpoxyModel(val ingredient: String, var controller: ChangeRecipieController):
+    data class IngredientEpoxyModel(val ingredient: String, val quantity: String,
+                                    var controller: ChangeRecipieController):
     ViewBindingKotlinModel<ChangeRecipieItemBinding>(R.layout.change_recipie_item){
         override fun ChangeRecipieItemBinding.bind() {
             tvChangeRecipieItemTitleId.text = ingredient
+            tvChangeRecipieItemQuantity.text = quantity
             ivChangeRecipieDelete.setOnClickListener {
                 controller.deleteIngredient(controller.ingredients.indexOf(ingredient))
 
@@ -249,11 +261,31 @@ class ChangeRecipieController(
 
                 val v = controller.inflater.inflate(R.layout.add_ingredient, null)
                 val ingredient = v.findViewById<EditText>(R.id.et_new_recipie_ingredient)
+                val quantity = v.findViewById<EditText>(R.id.et_new_recipie_quantity)
+                var info: String? = null
+
+                val units_array = controller.context?.resources?.getStringArray(R.array.units_array)
+//                val array_adapter = ArrayAdapter(controller.context, R.id.spinner_unit, units)
+                Log.d("ARRAY: ", units_array.toString())
+
+                var unit = v.findViewById<Spinner>(R.id.spinner_unit)
+                unit.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        info = quantity.text.toString() + " -"
+                    }
+
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View?,
+                                                position: Int, id: Long) {
+                        Log.d("CHOSE: ", units_array?.get(position).toString())
+                        info = quantity.text.toString() + " " + units_array?.get(position).toString()
+                    }
+                }
+
                 val add_dialog = AlertDialog.Builder(controller.inflater.context)
                 add_dialog.setView(v)
                 add_dialog.setPositiveButton("Ok"){
                     dialog,_->
-                    controller.addIngredient(ingredient.text.toString())
+                    controller.addIngredient(ingredient.text.toString(), info)
                     Toast.makeText(controller.inflater.context, "Adding Ingredient", Toast.LENGTH_SHORT).show()
                     dialog.dismiss()
                 }

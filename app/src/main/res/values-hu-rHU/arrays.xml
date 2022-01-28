@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language_english">Angol</string>
+    <string name="language_hun">Magyar</string>
+    <string name="language_label_english">angol</string>
+    <string name="language_label_hun">magyar</string>
+    <string name="units_kg">kg</string>
+    <string name="units_dkg">dkg</string>
+    <string name="units_g">g</string>
+    <string name="units_l">l</string>
+    <string name="units_dl">dl</string>
+    <string name="units_ml">ml</string>
+    <string name="units_tbs">ek</string>
+    <string name="units_ts">tk</string>
+    <string name="units_cs">kk</string>
+    <string name="units_ms">mk</string>
+    <string name="units_pc">db</string>
+    <string name="units_pkg">cs</string>
+</resources>

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.recipie.RecipieFragment">
+    tools:context=".ui.shared_recipie.SharedRecipieFragment">
 
         <LinearLayout
             android:layout_weight="1"
@@ -16,28 +16,15 @@
             tools:ignore="MissingConstraints">
 
                 <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                    android:id="@+id/flt_btn_share_recipe"
-                    app:icon="@drawable/ic_share"
-                    android:text="@string/share_recipe"
+                    android:id="@+id/flt_btn_add_cart"
+                    app:icon="@drawable/ic_add_shopping_cart"
+                    android:text="@string/add_all_ingredients_to_shopping_list"
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:padding="10dp"
                     tools:ignore="MissingConstraints" />
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/flt_btn_add_cart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:src="@drawable/ic_add_shopping_cart"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    tools:ignore="ContentDescription,HardcodedText,RtlHardcoded,SpeakableTextPresentCheck" />
-
         </LinearLayout>
 
 

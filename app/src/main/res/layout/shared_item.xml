@@ -8,7 +8,7 @@
     app:cardElevation="8dp"
     app:cardMaxElevation="5dp"
     android:layout_margin="8dp"
-    tools:context=".ui.new_recipie.NewRecipieFragment">
+    tools:context=".ui.shares.SharesFragment">
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -16,43 +16,36 @@
 
     <LinearLayout
         android:layout_weight="1"
-        android:id="@+id/ll_recipie_ingredients"
-        android:orientation="horizontal"
-        android:weightSum="2"
         android:layout_margin="8dp"
         android:padding="4dp"
         android:layout_width="0dp"
         android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/tv_new_recipie_item_title_id"
-            android:text="@string/tv_change_recipie_item_title"
-            android:textColor="@color/black"
-            android:textSize="19sp"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            tools:ignore="NestedWeights" />
-
-        <TextView
-            android:id="@+id/tv_new_recipie_item_quantity"
-            android:text="@string/tv_change_recipie_item_title"
-            android:textColor="@color/black"
-            android:textSize="19sp"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            tools:ignore="RtlHardcoded" />
-
-    </LinearLayout>
         <ImageView
-            android:id="@+id/iv_new_recipie_delete"
-            android:src="@drawable/ic_recipie_delete"
+            android:id="@+id/iv_photo"
+            android:src="@drawable/ic_recipie_photo"
             android:layout_gravity="center"
             android:layout_margin="8dp"
             android:layout_width="34dp"
             android:layout_height="34dp"
-            app:tint="@color/GreenprimaryVariant"/>
+            app:tint="@color/GreenprimaryColor" />
+        <TextView
+            android:id="@+id/tv_fav_recipie_name_id"
+            android:text="@string/tv_change_recipie_item_title"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+        <ImageView
+            android:id="@+id/iv_recipies_flag"
+            android:src="@drawable/ic_arrow"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            app:tint="@color/design_default_color_on_secondary" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

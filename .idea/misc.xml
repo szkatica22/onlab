@@ -49,7 +49,7 @@
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/activity_second.xml" value="0.20202020202020202" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/add_flag.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/add_ingredient.xml" value="0.22" />
-        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/add_shop_list_flt_btn.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/add_shop_list_flt_btn.xml" value="0.22" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/add_step.xml" value="0.23300970873786409" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/app_bar_main.xml" value="0.1" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/change_recipie_category_text.xml" value="0.36666666666666664" />
@@ -80,15 +80,18 @@
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_recipies.xml" value="0.33" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_search.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_settings.xml" value="0.2612481857764877" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_shared_recipie.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_shares.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_shopping_list.xml" value="0.33" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/item.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/item_shopping_list.xml" value="0.1" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/item_shopping_list.xml" value="0.22" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/nav_header_main.xml" value="0.33" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/new_recipie_cancel_btn.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/new_recipie_floating_button.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/new_recipie_header.xml" value="0.18" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/new_recipie_informations.xml" value="0.3368421052631579" />
-        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/new_recipie_item.xml" value="0.22" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/new_recipie_item.xml" value="0.5" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/new_recipie_photos.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/new_recipie_prep_item.xml" value="0.2" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/new_recipie_preparation_text.xml" value="0.3368421052631579" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/new_recipie_save_btn.xml" value="0.1" />
@@ -103,6 +106,14 @@
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/registration_login.xml" value="0.29775280898876405" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/search_item.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/settings_picture_button.xml" value="0.22" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/shared_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/shared_recipe_ingredient_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/shared_recipie_flt_btn.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/shared_recipie_header.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/shared_recipie_informations.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/shared_recipie_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/shared_recipie_prep_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/shared_recipie_preparation_text.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/menu/activity_main_drawer.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/menu/main.xml" value="0.25" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/menu/show_menu.xml" value="0.22" />

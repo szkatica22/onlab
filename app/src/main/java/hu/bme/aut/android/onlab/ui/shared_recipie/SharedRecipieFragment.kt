@@ -1,4 +1,4 @@
-package hu.bme.aut.android.onlab.ui.change_recipie
+package hu.bme.aut.android.onlab.ui.shared_recipie
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,32 +11,27 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.onlab.data.Recipie
-import hu.bme.aut.android.onlab.databinding.FragmentChangeRecipieBinding
+import hu.bme.aut.android.onlab.databinding.FragmentSharedRecipieBinding
 
-class ChangeRecipieFragment : Fragment(){
-    private lateinit var changeRecipieViewModel: ChangeRecipieViewModel
-    private var _binding: FragmentChangeRecipieBinding? = null
-
-    private lateinit var changerecipieController: ChangeRecipieController
-
-    var btn_ingredient: String = "Add new ingredient"
-    var btn_step: String = "Add new step"
-    var btn_delete: String = "Delete recipe"
-    var btn_save: String = "Save"
-    var prep_title: String = "Preparation"
+class SharedRecipieFragment: Fragment(){
+    private lateinit var sharedrecipieViewModel: SharedRecipieViewModel
+    private var _binding: FragmentSharedRecipieBinding? = null
 
     private val binding get() = _binding!!
-    private val db = Firebase.firestore
+    private var db = Firebase.firestore
+
+    private lateinit var sharedRecipieController: SharedRecipieController
+    private var prep_title: String = "Preparation"
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        changeRecipieViewModel =
-            ViewModelProvider(this).get(ChangeRecipieViewModel::class.java)
+        sharedrecipieViewModel =
+            ViewModelProvider(this).get(SharedRecipieViewModel::class.java)
 
-        _binding = FragmentChangeRecipieBinding.inflate(inflater, container, false)
+        _binding = FragmentSharedRecipieBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val rec_name = this.arguments?.get("recipiename").toString()
@@ -49,14 +44,13 @@ class ChangeRecipieFragment : Fragment(){
                     tmp_data.get("flags") as List<String?>?, tmp_data.get("imageUrls") as List<String?>?,
                     tmp_data.get("time").toString(), tmp_data.get("abundance").toString(),
                     tmp_data.get("author").toString(), tmp_data.get("ingredients") as List<String?>?,
-                    tmp_data.get("ingr_quantities") as List<String?>?, tmp_data.get("steps")
-                            as List<String?>?)
+                    tmp_data.get("steps") as List<String?>?)
 
-                changerecipieController = ChangeRecipieController(this.context, tmp_rec, btn_ingredient, prep_title,
-                    btn_step, btn_delete, btn_save, inflater)
-                binding.ervChangeRecipie.setController(changerecipieController)
-                changerecipieController.requestModelBuild()
-                binding.ervChangeRecipie.addItemDecoration(DividerItemDecoration(requireActivity(),
+                sharedRecipieController = SharedRecipieController(this.context, tmp_rec, prep_title, inflater)
+                binding.ervRecipie.setController(sharedRecipieController)
+
+                sharedRecipieController.requestModelBuild()
+                binding.ervRecipie.addItemDecoration(DividerItemDecoration(requireActivity(),
                     RecyclerView.VERTICAL))
             }
         }
