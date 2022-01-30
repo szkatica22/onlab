@@ -43,11 +43,13 @@ class ListItemAdapter (
         notifyDataSetChanged()
     }
 
-    fun toggleStrikeThrough(tvShoppingTitle: TextView, isChecked: Boolean) {
+    fun toggleStrikeThrough(tvShoppingTitle: TextView, tvQuantity: TextView, isChecked: Boolean) {
         if(isChecked) {
             tvShoppingTitle.paintFlags = tvShoppingTitle.paintFlags or STRIKE_THRU_TEXT_FLAG
+            tvQuantity.paintFlags = tvQuantity.paintFlags or STRIKE_THRU_TEXT_FLAG
         } else {
             tvShoppingTitle.paintFlags = tvShoppingTitle.paintFlags and  STRIKE_THRU_TEXT_FLAG.inv()
+            tvQuantity.paintFlags = tvQuantity.paintFlags and  STRIKE_THRU_TEXT_FLAG.inv()
         }
     }
 
@@ -66,11 +68,23 @@ class ListItemAdapter (
         val cur_item = list[position]
         holder.binding.let { binding ->
             binding.tvShoppingTitle.text = cur_item.name
+            var tmp_quant_unit: String? = null
+            if (cur_item.quantity == null){
+                tmp_quant_unit = "-"
+            } else {
+                tmp_quant_unit = cur_item.quantity.toString()
+            }
+            if ( cur_item.unit == null){
+                tmp_quant_unit += " -"
+            } else {
+                tmp_quant_unit += " " + cur_item.unit
+            }
+            binding.tvQuantity.text = tmp_quant_unit
             binding.cbPurchased.isChecked = cur_item.checked == true
-            toggleStrikeThrough(binding.tvShoppingTitle, cur_item.checked == true)
+            toggleStrikeThrough(binding.tvShoppingTitle, binding.tvQuantity,cur_item.checked == true)
 
             binding.cbPurchased.setOnCheckedChangeListener { _, is_checked ->
-                toggleStrikeThrough(binding.tvShoppingTitle, is_checked)
+                toggleStrikeThrough(binding.tvShoppingTitle, binding.tvQuantity, is_checked)
                 cur_item.checked = !cur_item.checked!!
                 changeChecked(cur_item)
             }

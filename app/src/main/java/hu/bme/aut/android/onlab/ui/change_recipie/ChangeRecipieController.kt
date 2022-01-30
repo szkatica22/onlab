@@ -266,7 +266,6 @@ class ChangeRecipieController(
 
                 val units_array = controller.context?.resources?.getStringArray(R.array.units_array)
 //                val array_adapter = ArrayAdapter(controller.context, R.id.spinner_unit, units)
-                Log.d("ARRAY: ", units_array.toString())
 
                 var unit = v.findViewById<Spinner>(R.id.spinner_unit)
                 unit.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
@@ -276,7 +275,6 @@ class ChangeRecipieController(
 
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?,
                                                 position: Int, id: Long) {
-                        Log.d("CHOSE: ", units_array?.get(position).toString())
                         info = quantity.text.toString() + " " + units_array?.get(position).toString()
                     }
                 }

@@ -47,8 +47,11 @@ class ShoppinglistFragment : Fragment() {
 
         binding.btnShoppingListAddItem.setOnClickListener {
             val shoppingTitle = binding.etShoppingTitle.text.toString()
+            val itemQuantity = binding.etShopListQuantity.text.toString()
+            val unit = binding.spinnerUnit.selectedItem.toString()
             if(shoppingTitle.isNotEmpty()){
-                val list_item = ShoppingItem(shoppingTitle, author = firebaseUser?.email, checked = false)
+                val list_item = ShoppingItem(shoppingTitle, itemQuantity.toFloat(), unit,
+                    firebaseUser?.email, false)
 
                 // Upload to Firebase
                 uploadItem(list_item)

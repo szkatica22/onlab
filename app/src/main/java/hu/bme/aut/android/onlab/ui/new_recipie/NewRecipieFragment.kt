@@ -54,8 +54,8 @@ class NewRecipieFragment : Fragment(){
 //            textView.text = it
 //        })
 
-        newrecipieController = NewRecipieController(/*recipie, ingredients_list, preparation_list,*/
-        btn_ingredient, prep_title, btn_step, btn_save, inflater)
+        newrecipieController = NewRecipieController(this.context, btn_ingredient, prep_title,
+            btn_step, btn_save, inflater)
         binding.ervChangeRecipie.setController(newrecipieController)
 
         newrecipieController.requestModelBuild()

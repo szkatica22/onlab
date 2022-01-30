@@ -1,11 +1,14 @@
 package hu.bme.aut.android.onlab.ui.new_recipie
 
+import android.content.Context
 import android.content.Intent
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
+import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
@@ -26,7 +29,8 @@ import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.databinding.*
 import hu.bme.aut.android.onlab.ui.epoxy.ViewBindingKotlinModel
 
-class NewRecipieController(private var btn_ingredient: String, private var prep_title: String,
+class NewRecipieController(private val context: Context?, private var btn_ingredient: String,
+                           private var prep_title: String,
                            private var btn_step: String, private var btn_save: String,
                            private val inflater: LayoutInflater) : EpoxyController() {
 
@@ -84,9 +88,11 @@ class NewRecipieController(private var btn_ingredient: String, private var prep_
     private val firebaseUser: FirebaseUser?
         get() = FirebaseAuth.getInstance().currentUser
 
-    fun addIngredient(item: String, quantity: String) {
+    fun addIngredient(item: String, quantity: String?) {
         ingredients.add(item)
-        ingr_quantities.add(quantity)
+        if(quantity != null){
+            ingr_quantities.add(quantity)
+        }
         requestModelBuild()
     }
 
@@ -261,8 +267,20 @@ class NewRecipieController(private var btn_ingredient: String, private var prep_
                 val v = controller.inflater.inflate(R.layout.add_ingredient, null)
                 val ingredient = v.findViewById<EditText>(R.id.et_new_recipie_ingredient)
                 val quantity = v.findViewById<EditText>(R.id.et_new_recipie_quantity)
-                val unit = v.findViewById<Spinner>(R.id.spinner_unit)
-                val info: String = quantity.text.toString() + " " + unit.selectedItem.toString()
+                var info: String? = null
+                val units_array = controller.context?.resources?.getStringArray(R.array.units_array)
+
+                var unit = v.findViewById<Spinner>(R.id.spinner_unit)
+                unit.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        info = quantity.text.toString() + " -"
+                    }
+
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View?,
+                                                position: Int, id: Long) {
+                        info = quantity.text.toString() + " " + units_array?.get(position).toString()
+                    }
+                }
                 val add_dialog = AlertDialog.Builder(controller.inflater.context)
                 add_dialog.setView(v)
                 add_dialog.setPositiveButton("Ok"){

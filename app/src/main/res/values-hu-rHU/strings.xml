@@ -23,7 +23,7 @@
     <string name="flag_button">Irány a Mappák menüpont</string>
     <!-- Shopping list    -->
     <string name="btn_shopping_list_delete">Megvásárolt termékek törlése</string>
-    <string name="et_hint_shopping_list">Kérem adja meg az elemet!</string>
+    <string name="et_hint_shopping_list">Adja meg az elemet!</string>
     <string name="btn_shopping_list_add">Hozzáadás</string>
     <string name="tv_item">Példa</string>
     <string name="recipie_fragment_recipiename">Teszt Recept Név</string>
@@ -125,5 +125,6 @@
     <string name="create_and_save_new_photo">Új fotó készítése és mentése</string>
     <string name="language">Nyelv</string>
     <string name="enter_quantity">Mennyiség megadása</string>
-    <string name="enter_the_quantity_here">Enter the quantity here</string>
+    <string name="enter_the_quantity_here">Mennyiség megadása</string>
+    <string name="lines">- -</string>
 </resources>
