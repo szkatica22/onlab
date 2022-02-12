@@ -1,5 +1,6 @@
 package hu.bme.aut.android.onlab.ui.shared_recipie
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,6 +19,9 @@ import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.data.ShoppingItem
 import hu.bme.aut.android.onlab.ui.epoxy.ViewBindingKotlinModel
+import hu.bme.aut.android.onlab.ui.recipie.RecipieController
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class SharedRecipieController(
@@ -56,8 +60,10 @@ class SharedRecipieController(
         }
 
         var flag_ok = true
-        saved_rec.ingredients!!.forEach{ item ->
-            val new_item = ShoppingItem(item, author = firebaseUser?.email, checked = false)
+        saved_rec.ingredients!!.keys.forEach{ item ->
+            val quant_unit = saved_rec.ingredients!![item]?.split(" ")
+            val new_item = ShoppingItem(item, quant_unit?.get(0)?.toFloat(),
+                quant_unit?.get(1), firebaseUser?.email, false)
             db.collection("shopping_list").add(new_item).addOnFailureListener{
                 flag_ok = false
             }
@@ -80,8 +86,8 @@ class SharedRecipieController(
         if(saved_rec.ingredients?.isEmpty()!!){
             return
         }
-        saved_rec.ingredients!!.forEach{ item ->
-            IngredientEpoxyModel(item).id(item).addTo(this)
+        saved_rec.ingredients!!.keys.forEach{ item ->
+            RecipieController.IngredientEpoxyModel(item, saved_rec.ingredients!![item]).id(item).addTo(this)
         }
         PreparationTextEpoxyModel(prep_title).id(prep_title).addTo(this)
 
@@ -114,10 +120,20 @@ class SharedRecipieController(
 
     data class InformationsEpoxyModel(val saved_rec: Recipie):
         ViewBindingKotlinModel<SharedRecipieInformationsBinding>(R.layout.shared_recipie_informations){
+        @SuppressLint("SetTextI18n")
         override fun SharedRecipieInformationsBinding.bind() {
             tvRecipieAuthor.text = saved_rec.author
             tvRecipieTime.text = saved_rec.time
             tvRecipieAbundance.text = saved_rec.abundance
+//            if(Locale.getDefault().displayLanguage == "en"){
+//                if(saved_rec.abundance!! > 1){
+//                    tvRecipieAbundance.text = saved_rec.abundance.toString() + " portions"
+//                } else{
+//                    tvRecipieAbundance.text = saved_rec.abundance.toString() + " portion"
+//                }
+//            } else {
+//                tvRecipieAbundance.text = saved_rec.abundance.toString() + " adag"
+//            }
             var chipGroup: ChipGroup = cgRecipieFlags
             chipGroup.removeAllViews()
             if(saved_rec.flags != null){

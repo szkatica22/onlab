@@ -29,8 +29,8 @@
     <string name="recipie_fragment_recipiename">Teszt Recept Név</string>
     <string name="tv_recipie_category">Mappák/Kategóriák</string>
     <string name="tv_recipie_time_info">Főzési idő és mennyiség</string>
-    <string name="et_recipie_time">30 perc</string>
-    <string name="et_recipie_abundance">4 adag</string>
+    <string name="et_recipie_time">30</string>
+    <string name="et_recipie_abundance">4</string>
     <string name="tv_recipie_ingredients">Hozzávalók</string>
     <string name="tv_recipie_ingredient_item">Példa</string>
     <string name="tv_recipie_spinner_selected">Példa</string>
@@ -45,7 +45,7 @@
     <string name="btn_add_new_step">Új Lépés Megadása</string>
     <string name="add_ingredient_tv_add_new_ingredients">Új Hozzávaló Hozzáadása</string>
     <string name="hint_for_new_ingredient">Adja meg itt az új hozzávalót és annak mennyiségét</string>
-    <string name="add_new_steps">Új Lépés MHozzáadása</string>
+    <string name="add_new_steps">Új Lépés Hozzáadása</string>
     <string name="enter_the_new_step_here">Adja meg itt az új lépést</string>
     <string name="edit_text">Edit Text</string>
     <string name="delete_text">Törlés</string>
@@ -112,7 +112,7 @@
     <string name="btn_take_new_picture">Kép készítése</string>
     <string name="btn_upload_picture">Kép feltöltése</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">Heló üres Fragment</string>
     <string name="search_recipie">Kérem adjon meg egy nevet</string>
     <string name="search">Keresés</string>
     <string name="photos_and_videos">Képek és Videók</string>
@@ -127,4 +127,5 @@
     <string name="enter_quantity">Mennyiség megadása</string>
     <string name="enter_the_quantity_here">Mennyiség megadása</string>
     <string name="lines">- -</string>
+    <string name="fragment_search">Keresés</string>
 </resources>

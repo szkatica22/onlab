@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="language_english">Angol</string>
-    <string name="language_hun">Magyar</string>
+    <string name="language_english">en</string>
+    <string name="language_hun">hu</string>
     <string name="language_label_english">angol</string>
     <string name="language_label_hun">magyar</string>
+    <string name="units_choose">Válasszon</string>
     <string name="units_kg">kg</string>
     <string name="units_dkg">dkg</string>
     <string name="units_g">g</string>
@@ -16,4 +17,7 @@
     <string name="units_ms">mk</string>
     <string name="units_pc">db</string>
     <string name="units_pkg">cs</string>
+    <string name="time_min">perc</string>
+    <string name="time_hour">óra</string>
+    <string name="time_day">nap</string>
 </resources>

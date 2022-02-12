@@ -261,8 +261,8 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="hu.bme.aut.android.onlab.ui.search.SearchFragment"
-        android:label="fragment_search"
-        tools:layout="@layout/fragment_search" >
+        android:label="@string/fragment_search"
+        tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_searchFragment_to_nav_recipies"
             app:destination="@id/nav_recipies"

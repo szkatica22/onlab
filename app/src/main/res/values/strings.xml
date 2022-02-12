@@ -28,8 +28,8 @@
     <string name="recipie_fragment_recipiename">Test Recipe Name</string>
     <string name="tv_recipie_category">Flags/Categories</string>
     <string name="tv_recipie_time_info">Cooking time and abundance</string>
-    <string name="et_recipie_time">30 minutes</string>
-    <string name="et_recipie_abundance">4 servings</string>
+    <string name="et_recipie_time">30</string>
+    <string name="et_recipie_abundance">4</string>
     <string name="tv_recipie_ingredients">Ingredients</string>
     <string name="tv_recipie_ingredient_item">Example</string>
     <string name="tv_recipie_spinner_selected">Example</string>
@@ -124,4 +124,5 @@
     <string name="enter_quantity">Enter quantity</string>
     <string name="enter_the_quantity_here">Enter the quantity here</string>
     <string name="lines">- -</string>
+    <string name="fragment_search">Search</string>
 </resources>

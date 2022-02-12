@@ -53,6 +53,7 @@
                 android:background="@drawable/shape_background"
                 android:padding="6dp"
                 android:layout_margin="8dp"
+                android:inputType="numberDecimal|numberSigned"
                 android:textColor="@color/GreenprimaryColor"
                 android:textStyle="italic"
                 android:textSize="18sp"

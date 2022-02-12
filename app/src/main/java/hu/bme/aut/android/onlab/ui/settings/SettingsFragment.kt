@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.preference.ListPreference
 import androidx.preference.PreferenceManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -36,6 +38,11 @@ class SettingsFragment : Fragment(){
 //        const val PURPLE = R.style.AppTheme_Purple
 //    }
 
+    companion object {
+        val ENG = "en"
+        val HUN = "hu"
+    }
+
     val db = Firebase.firestore
     private val firebaseUser: FirebaseUser?
         get() = FirebaseAuth.getInstance().currentUser
@@ -46,7 +53,7 @@ class SettingsFragment : Fragment(){
     var name: String? = null
     var mode: Boolean = false
     var theme: String = "purple"
-    var language: String = "english"
+    var language: String = ENG
 
 //    private var navC: NavController? = null
 //    private var currentTheme = PURPLE
@@ -104,23 +111,33 @@ class SettingsFragment : Fragment(){
 //                }
 //            }
 //        }
-        val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context!!)
         name = sp.getString("name", "")
         mode = sp.getBoolean("mode", false)
         theme = sp.getString("theme", "purple")!!
-        language = sp.getString("language", "english")!!
+        language = sp.getString("language", "en")!!
+
 
         //Change Application Language
-//        setLocate()
+        setLocate()
 
+        loadSettings()
         saveSettings()
 
     }
 
-//    fun setLocate(){
+    fun setLocate(){
+
+        val locale = Locale(language)
+        val configuration: Configuration? = context?.resources?.configuration
+//        configuration?.locale = locale
+        configuration?.setLocale(locale)
+        resources.updateConfiguration(configuration, resources.displayMetrics)
+        val cont = configuration?.let { context?.createConfigurationContext(it) }
+
 //        val locale = Locale(language)
 //        val config = Configuration()
-//
+
 //        Locale.setDefault(locale)
 //        config.locale = locale
 //        baseContext.resources.updateConfiguration(config, baseContext.resources.displayMetrics)
@@ -128,7 +145,7 @@ class SettingsFragment : Fragment(){
 //        val editor = getSharedPreferences("Settings", Context.MODE_PRIVATE).edit()
 //        editor.putString("language", language)
 //        editor.apply()
-//    }
+    }
 
     fun saveSettings(){
 //        val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
@@ -167,7 +184,7 @@ class SettingsFragment : Fragment(){
 //        val sharedPrefsEdit: SharedPreferences.Editor = appSettingPrefs.edit()
 //        val night_mode: Boolean = appSettingPrefs.getBoolean("NightMode", false)
 
-        val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context!!)
 
 //        val name: String? = sp.getString("name", "")
 ////        val picture: Picture?

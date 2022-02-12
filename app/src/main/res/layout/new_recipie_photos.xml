@@ -25,16 +25,15 @@
             android:textStyle="italic"
             android:text="@string/photos_and_videos" />
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:padding="8dp"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_photo_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:src="@tools:sample/avatars" />
+            android:orientation="horizontal" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/flt_btn_attach"
-            app:icon="@drawable/ic_add_photo"
+            app:icon="@drawable/ic_take_photo"
             android:text="@string/create_and_save_new_photo"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
@@ -45,7 +44,7 @@
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/flt_btn_upload"
-            app:icon="@drawable/ic_add_photo"
+            app:icon="@drawable/ic_attach_photo"
             android:text="Upload"
             android:layout_gravity="center"
             android:layout_width="wrap_content"

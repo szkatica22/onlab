@@ -1,5 +1,7 @@
 package hu.bme.aut.android.onlab.data
 
+import android.graphics.Bitmap
+
 data class Recipie(
     var name: String? = null,
     var favourite: Boolean? = null,
@@ -8,8 +10,7 @@ data class Recipie(
     var time: String? = null,
     var abundance: String? = null,
     var author: String? = null,
-    var ingredients: List<String?>? = null,
-    var ingr_quantities: List<String?>? = null,
+    var ingredients: Map<String?, String?>? = null,
     var steps: List<String?>? = null,
     var shares: List<String?>? = null
 )

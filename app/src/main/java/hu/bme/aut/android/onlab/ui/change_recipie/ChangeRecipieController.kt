@@ -17,6 +17,8 @@ import hu.bme.aut.android.onlab.databinding.*
 import hu.bme.aut.android.onlab.ui.epoxy.ViewBindingKotlinModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.onlab.data.Recipie
@@ -33,9 +35,12 @@ class ChangeRecipieController(
 ) : EpoxyController() {
 
     private val db = Firebase.firestore
+    private val firebaseUser: FirebaseUser?
+        get() = FirebaseAuth.getInstance().currentUser
     private val original_rec_name = tmp_rec.name
-    private var ingredients: ArrayList<String> = tmp_rec.ingredients as ArrayList<String>
-    private var ingr_quantities: ArrayList<String> = tmp_rec.ingr_quantities as ArrayList<String>
+    private var ingredients: Map<String?, String?>? = tmp_rec.ingredients as Map<String?, String?>? // mapOf<String?, String?>()
+//    private var ingredients: ArrayList<String> = tmp_rec.ingredients as ArrayList<String>
+//    private var ingr_quantities: ArrayList<String> = tmp_rec.ingr_quantities as ArrayList<String>
     private var steps: ArrayList<String> = tmp_rec.steps as ArrayList<String>
     private var choosed_chips = mutableListOf<String>()
 
@@ -75,16 +80,12 @@ class ChangeRecipieController(
     }
 
     fun addIngredient(item: String, quantity: String?) {
-        ingredients.add(item)
-        if(quantity != null){
-            ingr_quantities.add(quantity)
-        }
+        ingredients = ingredients?.plus(Pair(item, quantity))
         requestModelBuild()
     }
 
-    fun deleteIngredient(idx: Int) {
-        ingredients.removeAt(idx)
-        ingr_quantities.removeAt(idx)
+    fun deleteIngredient(itm: String?) {
+        ingredients = ingredients?.minus(itm)
         requestModelBuild()
     }
 
@@ -100,7 +101,6 @@ class ChangeRecipieController(
 
     fun updateLists(){
         tmp_rec.ingredients = ingredients
-        tmp_rec.ingr_quantities = ingr_quantities
         tmp_rec.steps = steps
     }
 
@@ -133,8 +133,8 @@ class ChangeRecipieController(
                     db.collection("recipies").document(snapshot.documents[0].id).
                     update("abundance", tmp_rec.abundance, "favourite",
                         tmp_rec.favourite, "flags", tmp_rec.flags, "imageUrls", tmp_rec.imageUrls,
-                        "ingredients", tmp_rec.ingredients, "ingr_quantities", tmp_rec.ingr_quantities,
-                        "name", tmp_rec.name, "steps", tmp_rec.steps, "time", tmp_rec.time)
+                        "ingredients", tmp_rec.ingredients, "name", tmp_rec.name, "steps",
+                        tmp_rec.steps, "time", tmp_rec.time)
 
                     val bundle = Bundle()
                     bundle.putString("recipiename", tmp_rec.name)
@@ -150,10 +150,9 @@ class ChangeRecipieController(
     override fun buildModels() {
         HeaderEpoxyModel(this).id(original_rec_name).addTo(this)
         InformationsEpoxyModel(this).id(tmp_rec.time).addTo(this)
-        if(!ingredients.isEmpty()){
-            ingredients.forEach{ item ->
-                val idx = ingredients.indexOf(item)
-                IngredientEpoxyModel(item, ingr_quantities[idx], this).id(item).addTo(this)
+        if(ingredients?.isNotEmpty()!!){
+            ingredients?.keys?.forEach{ item ->
+                IngredientEpoxyModel(ingredients, item, this).id(item).addTo(this)
             }
         }
 
@@ -216,7 +215,8 @@ class ChangeRecipieController(
 
             val chipGroup: ChipGroup = cgRecipieFlags
             chipGroup.removeAllViews()
-            controller.db.collection("flags").get().addOnSuccessListener { snapshots ->
+            controller.db.collection("flags").whereEqualTo("creator",
+                controller.firebaseUser?.email).get().addOnSuccessListener { snapshots ->
                 if(snapshots != null){
                     for(snap in snapshots.documents){
                         val chip = Chip(chipGroup.context)
@@ -239,14 +239,14 @@ class ChangeRecipieController(
     }
 
     // Ingredients
-    data class IngredientEpoxyModel(val ingredient: String, val quantity: String,
+    data class IngredientEpoxyModel(var ingredients: Map<String?, String?>?, val ingredient: String?,
                                     var controller: ChangeRecipieController):
     ViewBindingKotlinModel<ChangeRecipieItemBinding>(R.layout.change_recipie_item){
         override fun ChangeRecipieItemBinding.bind() {
             tvChangeRecipieItemTitleId.text = ingredient
-            tvChangeRecipieItemQuantity.text = quantity
+            tvChangeRecipieItemQuantity.text = ingredients!![ingredient]
             ivChangeRecipieDelete.setOnClickListener {
-                controller.deleteIngredient(controller.ingredients.indexOf(ingredient))
+                controller.deleteIngredient(ingredient)
 
             }
         }

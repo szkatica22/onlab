@@ -1,27 +1,23 @@
 package hu.bme.aut.android.onlab.ui.new_recipie
 
-import android.content.Context
-import android.content.Intent
-import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat.startActivityForResult
-import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.airbnb.epoxy.EpoxyController
+import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.onlab.R
@@ -29,25 +25,21 @@ import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.databinding.*
 import hu.bme.aut.android.onlab.ui.epoxy.ViewBindingKotlinModel
 
-class NewRecipieController(private val context: Context?, private var btn_ingredient: String,
-                           private var prep_title: String,
+class NewRecipieController(private val fragment: NewRecipieFragment,
+                           private var btn_ingredient: String, private var prep_title: String,
                            private var btn_step: String, private var btn_save: String,
                            private val inflater: LayoutInflater) : EpoxyController() {
 
     private val db = Firebase.firestore
     private var new_recipie: Recipie = Recipie()
+    private var last_pos = -1
     private var chipGroup: ChipGroup? = null
-    private var ingredients: ArrayList<String> = arrayListOf<String>()
-    private var ingr_quantities: ArrayList<String> = arrayListOf<String>()
+    private var ingredients: Map<String?, String?>? = mapOf<String?, String?>()
+    private var photos: ArrayList<String> = arrayListOf<String>()
+//    private var ingredients: ArrayList<String> = arrayListOf<String>()
+//    private var ingr_quantities: ArrayList<String> = arrayListOf<String>()
     private var steps: ArrayList<String> = arrayListOf<String>()
     private var choosed_chips = mutableListOf<String>()
-
-    companion object {
-        private const val REQUEST_CODE = 101
-        private const val ALL_PERMISSIONS_RESULT = 107
-        private const val IMAGE_RESULT = 200
-        private const val REQUEST_IMAGE_CAPTURE = 12345
-    }
 
     private val name_watcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
@@ -89,16 +81,17 @@ class NewRecipieController(private val context: Context?, private var btn_ingred
         get() = FirebaseAuth.getInstance().currentUser
 
     fun addIngredient(item: String, quantity: String?) {
-        ingredients.add(item)
-        if(quantity != null){
-            ingr_quantities.add(quantity)
-        }
+        ingredients = ingredients?.plus(Pair(item, quantity))
+//        ingredients.add(item)
+//        if(quantity != null){
+//            ingr_quantities.add(quantity)
+//        }
         requestModelBuild()
     }
 
-    fun deleteIngredient(idx: Int) {
-        ingredients.removeAt(idx)
-        ingr_quantities.removeAt(idx)
+    fun deleteIngredient(itm: String) {
+        ingredients = ingredients?.minus(itm)
+//        notifyModelChanged(ingredients?.size!!)
         requestModelBuild()
     }
 
@@ -112,13 +105,25 @@ class NewRecipieController(private val context: Context?, private var btn_ingred
         requestModelBuild()
     }
 
+    fun addPhoto(item: String?) {
+        if (item != null) {
+            photos.add(item)
+            requestModelBuild()
+        }
+    }
+
+    fun deletePhoto(idx: Int) {
+        photos.removeAt(idx)
+        requestModelBuild()
+    }
+
     fun updateAuthor(){
         new_recipie.author = firebaseUser?.email
     }
     fun updateLists(){
         new_recipie.ingredients = ingredients
-        new_recipie.ingr_quantities = ingr_quantities
         new_recipie.steps = steps
+        new_recipie.imageUrls = photos
     }
 
     fun addChip(chip_name: String){
@@ -128,31 +133,50 @@ class NewRecipieController(private val context: Context?, private var btn_ingred
         choosed_chips.remove(chip_name)
     }
 
-    fun saveRecipie(){
-        updateAuthor()
-        updateLists()
-        if(new_recipie.favourite == null){
-            new_recipie.favourite = false
+//    fun saveRecipie(){
+//        updateAuthor()
+//        updateLists()
+//        if(new_recipie.favourite == null){
+//            new_recipie.favourite = false
+//        }
+//
+//        // Check choosed flags
+//        new_recipie.flags = choosed_chips
+//
+//        db.collection("recipies").add(new_recipie).addOnSuccessListener {
+//            Toast.makeText(inflater.context, "Recipie saved", Toast.LENGTH_SHORT).show()
+//        }.addOnFailureListener { e ->
+//            Toast.makeText(inflater.context, e.toString(), Toast.LENGTH_SHORT).show()
+//        }
+//
+//    }
+
+    fun setAnimation(view: View, pos: Int){
+        if(pos > last_pos){
+            val animation = AnimationUtils.loadAnimation(this.fragment.context,
+                android.R.anim.slide_in_left)
+            view.startAnimation(animation)
+            last_pos = pos
         }
-
-        // Check choosed flags
-        new_recipie.flags = choosed_chips
-
-        db.collection("recipies").add(new_recipie).addOnSuccessListener {
-            Toast.makeText(inflater.context, "Recipie saved", Toast.LENGTH_SHORT).show()
-        }.addOnFailureListener { e ->
-            Toast.makeText(inflater.context, e.toString(), Toast.LENGTH_SHORT).show()
-        }
-
     }
+
 
     override fun buildModels() {
         HeaderEpoxyModel(this).id(name_watcher.toString()).addTo(this)
+
+        if(!photos.isEmpty()){
+            photos.forEach { item ->
+                PhotosEpoxyModel(photos, item, this).id(item).addTo(this)
+            }
+        }
+        AddPhotoEpoxyModel(this).id(this.new_recipie.imageUrls.toString()).addTo(this)
+
         InformationsEpoxyModel(this, chipGroup).id(time_watcher.toString()).addTo(this)
-        if(!ingredients.isEmpty()){
-            ingredients.forEach { item ->
-                val idx = ingredients.indexOf(item)
-                IngredientEpoxyModel(ingredients, ingr_quantities, item, idx, this).id(item).addTo(this)
+        if(!ingredients?.isEmpty()!!){
+            ingredients?.keys?.forEach { item ->
+                if (item != null) {
+                    IngredientEpoxyModel(ingredients, item, this).id(item).addTo(this)
+                }
             }
         }
         IngrFloatingButtonEpoxyController(btn_ingredient, this).id(btn_ingredient).addTo(this)
@@ -196,14 +220,40 @@ class NewRecipieController(private val context: Context?, private var btn_ingred
     }
 
     // Photos
-    data class PhotosEpoxyModel(var controller: NewRecipieController):
-    ViewBindingKotlinModel<NewRecipiePhotosBinding>(R.layout.new_recipie_photos){
-        override fun NewRecipiePhotosBinding.bind() {
+    data class PhotosEpoxyModel(var photos: List<String>, val photo: String, var controller: NewRecipieController):
+    ViewBindingKotlinModel<PhotoItemBinding>(R.layout.photo_item){
+        override fun PhotoItemBinding.bind() {
+            if (controller.fragment.getUrl().isNullOrBlank()) {
+                ivPhoto.visibility = View.GONE
+            } else {
+                controller.fragment.context?.let {
+                    Glide.with(it).load(controller.fragment.getUrl()).into(ivPhoto)
+                    ivPhoto.visibility = View.VISIBLE
+                }
+            }
+//
+//            controller.setAnimation(controller.fragment.requireView(), photos.indexOf(photo))
+//
+            ivPhoto.setImageBitmap(controller.fragment.getBitmap())
+//            ivPhoto.setOnLongClickListener {
+//                controller.deletePhoto(photos.indexOf(photo))
+//                ivPhoto.visibility = View.GONE
+//                return@setOnLongClickListener true
+//            }
+        }
+    }
+
+    data class AddPhotoEpoxyModel(var controller: NewRecipieController):
+    ViewBindingKotlinModel<AddPhotoBtnsBinding>(R.layout.add_photo_btns){
+        override fun AddPhotoBtnsBinding.bind() {
             fltBtnAttach.setOnClickListener {
+                controller.fragment.takePicture()
+                controller.addPhoto(controller.fragment.getPhoto())
+                Log.d("PHOTO: ", controller.photos.toString())
+//                val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//                controller.context.startActivityForResult(takePictureIntent, REQUEST_CODE)
 //                val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 //                Fragment.startActivityForResult(takePictureIntent, REQUEST_CODE)
-            }
-            fltBtnUpload.setOnClickListener {
 
             }
         }
@@ -219,7 +269,8 @@ class NewRecipieController(private val context: Context?, private var btn_ingred
 
             chipGroup = cgRecipieFlags
             chipGroup?.removeAllViews()
-            controller.db.collection("flags").get().addOnSuccessListener { snapshots ->
+            controller.db.collection("flags").whereEqualTo("creator",
+                controller.firebaseUser?.email).get().addOnSuccessListener { snapshots ->
                 if(snapshots != null){
                     for(snap in snapshots.documents){
                         val chip = Chip(chipGroup?.context)
@@ -245,14 +296,15 @@ class NewRecipieController(private val context: Context?, private var btn_ingred
     }
 
     // Ingredients
-    data class IngredientEpoxyModel(var ingredients: List<String>, var ingr_quantities: List<String>,
-                                    val ingredient: String, val idx: Int, var controller: NewRecipieController):
+    data class IngredientEpoxyModel(
+        var ingredients: Map<String?, String?>?, val ingredient: String,
+        var controller: NewRecipieController):
         ViewBindingKotlinModel<NewRecipieItemBinding>(R.layout.new_recipie_item){
         override fun NewRecipieItemBinding.bind() {
             tvNewRecipieItemTitleId.text = ingredient
-            tvNewRecipieItemQuantity.text = ingr_quantities[idx]
+            tvNewRecipieItemQuantity.text = ingredients!![ingredient]
             ivNewRecipieDelete.setOnClickListener {
-                controller.deleteIngredient(ingredients.indexOf(ingredient))
+                controller.deleteIngredient(ingredient)
             }
         }
     }
@@ -268,7 +320,7 @@ class NewRecipieController(private val context: Context?, private var btn_ingred
                 val ingredient = v.findViewById<EditText>(R.id.et_new_recipie_ingredient)
                 val quantity = v.findViewById<EditText>(R.id.et_new_recipie_quantity)
                 var info: String? = null
-                val units_array = controller.context?.resources?.getStringArray(R.array.units_array)
+                val units_array = controller.fragment.context?.resources?.getStringArray(R.array.units_array)
 
                 var unit = v.findViewById<Spinner>(R.id.spinner_unit)
                 unit.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
@@ -352,7 +404,19 @@ class NewRecipieController(private val context: Context?, private var btn_ingred
         override fun NewRecipieSaveBtnBinding.bind() {
             btnSaveNewRecipie.text = title
             btnSaveNewRecipie.setOnClickListener {
-                controller.saveRecipie()
+                controller.updateAuthor()
+                controller.updateLists()
+                if(controller.new_recipie.favourite == null){
+                    controller.new_recipie.favourite = false
+                }
+
+                // Check choosed flags
+                controller.new_recipie.flags = controller.choosed_chips
+
+                // Call Fragment Save function
+                controller.fragment.SaveClick(controller.new_recipie)
+
+//                controller.saveRecipie()
                 it.findNavController().navigate(R.id.action_nav_new_recipie_to_nav_recipies)
             }
         }

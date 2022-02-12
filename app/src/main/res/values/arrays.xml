@@ -32,6 +32,7 @@
 
 <!--  Array of Units for Shopping List and Ingredients  -->
     <string-array name="units_array">
+        <item>@string/units_choose</item>
         <item>@string/units_kg</item>
         <item>@string/units_dkg</item>
         <item>@string/units_g</item>
@@ -46,6 +47,14 @@
         <item>@string/units_pkg</item>
     </string-array>
 
+    <!--  Array of Units for Shopping List and Ingredients  -->
+    <string-array name="time_array">
+        <item>@string/units_choose</item>
+        <item>@string/time_min</item>
+        <item>@string/time_hour</item>
+        <item>@string/time_day</item>
+    </string-array>
+
     <!-- Reply Preference -->
     <string-array name="reply_entries">
         <item>Reply</item>
@@ -56,10 +65,11 @@
         <item>reply</item>
         <item>reply_all</item>
     </string-array>
-    <string name="language_english">English</string>
-    <string name="language_hun">Hungary</string>
+    <string name="language_english">en</string>
+    <string name="language_hun">hu</string>
     <string name="language_label_english">english</string>
     <string name="language_label_hun">hungary</string>
+    <string name="units_choose">Choose</string>
     <string name="units_kg">kg</string>
     <string name="units_dkg">dkg</string>
     <string name="units_g">g</string>
@@ -72,4 +82,7 @@
     <string name="units_ms">ms</string>
     <string name="units_pc">pc</string>
     <string name="units_pkg">pkg</string>
+    <string name="time_min">min</string>
+    <string name="time_hour">h</string>
+    <string name="time_day">d</string>
 </resources>

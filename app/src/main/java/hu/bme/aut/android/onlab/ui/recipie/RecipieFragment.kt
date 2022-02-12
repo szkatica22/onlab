@@ -1,7 +1,7 @@
 package hu.bme.aut.android.onlab.ui.recipie
 
+import android.graphics.Bitmap
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,8 +61,7 @@ class RecipieFragment: Fragment(){
                     val tmp_rec = Recipie(rec_name, tmp_data?.get("favourite") as Boolean,
                         tmp_data.get("flags") as List<String?>?, tmp_data.get("imageUrls") as List<String?>?,
                         tmp_data.get("time").toString(), tmp_data.get("abundance").toString(),
-                        tmp_data.get("author").toString(), tmp_data.get("ingredients") as List<String?>?,
-                        tmp_data.get("ingr_quantities") as List<String?>?,
+                        tmp_data.get("author").toString(), tmp_data.get("ingredients") as Map<String?, String?>?,
                         tmp_data.get("steps") as List<String?>?, tmp_data.get("shares") as List<String?>?)
 
                     recipieController = RecipieController(this.context, tmp_rec, prep_title, other_users, inflater)

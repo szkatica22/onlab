@@ -1,5 +1,6 @@
 package hu.bme.aut.android.onlab.ui.recipie
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -19,6 +20,7 @@ import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.data.ShoppingItem
 import hu.bme.aut.android.onlab.ui.epoxy.ViewBindingKotlinModel
+import java.util.*
 
 
 class RecipieController(
@@ -53,8 +55,10 @@ class RecipieController(
         }
 
         var flag_ok = true
-        saved_rec.ingredients!!.forEach{ item ->
-            val new_item = ShoppingItem(item, author = firebaseUser?.email, checked = false)
+        saved_rec.ingredients!!.keys.forEach{ item ->
+            val quant_unit = saved_rec.ingredients!![item]?.split(" ")
+            val new_item = ShoppingItem(item, quant_unit?.get(0)?.toFloat(),
+                quant_unit?.get(1), firebaseUser?.email, false)
             db.collection("shopping_list").add(new_item).addOnFailureListener{
                 flag_ok = false
             }
@@ -91,12 +95,13 @@ class RecipieController(
         HeaderEpoxyModel(this, saved_rec).id(saved_rec.name).addTo(this)
         InformationsEpoxyModel(saved_rec).id(saved_rec.time).addTo(this)
 
-        if(saved_rec.ingredients?.isEmpty()!!){
+        if(saved_rec.ingredients?.size == 0){
             return
         }
-        saved_rec.ingredients!!.forEach{ item ->
-            val idx = saved_rec.ingredients!!.indexOf(item)
-            IngredientEpoxyModel(item, saved_rec.ingr_quantities?.get(idx)).id(item).addTo(this)
+        saved_rec.ingredients!!.keys.forEach{ item ->
+//            Log.d("KEY: ", item.toString())
+//            Log.d("VALUE: ", saved_rec.ingredients!![item].toString())
+            IngredientEpoxyModel(item, saved_rec.ingredients!![item]).id(item).addTo(this)
         }
         PreparationTextEpoxyModel(prep_title).id(prep_title).addTo(this)
 
@@ -134,9 +139,21 @@ class RecipieController(
 
     data class InformationsEpoxyModel(val saved_rec: Recipie):
         ViewBindingKotlinModel<RecipieInformationsBinding>(R.layout.recipie_informations){
+        @SuppressLint("SetTextI18n")
         override fun RecipieInformationsBinding.bind() {
             tvRecipieTime.text = saved_rec.time
             tvRecipieAbundance.text = saved_rec.abundance
+//            Log.d("LANGUAGE: ", Locale.getDefault().displayLanguage)
+//            if(Locale.getDefault().displayLanguage == "en"){
+//                if(saved_rec.abundance!! > 1){
+//                    tvRecipieAbundance.text = saved_rec.abundance.toString() + " portions"
+//                } else{
+//                    tvRecipieAbundance.text = saved_rec.abundance.toString() + " portion"
+//                }
+//            } else {
+//                tvRecipieAbundance.text = saved_rec.abundance.toString() + " adag"
+//            }
+
             var chipGroup: ChipGroup = cgRecipieFlags
             chipGroup.removeAllViews()
             if(saved_rec.flags != null){
