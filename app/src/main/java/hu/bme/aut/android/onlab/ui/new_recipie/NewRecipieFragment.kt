@@ -32,14 +32,10 @@ class NewRecipieFragment : Fragment(){
 
     companion object {
         private const val REQUEST_CODE = 101
-        private const val ALL_PERMISSIONS_RESULT = 107
-        private const val IMAGE_RESULT = 200
-        private const val REQUEST_IMAGE_CAPTURE = 12345
     }
 
     private lateinit var newRecipieViewModel: NewRecipieViewModel
     private var _binding: FragmentNewRecipieBinding? = null
-    private var photo_binding: PhotoItemBinding? = null
 
     private lateinit var newrecipieController: NewRecipieController
 
@@ -54,6 +50,7 @@ class NewRecipieFragment : Fragment(){
     var prep_title: String = "Preparation"
     var tmp_bitmap: Bitmap? = null
     var img_url: String? = null
+    var flag_photo = false
 
 
     override fun onCreateView(
@@ -65,8 +62,6 @@ class NewRecipieFragment : Fragment(){
             ViewModelProvider(this).get(NewRecipieViewModel::class.java)
 
         _binding = FragmentNewRecipieBinding.inflate(inflater, container, false)
-
-        photo_binding = PhotoItemBinding.inflate(inflater, container, false)
 
         val root: View = binding.root
 
@@ -82,6 +77,7 @@ class NewRecipieFragment : Fragment(){
     }
 
     fun takePicture(){
+        flag_photo = true
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(takePictureIntent, REQUEST_CODE)
     }
@@ -95,8 +91,9 @@ class NewRecipieFragment : Fragment(){
         if (requestCode == REQUEST_CODE) {
             val imageBitmap = data?.extras?.get("data") as? Bitmap
             tmp_bitmap = imageBitmap
-            photo_binding?.ivPhoto?.setImageBitmap(imageBitmap)
-            photo_binding?.ivPhoto?.visibility = View.VISIBLE
+            newrecipieController.addPhoto(tmp_bitmap)
+//            photo_binding?.ivPhoto?.setImageBitmap(imageBitmap)
+//            photo_binding?.ivPhoto?.visibility = View.VISIBLE
         }
 
     }
@@ -106,9 +103,9 @@ class NewRecipieFragment : Fragment(){
     }
 
     fun saveWithPhoto(recipie: Recipie){
-        val bitmap: Bitmap = (photo_binding?.ivPhoto?.drawable as BitmapDrawable).bitmap
+//        val bitmap: Bitmap = (photo_binding?.ivPhoto?.drawable as BitmapDrawable).bitmap
         val baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val imageInBytes = baos.toByteArray()
 
         val storageReference = FirebaseStorage.getInstance().reference
@@ -127,13 +124,14 @@ class NewRecipieFragment : Fragment(){
                 newImageRef.downloadUrl
             }
             .addOnSuccessListener { downloadUri ->
+                Log.d("downloadURI: ", downloadUri.toString())
                 img_url = downloadUri.toString()
                 uploadRecipie(downloadUri.toString(), recipie)
             }
     }
 
     fun SaveClick(recipie: Recipie){
-        if(photo_binding?.ivPhoto?.visibility != View.VISIBLE){
+        if(!flag_photo){
             uploadRecipie(recipie = recipie)
         } else {
             try {
@@ -151,21 +149,14 @@ class NewRecipieFragment : Fragment(){
             recipie.imageUrls = images
         }
 
-        db.collection("recipies").add(recipie).addOnSuccessListener {
+//        Log.d("URL: ", img_url.toString())
+
+        db.collection("recipies").add(recipie)/*.addOnSuccessListener {
             Toast.makeText(activity?.applicationContext, "Recipie saved", Toast.LENGTH_SHORT).show()
-        }.addOnFailureListener { e ->
+        }*/.addOnFailureListener { e ->
             Toast.makeText(activity?.applicationContext, e.toString(), Toast.LENGTH_SHORT).show()
         }
 
-    }
-
-    fun getUrl(): String? {
-        return img_url
-    }
-
-    fun getPhoto(): String {
-        val newImageName = URLEncoder.encode(UUID.randomUUID().toString(), "UTF-8") + ".jpg"
-        return newImageName
     }
 
 //    fun initFlagListener() {

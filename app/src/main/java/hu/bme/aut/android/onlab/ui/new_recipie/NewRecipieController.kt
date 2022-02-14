@@ -1,15 +1,13 @@
 package hu.bme.aut.android.onlab.ui.new_recipie
 
+import android.graphics.Bitmap
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.AnimationUtils
-import android.widget.AdapterView
-import android.widget.EditText
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.findNavController
 import com.airbnb.epoxy.EpoxyController
@@ -35,7 +33,7 @@ class NewRecipieController(private val fragment: NewRecipieFragment,
     private var last_pos = -1
     private var chipGroup: ChipGroup? = null
     private var ingredients: Map<String?, String?>? = mapOf<String?, String?>()
-    private var photos: ArrayList<String> = arrayListOf<String>()
+    private var photos: ArrayList<Bitmap> = arrayListOf<Bitmap>()
 //    private var ingredients: ArrayList<String> = arrayListOf<String>()
 //    private var ingr_quantities: ArrayList<String> = arrayListOf<String>()
     private var steps: ArrayList<String> = arrayListOf<String>()
@@ -105,7 +103,7 @@ class NewRecipieController(private val fragment: NewRecipieFragment,
         requestModelBuild()
     }
 
-    fun addPhoto(item: String?) {
+    fun addPhoto(item: Bitmap?) {
         if (item != null) {
             photos.add(item)
             requestModelBuild()
@@ -117,13 +115,18 @@ class NewRecipieController(private val fragment: NewRecipieFragment,
         requestModelBuild()
     }
 
+    fun updateImageView(iv: ImageView, bitmap: Bitmap){
+        iv.setImageBitmap(bitmap)
+        iv.visibility = View.VISIBLE
+    }
+
     fun updateAuthor(){
         new_recipie.author = firebaseUser?.email
     }
     fun updateLists(){
         new_recipie.ingredients = ingredients
         new_recipie.steps = steps
-        new_recipie.imageUrls = photos
+//        new_recipie.imageUrls = photos
     }
 
     fun addChip(chip_name: String){
@@ -166,7 +169,7 @@ class NewRecipieController(private val fragment: NewRecipieFragment,
 
         if(!photos.isEmpty()){
             photos.forEach { item ->
-                PhotosEpoxyModel(photos, item, this).id(item).addTo(this)
+                PhotosEpoxyModel(photos, item, this).id(item.generationId).addTo(this)
             }
         }
         AddPhotoEpoxyModel(this).id(this.new_recipie.imageUrls.toString()).addTo(this)
@@ -220,14 +223,14 @@ class NewRecipieController(private val fragment: NewRecipieFragment,
     }
 
     // Photos
-    data class PhotosEpoxyModel(var photos: List<String>, val photo: String, var controller: NewRecipieController):
+    data class PhotosEpoxyModel(var photos: List<Bitmap>, val photo: Bitmap, var controller: NewRecipieController):
     ViewBindingKotlinModel<PhotoItemBinding>(R.layout.photo_item){
         override fun PhotoItemBinding.bind() {
-            if (controller.fragment.getUrl().isNullOrBlank()) {
+            if (controller.fragment.getBitmap() == null) {
                 ivPhoto.visibility = View.GONE
             } else {
                 controller.fragment.context?.let {
-                    Glide.with(it).load(controller.fragment.getUrl()).into(ivPhoto)
+                    Glide.with(it).load(controller.fragment.getBitmap()).into(ivPhoto)
                     ivPhoto.visibility = View.VISIBLE
                 }
             }
@@ -235,11 +238,11 @@ class NewRecipieController(private val fragment: NewRecipieFragment,
 //            controller.setAnimation(controller.fragment.requireView(), photos.indexOf(photo))
 //
             ivPhoto.setImageBitmap(controller.fragment.getBitmap())
-//            ivPhoto.setOnLongClickListener {
-//                controller.deletePhoto(photos.indexOf(photo))
-//                ivPhoto.visibility = View.GONE
-//                return@setOnLongClickListener true
-//            }
+            ivPhoto.setOnLongClickListener {
+                controller.deletePhoto(photos.indexOf(photo))
+                ivPhoto.visibility = View.GONE
+                return@setOnLongClickListener true
+            }
         }
     }
 
@@ -248,13 +251,6 @@ class NewRecipieController(private val fragment: NewRecipieFragment,
         override fun AddPhotoBtnsBinding.bind() {
             fltBtnAttach.setOnClickListener {
                 controller.fragment.takePicture()
-                controller.addPhoto(controller.fragment.getPhoto())
-                Log.d("PHOTO: ", controller.photos.toString())
-//                val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-//                controller.context.startActivityForResult(takePictureIntent, REQUEST_CODE)
-//                val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-//                Fragment.startActivityForResult(takePictureIntent, REQUEST_CODE)
-
             }
         }
     }
