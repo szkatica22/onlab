@@ -103,9 +103,10 @@ class NewRecipieFragment : Fragment(){
     }
 
     fun saveWithPhoto(recipie: Recipie){
+        val bitmap = newrecipieController.getBitmap()
 //        val bitmap: Bitmap = (photo_binding?.ivPhoto?.drawable as BitmapDrawable).bitmap
         val baos = ByteArrayOutputStream()
-//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val imageInBytes = baos.toByteArray()
 
         val storageReference = FirebaseStorage.getInstance().reference

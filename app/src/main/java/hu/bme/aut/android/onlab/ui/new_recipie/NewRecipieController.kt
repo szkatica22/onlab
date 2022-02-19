@@ -136,6 +136,10 @@ class NewRecipieController(private val fragment: NewRecipieFragment,
         choosed_chips.remove(chip_name)
     }
 
+    fun getBitmap(): Bitmap? {
+        return photos[0]
+    }
+
 //    fun saveRecipie(){
 //        updateAuthor()
 //        updateLists()

@@ -3,20 +3,14 @@ package hu.bme.aut.android.onlab
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import hu.bme.aut.android.onlab.databinding.ActivityMainBinding
-import hu.bme.aut.android.onlab.databinding.RegistrationBinding
 import hu.bme.aut.android.onlab.extensions.validateNonEmpty
-import androidx.navigation.fragment.findNavController
-import androidx.preference.PreferenceManager
-import hu.bme.aut.android.onlab.ui.recipies.RecipiesFragment
-import hu.bme.aut.android.onlab.ui.settings.SettingsFragment
 
 class MainActivity : BaseActivity() {
 
@@ -38,6 +32,16 @@ class MainActivity : BaseActivity() {
         binding.btnRegister.setOnClickListener { registerClick() }
         binding.btnLogin.setOnClickListener { loginClick() }
 
+    }
+
+    // Check if there's a signed-in user
+    override fun onStart(){
+        super.onStart()
+        val user: FirebaseUser? = firebaseAuth.currentUser
+        user?.let {
+            startActivity(Intent(this@MainActivity, SecondActivity::class.java))
+            toast("Welcome back!")
+        }
     }
 
     // Ha regisztralni akarunk ez hivodik meg
