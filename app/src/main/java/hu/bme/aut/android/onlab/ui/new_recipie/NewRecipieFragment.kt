@@ -92,8 +92,6 @@ class NewRecipieFragment : Fragment(){
             val imageBitmap = data?.extras?.get("data") as? Bitmap
             tmp_bitmap = imageBitmap
             newrecipieController.addPhoto(tmp_bitmap)
-//            photo_binding?.ivPhoto?.setImageBitmap(imageBitmap)
-//            photo_binding?.ivPhoto?.visibility = View.VISIBLE
         }
 
     }
@@ -104,7 +102,6 @@ class NewRecipieFragment : Fragment(){
 
     fun saveWithPhoto(recipie: Recipie){
         val bitmap = newrecipieController.getBitmap()
-//        val bitmap: Bitmap = (photo_binding?.ivPhoto?.drawable as BitmapDrawable).bitmap
         val baos = ByteArrayOutputStream()
         bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val imageInBytes = baos.toByteArray()
@@ -150,12 +147,10 @@ class NewRecipieFragment : Fragment(){
             recipie.imageUrls = images
         }
 
-//        Log.d("URL: ", img_url.toString())
-
-        db.collection("recipies").add(recipie)/*.addOnSuccessListener {
-            Toast.makeText(activity?.applicationContext, "Recipie saved", Toast.LENGTH_SHORT).show()
-        }*/.addOnFailureListener { e ->
-            Toast.makeText(activity?.applicationContext, e.toString(), Toast.LENGTH_SHORT).show()
+        db.collection("recipies").add(recipie).addOnSuccessListener {
+            Toast.makeText(layoutInflater.context, "Recipie saved", Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener { e ->
+            Toast.makeText(layoutInflater.context, e.toString(), Toast.LENGTH_SHORT).show()
         }
 
     }

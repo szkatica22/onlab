@@ -11,12 +11,14 @@ import com.airbnb.epoxy.EpoxyController
 import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.databinding.*
 import androidx.navigation.findNavController
+import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.squareup.picasso.Picasso
 import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.data.ShoppingItem
 import hu.bme.aut.android.onlab.ui.epoxy.ViewBindingKotlinModel
@@ -24,7 +26,7 @@ import java.util.*
 
 
 class RecipieController(
-    private val context: Context?,
+    private val fragment: RecipieFragment,
     private val saved_rec: Recipie,
     private var prep_title: String,
     private var other_users: List<String>,
@@ -65,10 +67,10 @@ class RecipieController(
         }
         when {
             flag_ok -> {
-                Toast.makeText(this.context, "All successfully added", Toast.LENGTH_SHORT).show()
+                Toast.makeText(fragment.context, "All successfully added", Toast.LENGTH_SHORT).show()
             }
             else -> {
-                Toast.makeText(this.context, "Add failed", Toast.LENGTH_SHORT).show()
+                Toast.makeText(fragment.context, "Add failed", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -83,7 +85,7 @@ class RecipieController(
                 if(snapshot.documents.isNotEmpty()){
                     db.collection("recipies").document(snapshot.documents[0].id).
                     update("shares", tmp_users)
-                    Toast.makeText(this.context, "Recipe Shared Successfully",
+                    Toast.makeText(fragment.context, "Recipe Shared Successfully",
                         Toast.LENGTH_SHORT).show()
                 }
             }
@@ -93,7 +95,7 @@ class RecipieController(
     override fun buildModels() {
 
         HeaderEpoxyModel(this, saved_rec).id(saved_rec.name).addTo(this)
-        InformationsEpoxyModel(saved_rec).id(saved_rec.time).addTo(this)
+        InformationsEpoxyModel(this, saved_rec).id(saved_rec.time).addTo(this)
 
         if(saved_rec.ingredients?.size == 0){
             return
@@ -137,7 +139,7 @@ class RecipieController(
         }
     }
 
-    data class InformationsEpoxyModel(val saved_rec: Recipie):
+    data class InformationsEpoxyModel(val controller: RecipieController, val saved_rec: Recipie):
         ViewBindingKotlinModel<RecipieInformationsBinding>(R.layout.recipie_informations){
         @SuppressLint("SetTextI18n")
         override fun RecipieInformationsBinding.bind() {
@@ -164,6 +166,13 @@ class RecipieController(
                     chip.isClickable = false
                     chip.isCheckable = false
                     chipGroup.addView(chip)
+                }
+            }
+
+            //PHOTO
+            if(saved_rec.imageUrls?.isNotEmpty() == true){
+                controller.fragment.context?.let {
+                    Picasso.get().load(saved_rec.imageUrls!![0]).into(ivPhoto)
                 }
             }
         }

@@ -2,6 +2,7 @@ package hu.bme.aut.android.onlab.ui.change_recipie
 
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,6 +13,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.findNavController
 import com.airbnb.epoxy.EpoxyController
+import com.bumptech.glide.Glide
 import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.databinding.*
 import hu.bme.aut.android.onlab.ui.epoxy.ViewBindingKotlinModel
@@ -21,10 +23,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.squareup.picasso.Picasso
 import hu.bme.aut.android.onlab.data.Recipie
+import hu.bme.aut.android.onlab.ui.new_recipie.NewRecipieController
 
 class ChangeRecipieController(
-    private val context: Context?,
+    private val fragment: ChangeRecipieFragment,
     private var tmp_rec: Recipie,
     private var btn_ingredient: String,
     private var prep_title: String,
@@ -43,6 +47,7 @@ class ChangeRecipieController(
 //    private var ingr_quantities: ArrayList<String> = tmp_rec.ingr_quantities as ArrayList<String>
     private var steps: ArrayList<String> = tmp_rec.steps as ArrayList<String>
     private var choosed_chips = mutableListOf<String>()
+    private var photos: ArrayList<Bitmap> = arrayListOf<Bitmap>()
 
     private val name_watcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
@@ -89,6 +94,23 @@ class ChangeRecipieController(
         requestModelBuild()
     }
 
+    fun deletePhoto(idx: Int){
+        tmp_rec.imageUrls?.drop(idx)
+        photos.removeAt(idx)
+        requestModelBuild()
+    }
+
+    fun addPhoto(item: Bitmap?) {
+        if (item != null) {
+            photos.add(item)
+            requestModelBuild()
+        }
+    }
+
+    fun getBitmap(): Bitmap {
+        return photos[0]
+    }
+
     fun addStep(item: String) {
         steps.add(item)
         requestModelBuild()
@@ -126,37 +148,57 @@ class ChangeRecipieController(
     fun saveChanges(view: View) {
         updateLists()
         tmp_rec.flags = choosed_chips
-        db.collection("recipies").whereEqualTo("name", original_rec_name).get().
-        addOnSuccessListener { snapshot ->
-            if(snapshot != null){
-                if(snapshot.documents.isNotEmpty()){
-                    db.collection("recipies").document(snapshot.documents[0].id).
-                    update("abundance", tmp_rec.abundance, "favourite",
-                        tmp_rec.favourite, "flags", tmp_rec.flags, "imageUrls", tmp_rec.imageUrls,
-                        "ingredients", tmp_rec.ingredients, "name", tmp_rec.name, "steps",
-                        tmp_rec.steps, "time", tmp_rec.time)
-
-                    val bundle = Bundle()
-                    bundle.putString("recipiename", tmp_rec.name)
-                    view.findNavController().navigate(R.id.action_nav_change_recipie_to_nav_recipie, bundle)
-
-                    Toast.makeText(inflater.context, "Changes saved", Toast.LENGTH_SHORT).show()
-                }
-            }
+        if (original_rec_name != null) {
+            fragment.SaveClick(tmp_rec, original_rec_name)
         }
+        val bundle = Bundle()
+        bundle.putString("recipiename", tmp_rec.name)
+        view.findNavController().navigate(R.id.action_nav_change_recipie_to_nav_recipie, bundle)
+
+
+//        db.collection("recipies").whereEqualTo("name", original_rec_name).get().
+//        addOnSuccessListener { snapshot ->
+//            if(snapshot != null){
+//                if(snapshot.documents.isNotEmpty()){
+//                    db.collection("recipies").document(snapshot.documents[0].id).
+//                    update("abundance", tmp_rec.abundance, "favourite",
+//                        tmp_rec.favourite, "flags", tmp_rec.flags, "imageUrls", tmp_rec.imageUrls,
+//                        "ingredients", tmp_rec.ingredients, "name", tmp_rec.name, "steps",
+//                        tmp_rec.steps, "time", tmp_rec.time)
+//
+//                    val bundle = Bundle()
+//                    bundle.putString("recipiename", tmp_rec.name)
+//                    view.findNavController().navigate(R.id.action_nav_change_recipie_to_nav_recipie, bundle)
+//
+//                    Toast.makeText(inflater.context, "Changes saved", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//        }
     }
 
 
     override fun buildModels() {
         HeaderEpoxyModel(this).id(original_rec_name).addTo(this)
         InformationsEpoxyModel(this).id(tmp_rec.time).addTo(this)
+
+        if(tmp_rec.imageUrls?.isEmpty() == false){
+            tmp_rec.imageUrls!!.forEach { item ->
+                Log.d("PHOTOS: ", item.toString())
+                PhotosEpoxyModel(this).id(tmp_rec.imageUrls?.size).addTo(this)
+            }
+        }
+
+//        PhotosEpoxyModel(this).id(tmp_rec.imageUrls?.size).addTo(this)
+        AddPhotoEpoxyModel(this).id(this.tmp_rec.imageUrls.toString()).addTo(this)
+
         if(ingredients?.isNotEmpty()!!){
             ingredients?.keys?.forEach{ item ->
                 IngredientEpoxyModel(ingredients, item, this).id(item).addTo(this)
             }
         }
 
-        IngrFloatingButtonEpoxyController(btn_ingredient, this).id(btn_ingredient).addTo(this)
+        IngrFloatingButtonEpoxyController(btn_ingredient, this).id(btn_ingredient)
+            .addTo(this)
 
         PreparationTextEpoxyController(prep_title).id(prep_title).addTo(this)
         if(!steps.isEmpty()){
@@ -204,6 +246,43 @@ class ChangeRecipieController(
             }
     }
 
+    // Photos
+    data class PhotosEpoxyModel(var controller: ChangeRecipieController):
+        ViewBindingKotlinModel<PhotoItemBinding>(R.layout.photo_item){
+        override fun PhotoItemBinding.bind() {
+//            if (controller.fragment.getBitmap() == null) {
+//                ivPhoto.visibility = View.GONE
+//            } else {
+//                controller.fragment.context?.let {
+//                    Glide.with(it).load(controller.fragment.getBitmap()).into(ivPhoto)
+//                    ivPhoto.visibility = View.VISIBLE
+//                }
+//            }
+            //PHOTO
+            if(controller.tmp_rec.imageUrls?.isNotEmpty() == true){
+                controller.fragment.context?.let {
+                    Picasso.get().load(controller.tmp_rec.imageUrls!![0]).into(ivPhoto)
+                }
+                ivPhoto.setOnLongClickListener {
+                    val tmp_idx = 0
+                    controller.deletePhoto(tmp_idx)
+                    ivPhoto.setImageResource(R.drawable.ic_add_photo)
+                    return@setOnLongClickListener true
+                }
+            }
+        }
+    }
+
+    // Add photo button
+    data class AddPhotoEpoxyModel(var controller: ChangeRecipieController):
+        ViewBindingKotlinModel<AddPhotoBtnsBinding>(R.layout.add_photo_btns){
+        override fun AddPhotoBtnsBinding.bind() {
+            fltBtnAttach.setOnClickListener {
+                controller.fragment.takePicture()
+            }
+        }
+    }
+
     // Information
     data class InformationsEpoxyModel(val controller: ChangeRecipieController):
     ViewBindingKotlinModel<ChangeRecipieInformationsBinding>(R.layout.change_recipie_informations){
@@ -235,6 +314,20 @@ class ChangeRecipieController(
                     }
                 }
             }
+
+//            //PHOTO
+//            if(controller.tmp_rec.imageUrls?.isNotEmpty() == true){
+//                controller.fragment.context?.let {
+//                    Picasso.get().load(controller.tmp_rec.imageUrls!![0]).into(ivPhoto)
+//                }
+//                ivPhoto.setOnLongClickListener {
+//                    val tmp_idx = 0
+//                    controller.deletePhoto(tmp_idx)
+//                    ivPhoto.setImageResource(R.drawable.ic_add_photo)
+//                    return@setOnLongClickListener true
+//                }
+//            }
+
         }
     }
 
@@ -264,7 +357,7 @@ class ChangeRecipieController(
                 val quantity = v.findViewById<EditText>(R.id.et_new_recipie_quantity)
                 var info: String? = null
 
-                val units_array = controller.context?.resources?.getStringArray(R.array.units_array)
+                val units_array = controller.fragment.context?.resources?.getStringArray(R.array.units_array)
 //                val array_adapter = ArrayAdapter(controller.context, R.id.spinner_unit, units)
 
                 var unit = v.findViewById<Spinner>(R.id.spinner_unit)

@@ -136,7 +136,7 @@ class NewRecipieController(private val fragment: NewRecipieFragment,
         choosed_chips.remove(chip_name)
     }
 
-    fun getBitmap(): Bitmap? {
+    fun getBitmap(): Bitmap {
         return photos[0]
     }
 
@@ -158,16 +158,6 @@ class NewRecipieController(private val fragment: NewRecipieFragment,
 //
 //    }
 
-    fun setAnimation(view: View, pos: Int){
-        if(pos > last_pos){
-            val animation = AnimationUtils.loadAnimation(this.fragment.context,
-                android.R.anim.slide_in_left)
-            view.startAnimation(animation)
-            last_pos = pos
-        }
-    }
-
-
     override fun buildModels() {
         HeaderEpoxyModel(this).id(name_watcher.toString()).addTo(this)
 
@@ -186,7 +176,8 @@ class NewRecipieController(private val fragment: NewRecipieFragment,
                 }
             }
         }
-        IngrFloatingButtonEpoxyController(btn_ingredient, this).id(btn_ingredient).addTo(this)
+        IngrFloatingButtonEpoxyController(btn_ingredient, this).id(btn_ingredient)
+            .addTo(this)
 
         PreparationTextEpoxyController(prep_title).id(prep_title).addTo(this)
         if(!steps.isEmpty()){
@@ -227,7 +218,8 @@ class NewRecipieController(private val fragment: NewRecipieFragment,
     }
 
     // Photos
-    data class PhotosEpoxyModel(var photos: List<Bitmap>, val photo: Bitmap, var controller: NewRecipieController):
+    data class PhotosEpoxyModel(var photos: List<Bitmap>, val photo: Bitmap,
+                                var controller: NewRecipieController):
     ViewBindingKotlinModel<PhotoItemBinding>(R.layout.photo_item){
         override fun PhotoItemBinding.bind() {
             if (controller.fragment.getBitmap() == null) {

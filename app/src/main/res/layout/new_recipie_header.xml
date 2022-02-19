@@ -6,11 +6,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.change_recipie.ChangeRecipieFragment">
 
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="vertical"-->
-<!--        tools:ignore="MissingConstraints">-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,6 +53,16 @@
                 app:tint="@color/GreenprimaryVariant"/>
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/GreensecondaryColor"
+            android:textColor="#90000000"
+            android:paddingTop="16dp"
+            android:layout_margin="8dp"
+            android:textStyle="italic"
+            android:text="@string/photos_and_videos" />
+
 <!--        <LinearLayout-->
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="wrap_content"-->
@@ -79,7 +89,7 @@
 <!--                android:layout_height="wrap_content"-->
 <!--                android:src="@drawable/ic_add_photo" />-->
 
-<!--        </LinearLayout>-->
+        </LinearLayout>
 
 <!--    </LinearLayout>-->
 
