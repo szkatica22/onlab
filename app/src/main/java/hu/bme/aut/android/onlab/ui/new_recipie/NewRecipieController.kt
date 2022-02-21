@@ -3,10 +3,8 @@ package hu.bme.aut.android.onlab.ui.new_recipie
 import android.graphics.Bitmap
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.findNavController

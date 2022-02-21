@@ -1,18 +1,15 @@
 package hu.bme.aut.android.onlab.ui.recipie
 
 import android.annotation.SuppressLint
-import android.content.Context
+import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import androidx.navigation.findNavController
 import com.airbnb.epoxy.EpoxyController
+import com.google.android.material.chip.Chip
 import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.databinding.*
-import androidx.navigation.findNavController
-import com.bumptech.glide.Glide
-import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -22,7 +19,6 @@ import com.squareup.picasso.Picasso
 import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.data.ShoppingItem
 import hu.bme.aut.android.onlab.ui.epoxy.ViewBindingKotlinModel
-import java.util.*
 
 
 class RecipieController(
@@ -121,17 +117,24 @@ class RecipieController(
         val controller: RecipieController,
         val saved_rec: Recipie,
     ):
-        ViewBindingKotlinModel<RecipieHeaderBinding>(R.layout.recipie_header){
-        override fun RecipieHeaderBinding.bind() {
-            tvRecipieName.text = saved_rec.name
+        ViewBindingKotlinModel<EpoxyRecipieHeaderBinding>(R.layout.epoxy_recipie_header){
+        override fun EpoxyRecipieHeaderBinding.bind() {
+
+            recipieNameTextView = saved_rec.name
+//            tvRecipieName.text = saved_rec.name
+
             imgBtnEdit.setOnClickListener {
                 val bundle = Bundle()
                 bundle.putString("recipiename", saved_rec.name)
                 it.findNavController().navigate(R.id.action_nav_recipie_to_nav_change_recipie, bundle)
             }
-            if(saved_rec.favourite == true){
-                imgBtnFavourite.setImageResource(R.drawable.ic_menu_favourites)
-            }
+
+            favouriteButton = saved_rec.favourite == true
+//            if(saved_rec.favourite == true){
+//                imgBtnFavourite.setImageResource(R.drawable.ic_menu_favourites)
+//            }
+            // TODO: Gombokkal nem tudom mit kéne
+
             imgBtnDelete.setOnClickListener {
                 controller.deleteRecipie(saved_rec.name, controller.inflater)
                 it.findNavController().navigate(R.id.action_nav_recipie_to_nav_recipies)
@@ -140,9 +143,9 @@ class RecipieController(
     }
 
     data class InformationsEpoxyModel(val controller: RecipieController, val saved_rec: Recipie):
-        ViewBindingKotlinModel<RecipieInformationsBinding>(R.layout.recipie_informations){
+        ViewBindingKotlinModel<EpoxyRecipieInformationsBinding>(R.layout.epoxy_recipie_informations){
         @SuppressLint("SetTextI18n")
-        override fun RecipieInformationsBinding.bind() {
+        override fun EpoxyRecipieInformationsBinding.bind() {
             tvRecipieTime.text = saved_rec.time
             tvRecipieAbundance.text = saved_rec.abundance
 //            Log.d("LANGUAGE: ", Locale.getDefault().displayLanguage)
@@ -179,30 +182,30 @@ class RecipieController(
     }
 
     data class IngredientEpoxyModel(val ingredient: String?, val quantity: String?):
-            ViewBindingKotlinModel<RecipeIngredientItemBinding>(R.layout.recipe_ingredient_item){
-        override fun RecipeIngredientItemBinding.bind() {
+            ViewBindingKotlinModel<EpoxyRecipeIngredientItemBinding>(R.layout.epoxy_recipe_ingredient_item){
+        override fun EpoxyRecipeIngredientItemBinding.bind() {
             tvIngredient.text = ingredient
             tvQuantity.text = quantity
         }
     }
 
     data class PreparationTextEpoxyModel(val title: String):
-        ViewBindingKotlinModel<RecipiePreparationTextBinding>(R.layout.recipie_preparation_text){
-        override fun RecipiePreparationTextBinding.bind() {
+        ViewBindingKotlinModel<EpoxyRecipiePreparationTextBinding>(R.layout.epoxy_recipie_preparation_text){
+        override fun EpoxyRecipiePreparationTextBinding.bind() {
             tvRecipiePrepTitle.text = title
         }
     }
 
     data class PreparationEpoxyModel(val step: String?):
-        ViewBindingKotlinModel<ItemBinding>(R.layout.item){
-        override fun ItemBinding.bind(){
+        ViewBindingKotlinModel<EpoxyItemBinding>(R.layout.epoxy_item){
+        override fun EpoxyItemBinding.bind(){
             tvTitle.text = step
         }
     }
 
     data class AddCartEpoxyModel(val controller: RecipieController):
-            ViewBindingKotlinModel<AddShopListFltBtnBinding>(R.layout.add_shop_list_flt_btn){
-        override fun AddShopListFltBtnBinding.bind() {
+            ViewBindingKotlinModel<EpoxyAddShopListFltBtnBinding>(R.layout.epoxy_add_shop_list_flt_btn){
+        override fun EpoxyAddShopListFltBtnBinding.bind() {
             fltBtnAddCart.setOnClickListener {
                 controller.saveCart()
             }

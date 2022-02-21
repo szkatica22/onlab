@@ -2,15 +2,13 @@ package hu.bme.aut.android.onlab.ui.shared_recipie
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import androidx.navigation.findNavController
 import com.airbnb.epoxy.EpoxyController
+import com.google.android.material.chip.Chip
 import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.databinding.*
-import androidx.navigation.findNavController
-import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -150,22 +148,22 @@ class SharedRecipieController(
     }
 
     data class IngredientEpoxyModel(val ingredient: String?):
-            ViewBindingKotlinModel<RecipeIngredientItemBinding>(R.layout.recipe_ingredient_item){
-        override fun RecipeIngredientItemBinding.bind() {
+            ViewBindingKotlinModel<EpoxyRecipeIngredientItemBinding>(R.layout.epoxy_recipe_ingredient_item){
+        override fun EpoxyRecipeIngredientItemBinding.bind() {
             tvIngredient.text = ingredient
         }
     }
 
     data class PreparationTextEpoxyModel(val title: String):
-        ViewBindingKotlinModel<RecipiePreparationTextBinding>(R.layout.recipie_preparation_text){
-        override fun RecipiePreparationTextBinding.bind() {
+        ViewBindingKotlinModel<EpoxyRecipiePreparationTextBinding>(R.layout.epoxy_recipie_preparation_text){
+        override fun EpoxyRecipiePreparationTextBinding.bind() {
             tvRecipiePrepTitle.text = title
         }
     }
 
     data class PreparationEpoxyModel(val step: String?):
-        ViewBindingKotlinModel<ItemBinding>(R.layout.item){
-        override fun ItemBinding.bind(){
+        ViewBindingKotlinModel<EpoxyItemBinding>(R.layout.epoxy_item){
+        override fun EpoxyItemBinding.bind(){
             tvTitle.text = step
         }
     }

@@ -1,12 +1,9 @@
 package hu.bme.aut.android.onlab.ui.change_recipie
 
-import android.content.Context
-import android.content.res.Resources
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
@@ -25,7 +22,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import hu.bme.aut.android.onlab.data.Recipie
-import hu.bme.aut.android.onlab.ui.new_recipie.NewRecipieController
 
 class ChangeRecipieController(
     private val fragment: ChangeRecipieFragment,
@@ -96,7 +92,9 @@ class ChangeRecipieController(
 
     fun deletePhoto(idx: Int){
         tmp_rec.imageUrls?.drop(idx)
-        photos.removeAt(idx)
+        if(photos.size >= 1){
+            photos.removeAt(idx)
+        }
         requestModelBuild()
     }
 
@@ -149,7 +147,10 @@ class ChangeRecipieController(
         updateLists()
         tmp_rec.flags = choosed_chips
         if (original_rec_name != null) {
-            fragment.SaveClick(tmp_rec, original_rec_name)
+            fragment.SaveClick(
+                tmp_rec,
+                original_rec_name
+            )
         }
         val bundle = Bundle()
         bundle.putString("recipiename", tmp_rec.name)
@@ -179,17 +180,18 @@ class ChangeRecipieController(
 
     override fun buildModels() {
         HeaderEpoxyModel(this).id(original_rec_name).addTo(this)
-        InformationsEpoxyModel(this).id(tmp_rec.time).addTo(this)
 
         if(tmp_rec.imageUrls?.isEmpty() == false){
             tmp_rec.imageUrls!!.forEach { item ->
-                Log.d("PHOTOS: ", item.toString())
+//                Log.d("PHOTOS: ", item.toString())
                 PhotosEpoxyModel(this).id(tmp_rec.imageUrls?.size).addTo(this)
             }
         }
 
 //        PhotosEpoxyModel(this).id(tmp_rec.imageUrls?.size).addTo(this)
         AddPhotoEpoxyModel(this).id(this.tmp_rec.imageUrls.toString()).addTo(this)
+
+        InformationsEpoxyModel(this).id(tmp_rec.time).addTo(this)
 
         if(ingredients?.isNotEmpty()!!){
             ingredients?.keys?.forEach{ item ->
@@ -250,25 +252,31 @@ class ChangeRecipieController(
     data class PhotosEpoxyModel(var controller: ChangeRecipieController):
         ViewBindingKotlinModel<PhotoItemBinding>(R.layout.photo_item){
         override fun PhotoItemBinding.bind() {
-//            if (controller.fragment.getBitmap() == null) {
-//                ivPhoto.visibility = View.GONE
-//            } else {
-//                controller.fragment.context?.let {
-//                    Glide.with(it).load(controller.fragment.getBitmap()).into(ivPhoto)
-//                    ivPhoto.visibility = View.VISIBLE
+
+            if(controller.photos.isNotEmpty()){
+                if (controller.fragment.getBitmap() == null) {
+                    ivPhoto.visibility = View.GONE
+                } else {
+                    controller.fragment.context?.let {
+                        Glide.with(it).load(controller.fragment.getBitmap()).into(ivPhoto)
+                        ivPhoto.visibility = View.VISIBLE
+                    }
+                }
+            }
+            else if(controller.tmp_rec.imageUrls?.isNotEmpty() == true){
+//                for(img in controller.tmp_rec.imageUrls!!){
+                    controller.fragment.context?.let {
+                        Picasso.get().load(controller.tmp_rec.imageUrls!![0]).into(ivPhoto)
+                    }
+                    ivPhoto.setOnLongClickListener {
+                        val tmp_idx = 0
+                        controller.deletePhoto(tmp_idx)
+                        ivPhoto.visibility = View.GONE
+//                        ivPhoto.setImageResource(R.drawable.ic_add_photo)
+                        return@setOnLongClickListener true
+                    }
 //                }
-//            }
-            //PHOTO
-            if(controller.tmp_rec.imageUrls?.isNotEmpty() == true){
-                controller.fragment.context?.let {
-                    Picasso.get().load(controller.tmp_rec.imageUrls!![0]).into(ivPhoto)
-                }
-                ivPhoto.setOnLongClickListener {
-                    val tmp_idx = 0
-                    controller.deletePhoto(tmp_idx)
-                    ivPhoto.setImageResource(R.drawable.ic_add_photo)
-                    return@setOnLongClickListener true
-                }
+
             }
         }
     }

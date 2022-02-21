@@ -1,6 +1,5 @@
 package hu.bme.aut.android.onlab.ui.recipie
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -68,6 +67,7 @@ class RecipieFragment: Fragment(){
                     binding.ervRecipie.setController(recipieController)
 
                     recipieController.requestModelBuild()
+
                     binding.ervRecipie.addItemDecoration(DividerItemDecoration(requireActivity(),
                         RecyclerView.VERTICAL))
                 }

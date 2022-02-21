@@ -3,11 +3,8 @@ package hu.bme.aut.android.onlab.ui.new_recipie
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,10 +18,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.databinding.FragmentNewRecipieBinding
-import hu.bme.aut.android.onlab.databinding.NewRecipieHeaderBinding
-import hu.bme.aut.android.onlab.databinding.PhotoItemBinding
 import java.io.ByteArrayOutputStream
-import java.io.File
 import java.net.URLEncoder
 import java.util.*
 
@@ -122,7 +116,6 @@ class NewRecipieFragment : Fragment(){
                 newImageRef.downloadUrl
             }
             .addOnSuccessListener { downloadUri ->
-                Log.d("downloadURI: ", downloadUri.toString())
                 img_url = downloadUri.toString()
                 uploadRecipie(downloadUri.toString(), recipie)
             }

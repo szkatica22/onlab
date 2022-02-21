@@ -12,16 +12,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import hu.bme.aut.android.onlab.R
+import com.google.firebase.storage.ktx.storage
 import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.databinding.FragmentChangeRecipieBinding
-import hu.bme.aut.android.onlab.ui.new_recipie.NewRecipieFragment
 import java.io.ByteArrayOutputStream
 import java.net.URLEncoder
 import java.util.*
@@ -45,10 +43,12 @@ class ChangeRecipieFragment : Fragment(){
 
     private val binding get() = _binding!!
     private val db = Firebase.firestore
+    val storageRef = Firebase.storage.reference
 
     var tmp_bitmap: Bitmap? = null
     var img_url: String? = null
     var flag_photo = false
+//    private var old_photos: ArrayList<String> = arrayListOf<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,6 +67,7 @@ class ChangeRecipieFragment : Fragment(){
         addOnSuccessListener { snapshot ->
             if(snapshot.documents.isNotEmpty()){
                 val tmp_data = snapshot.documents[0].data
+//                old_photos = tmp_data?.get("imageUrls") as ArrayList<String>
                 val tmp_rec = Recipie(rec_name, tmp_data?.get("favourite") as Boolean,
                     tmp_data.get("flags") as List<String?>?, tmp_data.get("imageUrls") as List<String?>?,
                     tmp_data.get("time").toString(), tmp_data.get("abundance").toString(),
@@ -135,7 +136,6 @@ class ChangeRecipieFragment : Fragment(){
                 newImageRef.downloadUrl
             }
             .addOnSuccessListener { downloadUri ->
-                Log.d("downloadURI: ", downloadUri.toString())
                 img_url = downloadUri.toString()
                 uploadRecipie(downloadUri.toString(), recipie, old_name)
             }
@@ -159,6 +159,15 @@ class ChangeRecipieFragment : Fragment(){
             images.add(imageUrl)
             tmp_rec.imageUrls = images
         }
+
+//        for(url in old_photos){
+//            if(tmp_rec.imageUrls?.contains(url) == false){
+//                val desertRef = storageRef.child(url)
+//                desertRef.delete().addOnSuccessListener {
+//                    Log.d("PICTURE_DEL: ", "$url deleted")
+//                }
+//            }
+//        }
 
         db.collection("recipies").whereEqualTo("name", old_name).get().
         addOnSuccessListener { snapshot ->

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <data>
+                <variable
+                    name="onClickShare"
+                    type="android.view.View.OnClickListener" />
+                <variable
+                    name="onClickAddCart"
+                    type="android.view.View.OnClickListener" />
+        </data>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".ui.recipie.RecipieFragment">
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_margin="4dp"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:ignore="MissingConstraints">
+
+                        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                            android:id="@+id/flt_btn_share_recipe"
+                            app:icon="@drawable/ic_share"
+                            android:text="@string/share_recipe"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:padding="10dp"
+                            android:onClick="@{onClickShare}"
+                            tools:ignore="MissingConstraints" />
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/flt_btn_add_cart"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:src="@drawable/ic_add_shopping_cart"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:onClick="@{onClickAddCart}"
+                            tools:ignore="ContentDescription,HardcodedText,RtlHardcoded,SpeakableTextPresentCheck" />
+
+                </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
