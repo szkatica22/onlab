@@ -120,7 +120,7 @@ class RecipieController(
         ViewBindingKotlinModel<EpoxyRecipieHeaderBinding>(R.layout.epoxy_recipie_header){
         override fun EpoxyRecipieHeaderBinding.bind() {
 
-            recipieNameTextView = saved_rec.name
+//            recipieNameTextView = saved_rec.name
 //            tvRecipieName.text = saved_rec.name
 
             imgBtnEdit.setOnClickListener {
@@ -129,7 +129,7 @@ class RecipieController(
                 it.findNavController().navigate(R.id.action_nav_recipie_to_nav_change_recipie, bundle)
             }
 
-            favouriteButton = saved_rec.favourite == true
+//            favouriteButton = saved_rec.favourite == true
 //            if(saved_rec.favourite == true){
 //                imgBtnFavourite.setImageResource(R.drawable.ic_menu_favourites)
 //            }

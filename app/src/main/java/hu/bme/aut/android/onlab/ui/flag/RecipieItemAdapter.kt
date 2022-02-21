@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.databinding.RecipieItemBinding
-import hu.bme.aut.android.onlab.databinding.RecipiesFlagBinding
-import hu.bme.aut.android.onlab.ui.recipies.FlagItemAdapter
 
 class RecipieItemAdapter (private val context: Context?): RecyclerView.Adapter<RecipieItemAdapter.RecipieItemViewHolder>(){
 

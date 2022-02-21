@@ -18,7 +18,6 @@ import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.data.ShoppingItem
 import hu.bme.aut.android.onlab.ui.epoxy.ViewBindingKotlinModel
 import hu.bme.aut.android.onlab.ui.recipie.RecipieController
-import java.util.*
 import kotlin.collections.ArrayList
 
 

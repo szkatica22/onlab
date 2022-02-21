@@ -1,6 +1,7 @@
 package hu.bme.aut.android.onlab.data
 
 import android.graphics.Bitmap
+import com.airbnb.mvrx.MavericksState
 
 data class Recipie(
     var name: String? = null,
@@ -13,4 +14,4 @@ data class Recipie(
     var ingredients: Map<String?, String?>? = null,
     var steps: List<String?>? = null,
     var shares: List<String?>? = null
-)
+) : MavericksState

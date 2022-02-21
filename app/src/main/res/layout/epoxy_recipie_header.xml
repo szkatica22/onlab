@@ -5,14 +5,11 @@
 
     <data>
         <variable
-            name="recipieNameTextView"
-            type="String" />
+            name="recipie"
+            type="hu.bme.aut.android.onlab.data.Recipie" />
         <variable
             name="onClickDeleteButton"
             type="android.view.View.OnClickListener" />
-        <variable
-            name="favouriteButton"
-            type="Boolean" />
         <variable
             name="onClickEditButton"
             type="android.view.View.OnClickListener" />
@@ -49,7 +46,7 @@
                 android:layout_marginTop="6dp"
                 android:maxLines="2"
                 android:gravity="center"
-                android:text="@{recipieNameTextView}"
+                android:text="@{recipie.name}"
                 android:textColor="@color/black"
                 android:layout_weight="9"
                 android:textSize="20sp"
@@ -60,7 +57,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:src="@{favouriteButton ? @drawable/ic_menu_favourites : @drawable/ic_recipie_favorite_border}"
+                android:src="@{recipie.favourite ? @drawable/ic_menu_favourites : @drawable/ic_recipie_favorite_border}"
                 app:tint="@color/GreenprimaryVariant" />
 
             <ImageButton

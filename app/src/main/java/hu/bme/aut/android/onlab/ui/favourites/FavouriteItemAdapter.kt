@@ -1,9 +1,7 @@
 package hu.bme.aut.android.onlab.ui.favourites
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView

@@ -1,6 +1,5 @@
 package hu.bme.aut.android.onlab.ui.shared_recipie
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View

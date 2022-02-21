@@ -10,7 +10,6 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.data.Recipie
-import hu.bme.aut.android.onlab.databinding.RecipiesFlagBinding
 import hu.bme.aut.android.onlab.databinding.SharedItemBinding
 
 class SharedItemAdapter(): RecyclerView.Adapter<SharedItemAdapter.SharedItemViewHolder>(){
