@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="recipie"
+            type="hu.bme.aut.android.onlab.data.Recipie" />
+<!--        <variable-->
+<!--            name="timeTextView"-->
+<!--            type="String" />-->
+<!--        <variable-->
+<!--            name="abundanceTextView"-->
+<!--            type="String" />-->
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".ui.recipie.RecipieFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:orientation="vertical"
+            tools:ignore="MissingConstraints">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/GreensecondaryColor"
+                android:textColor="#90000000"
+                android:paddingTop="16dp"
+                android:textStyle="italic"
+                android:text="@string/tv_recipie_time_info" />
+
+            <TextView
+                android:id="@+id/tv_recipie_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/GreenprimaryDarkColor"
+                android:paddingTop="8dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:drawablePadding="8dp"
+                android:text="@{recipie.time}"
+                app:drawableLeftCompat="@drawable/ic_recipie_time" />
+
+
+            <TextView
+                android:id="@+id/tv_recipie_abundance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/GreenprimaryDarkColor"
+                android:paddingTop="8dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:drawablePadding="8dp"
+                android:text="@{recipie.abundance}"
+                app:drawableStartCompat="@drawable/ic_recipie_serving" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/GreensecondaryColor"
+                android:textColor="#90000000"
+                android:paddingTop="16dp"
+                android:textStyle="italic"
+                android:text="@string/tv_recipie_ingredients" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

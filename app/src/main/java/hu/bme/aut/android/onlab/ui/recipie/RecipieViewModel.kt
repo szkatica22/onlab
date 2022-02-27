@@ -1,17 +1,16 @@
 package hu.bme.aut.android.onlab.ui.recipie
 
+import android.app.AlertDialog
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Toast
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.navigation.findNavController
 import com.airbnb.mvrx.MavericksViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import hu.bme.aut.android.onlab.R
+import com.squareup.picasso.Picasso
 import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.data.ShoppingItem
 
@@ -20,6 +19,30 @@ class RecipieViewModel(recipie: Recipie) : MavericksViewModel<Recipie>(recipie) 
     private val db = Firebase.firestore
     private val firebaseUser: FirebaseUser?
         get() = FirebaseAuth.getInstance().currentUser
+
+    private lateinit var other_users: List<String>
+
+    init {
+
+        // Save the other users into a list
+        db.collection("recipies").whereNotEqualTo("author", firebaseUser?.email).
+        get().addOnSuccessListener { snapshots ->
+            if (snapshots.documents.isNotEmpty()) {
+                for (doc in snapshots.documents) {
+                    if (doc["author"] != firebaseUser?.email && !other_users.contains(
+                            doc["author"].toString()
+                        )
+                    ) {
+                        other_users += doc["author"].toString()
+                    }
+                }
+            }
+        }
+        // Todo: iderakni a db-bol valo receptlekerest? - hogy kerul ide a bundle a receptnevvel, hogy melyik kell?
+//        setState {
+//
+//        }
+    }
 
 //    private val _text = MutableLiveData<String>().apply {
 //        value = "This is recipie Fragment"
@@ -63,8 +86,53 @@ class RecipieViewModel(recipie: Recipie) : MavericksViewModel<Recipie>(recipie) 
         }
     }
 
-    fun saveShares(recipie: Recipie, inflater: LayoutInflater, tmp_users: List<String>){
+    fun getPhoto(recipie: Recipie, inflater: LayoutInflater): Drawable? {
+        if(recipie.imageUrls?.isNotEmpty() == true){
+            inflater.let {
+                return Picasso.get().load(recipie.imageUrls!![0]) as Drawable
+            }
+        }
+        return null
+    }
 
+    fun shareDialog(recipie: Recipie, inflater: LayoutInflater) {
+        var chose_users = booleanArrayOf()
+        var all_user = other_users.toTypedArray()
+        for(itm in all_user){
+            if(recipie.shares?.contains(itm) == true){
+                chose_users += true
+            } else {
+                chose_users += false
+            }
+        }
+        // Share dialog
+        val add_dialog = AlertDialog.Builder(inflater.context)
+        add_dialog.setTitle("Share with:")
+        add_dialog.setMultiChoiceItems(all_user, chose_users){ dialog, position, isChecked ->
+            chose_users[position] = isChecked
+        }
+        add_dialog.setPositiveButton("Ok"){
+                dialog,_->
+            // Save chose users
+            var tmp_users = emptyList<String>()
+            for (idx in chose_users.indices){
+                if(chose_users[idx]){
+                    tmp_users += all_user[idx]
+                }
+            }
+            saveShares(recipie,inflater, tmp_users)
+            dialog.dismiss()
+        }
+        add_dialog.setNegativeButton("Cancel"){
+                dialog,_->
+            Toast.makeText(inflater.context, "Cancel", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+        add_dialog.create()
+        add_dialog.show()
+    }
+
+    fun saveShares(recipie: Recipie, inflater: LayoutInflater, tmp_users: List<String>){
         db.collection("recipies").whereEqualTo("name", recipie.name).get().
         addOnSuccessListener { snapshot ->
             if(snapshot != null){

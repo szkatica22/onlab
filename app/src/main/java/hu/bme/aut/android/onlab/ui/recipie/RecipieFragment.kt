@@ -1,13 +1,19 @@
 package hu.bme.aut.android.onlab.ui.recipie
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.epoxy.EpoxyController
 import com.airbnb.mvrx.MavericksView
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
@@ -15,10 +21,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import hu.bme.aut.android.onlab.*
 import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.databinding.FragmentRecipieBinding
 
-class RecipieFragment: Fragment(), MavericksView{
+class RecipieFragment: Fragment(), MavericksView {
     private val recipieViewModel: RecipieViewModel by fragmentViewModel()
     private var _binding: FragmentRecipieBinding? = null
 
@@ -31,6 +38,11 @@ class RecipieFragment: Fragment(), MavericksView{
     private var prep_title: String = "Preparation"
 
     private var other_users: List<String> = emptyList()
+
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,10 +78,65 @@ class RecipieFragment: Fragment(), MavericksView{
                         tmp_data.get("author").toString(), tmp_data.get("ingredients") as Map<String?, String?>?,
                         tmp_data.get("steps") as List<String?>?, tmp_data.get("shares") as List<String?>?)
 
-                    binding.ervRecipie.withModels {
+//                    recipieViewModel =
+//                        ViewModelProvider(this).get(RecipieViewModel::class.java)
+                    binding.ervRecipie.withModels/*(recipieViewModel) { state ->*/ {
 
-                        //Header
-                        // nem itt kene, hogy onClickDeleteButton{....} ?
+                        // Header
+                        recipieHeader {
+                            onClickDeleteButton { _ ->
+                                recipieViewModel.deleteRecipie(tmp_rec, inflater)
+                                findNavController().navigate(R.id.action_nav_recipie_to_nav_recipies)
+                            }
+                            onClickEditButton { _ ->
+                                findNavController()
+                                    .navigate(R.id.action_nav_recipie_to_nav_change_recipie,
+                                        recipieViewModel.getBundle(tmp_rec))
+                            }
+                        }
+
+                        // Informations part 1
+                        recipieInformations {
+                            recipiePhoto(recipieViewModel.getPhoto(tmp_rec, inflater))
+                        }
+
+                        // Chipgroup
+//                        recipieChipgroup {
+//
+//                        }
+
+                        // Informations part 2
+//                        recipieCookingInfo {
+//                            tvRecipieTime.text =
+//                        }
+
+                        // Ingredient items
+                        tmp_rec.ingredients?.forEach { ingr ->
+                            recipeIngredientItem {
+                                ingredientTextView(ingr.key)
+                                quantityTextView(ingr.value)
+                            }
+                        }
+
+                        // Preparation items
+                        tmp_rec.steps?.forEach{ step ->
+                            item {
+                                itemTextView(step)
+                            }
+                        }
+
+                        // Share & Add Cart Buttons
+
+                        addShopListFltBtn {
+                            onClickShare{ _ ->
+                                recipieViewModel.shareDialog(tmp_rec, inflater)
+                            }
+
+                            onClickAddCart { _ ->
+                                recipieViewModel.saveCart(tmp_rec, inflater)
+                            }
+                        }
+
 
                     }
 
@@ -86,12 +153,16 @@ class RecipieFragment: Fragment(), MavericksView{
         return root
     }
 
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-    override fun invalidate() /*= withState(viewModel){ state ->*/{
-        TODO("Not yet implemented")
+    override fun invalidate() /*= withState(recipieViewModel){ state ->*/ {
+//        tvRecipieName.text = "${state.name}"
+
+
+//        binding.ervRecipie.requestModelBuild()
     }
 }

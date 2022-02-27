@@ -146,8 +146,8 @@ class RecipieController(
         ViewBindingKotlinModel<EpoxyRecipieInformationsBinding>(R.layout.epoxy_recipie_informations){
         @SuppressLint("SetTextI18n")
         override fun EpoxyRecipieInformationsBinding.bind() {
-            tvRecipieTime.text = saved_rec.time
-            tvRecipieAbundance.text = saved_rec.abundance
+//            tvRecipieTime.text = saved_rec.time
+//            tvRecipieAbundance.text = saved_rec.abundance
 //            Log.d("LANGUAGE: ", Locale.getDefault().displayLanguage)
 //            if(Locale.getDefault().displayLanguage == "en"){
 //                if(saved_rec.abundance!! > 1){
@@ -159,18 +159,18 @@ class RecipieController(
 //                tvRecipieAbundance.text = saved_rec.abundance.toString() + " adag"
 //            }
 
-            var chipGroup: ChipGroup = cgRecipieFlags
-            chipGroup.removeAllViews()
-            if(saved_rec.flags != null){
-                for (element in saved_rec.flags!!) {
-                    val chip = Chip(chipGroup.context)
-                    chip.text = element
-                    chip.isChecked = true
-                    chip.isClickable = false
-                    chip.isCheckable = false
-                    chipGroup.addView(chip)
-                }
-            }
+//            var chipGroup: ChipGroup = cgRecipieFlags
+//            chipGroup.removeAllViews()
+//            if(saved_rec.flags != null){
+//                for (element in saved_rec.flags!!) {
+//                    val chip = Chip(chipGroup.context)
+//                    chip.text = element
+//                    chip.isChecked = true
+//                    chip.isClickable = false
+//                    chip.isCheckable = false
+//                    chipGroup.addView(chip)
+//                }
+//            }
 
             //PHOTO
             if(saved_rec.imageUrls?.isNotEmpty() == true){

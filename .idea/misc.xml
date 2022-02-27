@@ -68,8 +68,10 @@
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/epoxy_add_shop_list_flt_btn.xml" value="0.3663949275362319" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/epoxy_item.xml" value="0.3663949275362319" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/epoxy_recipe_ingredient_item.xml" value="0.3663949275362319" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/epoxy_recipie_chipgroup.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/epoxy_recipie_cooking_info.xml" value="0.3596014492753623" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/epoxy_recipie_header.xml" value="0.1" />
-        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/epoxy_recipie_informations.xml" value="0.17806484295845998" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/epoxy_recipie_informations.xml" value="0.22" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/epoxy_recipie_preparation_text.xml" value="0.3663949275362319" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/favourite_item.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_change_recipie.xml" value="0.22" />
@@ -90,7 +92,7 @@
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_settings.xml" value="0.2612481857764877" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_shared_recipie.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_shares.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_shopping_list.xml" value="0.33" />
+        <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/fragment_shopping_list.xml" value="0.1" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/item.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/item_shopping_list.xml" value="0.22" />
         <entry key="..\:/Users/Katica/Documents/GitHub/onlab/app/src/main/res/layout/nav_header_main.xml" value="0.33" />

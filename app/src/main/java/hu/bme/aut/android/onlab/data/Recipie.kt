@@ -1,6 +1,5 @@
 package hu.bme.aut.android.onlab.data
 
-import android.graphics.Bitmap
 import com.airbnb.mvrx.MavericksState
 
 data class Recipie(
