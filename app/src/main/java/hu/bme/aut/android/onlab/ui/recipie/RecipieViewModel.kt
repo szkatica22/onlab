@@ -3,9 +3,11 @@ package hu.bme.aut.android.onlab.ui.recipie
 import android.app.AlertDialog
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Toast
-import com.airbnb.mvrx.MavericksViewModel
+import androidx.navigation.navArgument
+import com.airbnb.mvrx.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
@@ -13,16 +15,34 @@ import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.data.ShoppingItem
+import java.io.Serializable
 
-class RecipieViewModel(recipie: Recipie) : MavericksViewModel<Recipie>(recipie) {
+data class RecipeArgs(
+    val recipeId: String,
+) : Serializable
+
+data class RecipeState(
+    val recipeId: String,
+    val recipeRequest: Async<Recipie> = Uninitialized
+) : MavericksState {
+    constructor(args: RecipeArgs) : this(recipeId = args.recipeId)
+}
+class RecipieViewModel(initialState: RecipeState) : MavericksViewModel<RecipeState>(initialState) {
 
     private val db = Firebase.firestore
     private val firebaseUser: FirebaseUser?
         get() = FirebaseAuth.getInstance().currentUser
 
     private lateinit var other_users: List<String>
+    private lateinit var rec: Recipie
 
     init {
+//        setState {
+////            this.copy(recipeId = this.arguments?.get("recipiename").toString())
+//            this.copy(recipeId = "Tiramisu")
+//        }
+//        initialState.recipeId = arguments?.get("recipiename").toString()
+//        initialState.recipeId = "Tiramisu"
 
         // Save the other users into a list
         db.collection("recipies").whereNotEqualTo("author", firebaseUser?.email).
@@ -38,10 +58,25 @@ class RecipieViewModel(recipie: Recipie) : MavericksViewModel<Recipie>(recipie) 
                 }
             }
         }
-        // Todo: iderakni a db-bol valo receptlekerest? - hogy kerul ide a bundle a receptnevvel, hogy melyik kell?
-//        setState {
-//
-//        }
+        // Get Rec. from DB
+        db.collection("recipies").whereEqualTo("name", initialState.recipeId).get().
+        addOnSuccessListener { snapshot ->
+            if (snapshot.documents.isNotEmpty()) {
+                val tmp_data = snapshot.documents[0].data
+                rec = Recipie(
+                    initialState.recipeId,
+                    tmp_data?.get("favourite") as Boolean,
+                    tmp_data.get("flags") as List<String?>?,
+                    tmp_data.get("imageUrls") as List<String?>?,
+                    tmp_data.get("time").toString(),
+                    tmp_data.get("abundance").toString(),
+                    tmp_data.get("author").toString(),
+                    tmp_data.get("ingredients") as Map<String?, String?>?,
+                    tmp_data.get("steps") as List<String?>?,
+                    tmp_data.get("shares") as List<String?>?
+                )
+            }
+        }
     }
 
 //    private val _text = MutableLiveData<String>().apply {
@@ -93,6 +128,10 @@ class RecipieViewModel(recipie: Recipie) : MavericksViewModel<Recipie>(recipie) 
             }
         }
         return null
+    }
+
+    fun getRecipie(): Recipie {
+        return rec
     }
 
     fun shareDialog(recipie: Recipie, inflater: LayoutInflater) {

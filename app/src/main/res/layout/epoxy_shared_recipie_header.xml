@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="recipie"
+            type="hu.bme.aut.android.onlab.data.Recipie" />
+        <variable
+            name="onClickUnshareButton"
+            type="android.view.View.OnClickListener" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".ui.recipie.RecipieFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="13"
+            android:orientation="horizontal"
+            tools:ignore="MissingConstraints">
+
+            <ImageButton
+                android:id="@+id/img_btn_favourite"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:src="@{recipie.favourite ? @drawable/ic_menu_favourites : @drawable/ic_recipie_favorite_border}"
+                app:tint="@color/GreenprimaryVariant" />
+
+            <TextView
+                android:id="@+id/tv_recipie_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginTop="6dp"
+                android:maxLines="2"
+                android:gravity="center"
+                android:text="@{recipie.name}"
+                android:textColor="@color/black"
+                android:layout_weight="9"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/img_btn_unshare"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:onClick="@{onClickUnshareButton}"
+                android:src="@drawable/ic_unshare"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/GreenprimaryVariant" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

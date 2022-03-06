@@ -10,13 +10,13 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.data.Recipie
-import hu.bme.aut.android.onlab.databinding.SharedItemBinding
+import hu.bme.aut.android.onlab.databinding.EpoxySharedItemBinding
 
 class SharedItemAdapter(): RecyclerView.Adapter<SharedItemAdapter.SharedItemViewHolder>(){
 
     private var recipies: List<Recipie> = emptyList()
 
-    class SharedItemViewHolder(val binding: SharedItemBinding): RecyclerView.ViewHolder(binding.root) {
+    class SharedItemViewHolder(val binding: EpoxySharedItemBinding): RecyclerView.ViewHolder(binding.root) {
         val tvFavRecipieNameId: TextView = binding.tvFavRecipieNameId
         val ivRecipiesFlag: ImageView = binding.ivRecipiesFlag
     }
@@ -43,7 +43,7 @@ class SharedItemAdapter(): RecyclerView.Adapter<SharedItemAdapter.SharedItemView
         viewType: Int
     ): SharedItemViewHolder {
         return SharedItemViewHolder(
-            SharedItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            EpoxySharedItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 

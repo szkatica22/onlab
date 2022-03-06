@@ -5,14 +5,8 @@
 
     <data>
         <variable
-            name="recipie"
-            type="hu.bme.aut.android.onlab.data.Recipie" />
-<!--        <variable-->
-<!--            name="timeTextView"-->
-<!--            type="String" />-->
-<!--        <variable-->
-<!--            name="abundanceTextView"-->
-<!--            type="String" />-->
+            name="title"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,10 +14,15 @@
         android:layout_height="wrap_content"
         tools:context=".ui.recipie.RecipieFragment">
 
-        <com.google.android.material.chip.ChipGroup
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/epoxy_model_group_child_container"
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:text="@{title}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/GreenprimaryVariant" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

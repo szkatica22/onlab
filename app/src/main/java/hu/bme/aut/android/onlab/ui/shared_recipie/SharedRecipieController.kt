@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.navigation.findNavController
 import com.airbnb.epoxy.EpoxyController
-import com.google.android.material.chip.Chip
 import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.databinding.*
 import com.google.android.material.chip.ChipGroup
@@ -102,8 +101,8 @@ class SharedRecipieController(
         val controller: SharedRecipieController,
         val saved_rec: Recipie,
     ):
-        ViewBindingKotlinModel<SharedRecipieHeaderBinding>(R.layout.shared_recipie_header){
-        override fun SharedRecipieHeaderBinding.bind() {
+        ViewBindingKotlinModel<EpoxySharedRecipieHeaderBinding>(R.layout.epoxy_shared_recipie_header){
+        override fun EpoxySharedRecipieHeaderBinding.bind() {
             tvRecipieName.text = saved_rec.name
             if(saved_rec.favourite == true){
                 imgBtnFavourite.setImageResource(R.drawable.ic_menu_favourites)
@@ -116,12 +115,12 @@ class SharedRecipieController(
     }
 
     data class InformationsEpoxyModel(val saved_rec: Recipie):
-        ViewBindingKotlinModel<SharedRecipieInformationsBinding>(R.layout.shared_recipie_informations){
+        ViewBindingKotlinModel<EpoxySharedRecipieInformationsBinding>(R.layout.epoxy_shared_recipie_informations){
         @SuppressLint("SetTextI18n")
-        override fun SharedRecipieInformationsBinding.bind() {
+        override fun EpoxySharedRecipieInformationsBinding.bind() {
             tvRecipieAuthor.text = saved_rec.author
-            tvRecipieTime.text = saved_rec.time
-            tvRecipieAbundance.text = saved_rec.abundance
+//            tvRecipieTime.text = saved_rec.time
+//            tvRecipieAbundance.text = saved_rec.abundance
 //            if(Locale.getDefault().displayLanguage == "en"){
 //                if(saved_rec.abundance!! > 1){
 //                    tvRecipieAbundance.text = saved_rec.abundance.toString() + " portions"
@@ -131,18 +130,18 @@ class SharedRecipieController(
 //            } else {
 //                tvRecipieAbundance.text = saved_rec.abundance.toString() + " adag"
 //            }
-            var chipGroup: ChipGroup = cgRecipieFlags
-            chipGroup.removeAllViews()
-            if(saved_rec.flags != null){
-                for (element in saved_rec.flags!!) {
-                    val chip = Chip(chipGroup.context)
-                    chip.text = element
-                    chip.isChecked = true
-                    chip.isClickable = false
-                    chip.isCheckable = false
-                    chipGroup.addView(chip)
-                }
-            }
+//            var chipGroup: ChipGroup = cgRecipieFlags
+//            chipGroup.removeAllViews()
+//            if(saved_rec.flags != null){
+//                for (element in saved_rec.flags!!) {
+//                    val chip = Chip(chipGroup.context)
+//                    chip.text = element
+//                    chip.isChecked = true
+//                    chip.isClickable = false
+//                    chip.isCheckable = false
+//                    chipGroup.addView(chip)
+//                }
+//            }
         }
     }
 
@@ -168,8 +167,8 @@ class SharedRecipieController(
     }
 
     data class AddCartEpoxyModel(val controller: SharedRecipieController):
-        ViewBindingKotlinModel<SharedRecipieFltBtnBinding>(R.layout.shared_recipie_flt_btn){
-        override fun SharedRecipieFltBtnBinding.bind() {
+        ViewBindingKotlinModel<EpoxySharedRecipieFltBtnBinding>(R.layout.epoxy_shared_recipie_flt_btn){
+        override fun EpoxySharedRecipieFltBtnBinding.bind() {
             fltBtnAddCart.setOnClickListener {
                 controller.saveCart()
             }
