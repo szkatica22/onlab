@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.mvrx.asMavericksArgs
 import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.databinding.RecipieItemBinding
+import hu.bme.aut.android.onlab.ui.recipie.RecipeArgs
 
 class RecipieItemAdapter (private val context: Context?): RecyclerView.Adapter<RecipieItemAdapter.RecipieItemViewHolder>(){
 
@@ -37,9 +39,10 @@ class RecipieItemAdapter (private val context: Context?): RecyclerView.Adapter<R
             binding.tvRecipieNameId.text = cur_recipie.name
         }
         holder.binding.ivRecipiesFlag.setOnClickListener { view ->
-            val bundle = Bundle()
-            bundle.putString("recipiename", cur_recipie.name)
-            view.findNavController().navigate(R.id.action_nav_flag_to_nav_recipie, bundle)
+            /*val bundle = Bundle()
+            bundle.putString("recipiename", cur_recipie.name)*/
+            val args = RecipeArgs("Tiramisu").asMavericksArgs()
+            view.findNavController().navigate(R.id.action_nav_flag_to_nav_recipie, args)
         }
     }
 

@@ -27,9 +27,6 @@ class RecipieFragment: Fragment(), MavericksView {
     private var db = Firebase.firestore
     private val firebaseUser: FirebaseUser?
         get() = FirebaseAuth.getInstance().currentUser
-
-    private lateinit var rec: Recipie
-
     private var other_users: List<String> = emptyList()
 
 //    override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,81 +45,9 @@ class RecipieFragment: Fragment(), MavericksView {
         _binding = FragmentRecipieBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val rec_name = this.arguments?.get("recipiename").toString()
-        rec = recipieViewModel.getRecipie()
+        /*val rec_name = this.arguments?.get("recipiename").toString()
+        rec = recipieViewModel.getRecipie()*/
 
-        binding.ervRecipie.withModels/*(recipieViewModel) { state ->*/ {
-
-            // Header
-            recipieHeader {
-                recipie(rec)
-                onClickDeleteButton { _ ->
-                    recipieViewModel.deleteRecipie(rec, inflater)
-                    findNavController().navigate(R.id.action_nav_recipie_to_nav_recipies)
-                }
-                onClickEditButton { _ ->
-                    findNavController()
-                        .navigate(R.id.action_nav_recipie_to_nav_change_recipie,
-                            recipieViewModel.getBundle(rec))
-                }
-            }
-
-            // Informations part 1
-            recipieInformations {
-                recipie(rec)
-                recipiePhoto(recipieViewModel.getPhoto(rec, inflater))
-            }
-
-            // Chipgroup
-            group {
-                id("chipgroup")
-                layout(R.layout.epoxy_recipie_chigroup)
-                recipieChipitem {
-                    if(rec.flags != null){
-                        for (flag in rec.flags!!){
-                            id(flag)
-                            title(flag)
-//                            val chip = Chip(context)
-//                            chip.text = flag
-//                            chip.isCheckable = false
-//                            chip.isChecked = true
-//                            chip.isClickable = false
-                        }
-
-                    }
-                }
-            }
-
-            // Informations part 2
-            recipieCookingInfo {
-                recipie(rec)
-            }
-
-            // Ingredient items
-            rec.ingredients?.forEach { ingr ->
-                recipeIngredientItem {
-                    ingredientTextView(ingr.key)
-                    quantityTextView(ingr.value)
-                }
-            }
-
-            // Preparation items
-            rec.steps?.forEach{ step ->
-                item {
-                    itemTextView(step)
-                }
-            }
-
-            // Share & Add Cart Buttons
-            addShopListFltBtn {
-                onClickShare{ _ ->
-                    recipieViewModel.shareDialog(rec, inflater)
-                }
-
-                onClickAddCart { _ ->
-                    recipieViewModel.saveCart(rec, inflater)
-                }
-            }
 
         // Save the other users into a list
 //        db.collection("recipies").whereNotEqualTo("author", firebaseUser?.email).
@@ -225,7 +150,6 @@ class RecipieFragment: Fragment(), MavericksView {
 ////                        RecyclerView.VERTICAL))
 //                }
 //            }
-        }
         return root
     }
 
@@ -236,8 +160,87 @@ class RecipieFragment: Fragment(), MavericksView {
     }
 
     override fun invalidate() = withState(recipieViewModel){ state ->
-//        tvRecipieName.text = "${state.name}"
 
-//        binding.ervRecipie.requestModelBuild()
+        binding.ervRecipie.withModels/*(recipieViewModel) { state ->*/ {
+            val rec = state.recipeRequest() ?: return@withModels
+            // Header
+            recipieHeader {
+                id("header")
+                recipie(rec)
+                onClickDeleteButton { _ ->
+                    recipieViewModel.deleteRecipie(rec, requireContext())
+                    findNavController().navigate(R.id.action_nav_recipie_to_nav_recipies)
+                }
+                onClickEditButton { _ ->
+                    findNavController()
+                        .navigate(
+                            R.id.action_nav_recipie_to_nav_change_recipie,
+                            recipieViewModel.getBundle(rec)
+                        )
+                }
+            }
+
+            // Informations part 1
+            recipieInformations {
+                id("info")
+                recipie(rec)
+                recipiePhoto(recipieViewModel.getPhoto(rec, requireContext()))
+            }
+
+            // Chipgroup
+            group {
+                id("chipgroup")
+                layout(R.layout.epoxy_recipie_chigroup)
+                recipieChipitem {
+                    if (rec.flags != null) {
+                        for (flag in rec.flags!!) {
+                            id(flag)
+                            title(flag)
+//                            val chip = Chip(context)
+//                            chip.text = flag
+//                            chip.isCheckable = false
+//                            chip.isChecked = true
+//                            chip.isClickable = false
+                        }
+
+                    }
+                }
+            }
+
+            // Informations part 2
+            recipieCookingInfo {
+                id("cooking_info")
+                recipie(rec)
+            }
+
+            // Ingredient items
+            rec.ingredients?.forEach { ingr ->
+                recipeIngredientItem {
+                    id(ingr.key)
+                    ingredientTextView(ingr.key)
+                    quantityTextView(ingr.value)
+                }
+            }
+
+            // Preparation items
+            rec.steps?.forEach { step ->
+                item {
+                    id(step)
+                    itemTextView(step)
+                }
+            }
+
+            // Share & Add Cart Buttons
+            addShopListFltBtn {
+                id("buttons")
+                onClickShare { _ ->
+                    recipieViewModel.shareDialog(rec, requireContext())
+                }
+
+                onClickAddCart { _ ->
+                    recipieViewModel.saveCart(rec, requireContext())
+                }
+            }
+        }
     }
 }
