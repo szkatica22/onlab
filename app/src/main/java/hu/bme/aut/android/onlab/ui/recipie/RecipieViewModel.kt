@@ -4,10 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.widget.Toast
-import androidx.navigation.navArgument
 import com.airbnb.mvrx.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -35,17 +32,15 @@ class RecipieViewModel(initialState: RecipeState) : MavericksViewModel<RecipeSta
     private val firebaseUser: FirebaseUser?
         get() = FirebaseAuth.getInstance().currentUser
 
-    private lateinit var other_users: List<String>
-    private lateinit var rec: Recipie
+    private var other_users = listOf<String>()
 
     init {
-        setState {
-            //this.copy(recipeId = this.arguments?.get("recipiename").toString())
-            this.copy(recipeId = "Tiramisu")
-        }
+//        setState {
+//            this.copy(recipeId="Tiramisu")
+//        }
 
         // Save the other users into a list
-        /*db.collection("recipies").whereNotEqualTo("author", firebaseUser?.email).get()
+        db.collection("recipies").whereNotEqualTo("author", firebaseUser?.email).get()
             .addOnSuccessListener { snapshots ->
                 if (snapshots.documents.isNotEmpty()) {
                     for (doc in snapshots.documents) {
@@ -57,7 +52,8 @@ class RecipieViewModel(initialState: RecipeState) : MavericksViewModel<RecipeSta
                         }
                     }
                 }
-            }*/
+            }
+
         // Get Rec. from DB
         db.collection("recipies").whereEqualTo("name", initialState.recipeId).get()
             .addOnSuccessListener { snapshot ->
@@ -85,13 +81,7 @@ class RecipieViewModel(initialState: RecipeState) : MavericksViewModel<RecipeSta
             }
     }
 
-//    private val _text = MutableLiveData<String>().apply {
-//        value = "This is recipie Fragment"
-//    }
-//    val text: LiveData<String> = _text
-
     fun deleteRecipie(recipie: Recipie, context: Context) {
-
         db.collection("recipies").whereEqualTo("name", recipie.name).get()
             .addOnSuccessListener { snapshot ->
                 if (snapshot != null) {
@@ -104,7 +94,7 @@ class RecipieViewModel(initialState: RecipeState) : MavericksViewModel<RecipeSta
             }
     }
 
-    fun saveCart(recipie: Recipie, inflater: Context) {
+    fun saveCart(recipie: Recipie, context: Context) {
 
         if (recipie.ingredients?.isEmpty()!!) {
             return
@@ -122,33 +112,29 @@ class RecipieViewModel(initialState: RecipeState) : MavericksViewModel<RecipeSta
         }
         when {
             flag_ok -> {
-                Toast.makeText(inflater, "All successfully added", Toast.LENGTH_SHORT)
+                Toast.makeText(context, "All successfully added", Toast.LENGTH_SHORT)
                     .show()
             }
             else -> {
-                Toast.makeText(inflater, "Add failed", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Add failed", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    fun getPhoto(recipie: Recipie, inflater: Context): Drawable? {
-        if (recipie.imageUrls?.isNotEmpty() == true) {
-            inflater.let {
-                return Picasso.get().load(recipie.imageUrls!![0]) as Drawable
-            }
-        }
-        return null
-    }
+//    fun getPhoto(recipie: Recipie, context: Context): Drawable? {
+//        if (recipie.imageUrls?.isNotEmpty() == true) {
+//            context.let {
+////                val img = Glide.with(context).load(recipie.imageUrls!![0])
+//                return Picasso.get().load(recipie.imageUrls!![0]) as Drawable
+//            }
+//        }
+//        return null
+//    }
 
-    /*fun getRecipie(): Recipie? {
-
-        withState { it.recipeRequest() }
-    }*/
-
-    fun shareDialog(recipie: Recipie, inflater: Context) {
+    fun shareDialog(recipie: Recipie, context: Context) {
         var chose_users = booleanArrayOf()
-        //var all_user = other_users.toTypedArray()
-        val all_user = emptyList<String>().toTypedArray()
+        var all_user = other_users.toTypedArray()
+//        val all_user = emptyList<String>().toTypedArray()
         for (itm in all_user) {
             if (recipie.shares?.contains(itm) == true) {
                 chose_users += true
@@ -157,7 +143,7 @@ class RecipieViewModel(initialState: RecipeState) : MavericksViewModel<RecipeSta
             }
         }
         // Share dialog
-        val add_dialog = AlertDialog.Builder(inflater)
+        val add_dialog = AlertDialog.Builder(context)
         add_dialog.setTitle("Share with:")
         add_dialog.setMultiChoiceItems(all_user, chose_users) { dialog, position, isChecked ->
             chose_users[position] = isChecked
@@ -170,18 +156,18 @@ class RecipieViewModel(initialState: RecipeState) : MavericksViewModel<RecipeSta
                     tmp_users += all_user[idx]
                 }
             }
-            saveShares(recipie, inflater, tmp_users)
+            saveShares(recipie, context, tmp_users)
             dialog.dismiss()
         }
         add_dialog.setNegativeButton("Cancel") { dialog, _ ->
-            Toast.makeText(inflater, "Cancel", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Cancel", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
         add_dialog.create()
         add_dialog.show()
     }
 
-    fun saveShares(recipie: Recipie, inflater: Context, tmp_users: List<String>) {
+    fun saveShares(recipie: Recipie, context: Context, tmp_users: List<String>) {
         db.collection("recipies").whereEqualTo("name", recipie.name).get()
             .addOnSuccessListener { snapshot ->
                 if (snapshot != null) {
@@ -189,7 +175,7 @@ class RecipieViewModel(initialState: RecipeState) : MavericksViewModel<RecipeSta
                         db.collection("recipies").document(snapshot.documents[0].id)
                             .update("shares", tmp_users)
                         Toast.makeText(
-                            inflater, "Recipe Shared Successfully",
+                            context, "Recipe Shared Successfully",
                             Toast.LENGTH_SHORT
                         ).show()
                     }

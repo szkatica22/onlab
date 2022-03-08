@@ -25,107 +25,16 @@ class SharedRecipieFragment: Fragment(), MavericksView {
     private var _binding: FragmentSharedRecipieBinding? = null
 
     private val binding get() = _binding!!
-    private var db = Firebase.firestore
-    private lateinit var rec: Recipie
-
-    private lateinit var sharedRecipieController: SharedRecipieController
-    private var prep_title: String = "Preparation"
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        sharedrecipieViewModel =
-//            ViewModelProvider(this).get(SharedRecipieViewModel::class.java)
 
         _binding = FragmentSharedRecipieBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val rec_name = this.arguments?.get("recipiename").toString()
-        rec = sharedrecipieViewModel.getRecipie()
-
-        binding.ervRecipie.withModels {
-            // Header
-            sharedRecipieHeader {
-                recipie(rec)
-                onClickUnshareButton { _ ->
-                    sharedrecipieViewModel.deleteShare(rec.name, inflater)
-                    findNavController().navigate(R.id.action_nav_shared_recipie_to_nav_shares)
-                }
-            }
-
-            // Informations par 1
-            sharedRecipieInformations {
-                recipie(rec)
-                recipiePhoto(sharedrecipieViewModel.getPhoto(rec, inflater))
-            }
-
-            // Chipgroup
-            group {
-                id("chipgroup")
-                layout(R.layout.epoxy_recipie_chigroup)
-                recipieChipitem {
-                    if(rec.flags != null){
-                        for (flag in rec.flags!!){
-                            id(flag)
-                            title(flag)
-//                            val chip = Chip(context)
-//                            chip.text = flag
-//                            chip.isCheckable = false
-//                            chip.isChecked = true
-//                            chip.isClickable = false
-                        }
-                    }
-                }
-            }
-
-            // Informations part 2
-            recipieCookingInfo {
-                recipie(rec)
-            }
-
-            // Ingredient items
-            rec.ingredients?.forEach { ingr ->
-                recipeIngredientItem {
-                    ingredientTextView(ingr.key)
-                    quantityTextView(ingr.value)
-                }
-            }
-
-            // Preparation items
-            rec.steps?.forEach{ step ->
-                item {
-                    itemTextView(step)
-                }
-            }
-
-            // Add Cart Button
-            addShopListFltBtn {
-                onClickAddCart { _ ->
-                    sharedrecipieViewModel.saveCart(rec, inflater)
-                }
-            }
-        }
-
-//        db.collection("recipies").whereEqualTo("name", rec_name).get().
-//        addOnSuccessListener { snapshot ->
-//            if(snapshot.documents.isNotEmpty()){
-//                val tmp_data = snapshot.documents[0].data
-//                val tmp_rec = Recipie(rec_name, tmp_data?.get("favourite") as Boolean,
-//                    tmp_data.get("flags") as List<String?>?, tmp_data.get("imageUrls") as List<String?>?,
-//                    tmp_data.get("time").toString(), tmp_data.get("abundance").toString(),
-//                    tmp_data.get("author").toString(), tmp_data.get("ingredients") as Map<String?, String?>?,
-//                    tmp_data.get("steps") as List<String?>?, tmp_data.get("shares") as List<String?>?)
-//
-//                sharedRecipieController = SharedRecipieController(this.context, tmp_rec, prep_title, inflater)
-//                binding.ervRecipie.setController(sharedRecipieController)
-//
-//                sharedRecipieController.requestModelBuild()
-//                binding.ervRecipie.addItemDecoration(DividerItemDecoration(requireActivity(),
-//                    RecyclerView.VERTICAL))
-//            }
-//        }
         return root
     }
 
@@ -135,6 +44,82 @@ class SharedRecipieFragment: Fragment(), MavericksView {
     }
 
     override fun invalidate() = withState(sharedrecipieViewModel){ state ->
-        TODO("Not yet implemented")
+
+        binding.ervRecipie.withModels {
+            val rec = state.recipeRequest() ?: return@withModels
+
+            // Header
+            sharedRecipieHeader {
+                id("header")
+                recipie(rec)
+                onClickUnshareButton { _ ->
+                    sharedrecipieViewModel.deleteShare(rec.name, requireContext())
+                    findNavController().navigate(R.id.action_nav_shared_recipie_to_nav_shares)
+                }
+            }
+
+            // Informations par 1
+            sharedRecipieInformations {
+                id("info")
+                recipie(rec)
+//                recipiePhoto(sharedrecipieViewModel.getPhoto(rec, inflater))
+            }
+
+            // Chipgroup
+            group {
+                id("chipgroup")
+                layout(R.layout.epoxy_recipie_chigroup)
+                if (rec.flags != null) {
+                    for (flag in rec.flags!!) {
+                        recipieChipitem {
+                            id(flag)
+                            title(flag)
+//                            val chip = Chip(context)
+//                            chip.text = flag
+//                            chip.isCheckable = false
+//                            chip.isChecked = true
+//                            chip.isClickable = false
+                        }
+                    }
+
+                }
+            }
+
+            // Informations part 2
+            recipieCookingInfo {
+                id("cooking_info")
+                recipie(rec)
+            }
+
+            // Ingredient items
+            rec.ingredients?.forEach { ingr ->
+                recipeIngredientItem {
+                    id(ingr.key)
+                    ingredientTextView(ingr.key)
+                    quantityTextView(ingr.value)
+                }
+            }
+
+            // Prep text
+            recipiePreparationText {
+                id("prep_text")
+            }
+
+            // Preparation items
+            rec.steps?.forEach{ step ->
+                item {
+                    id(step)
+                    itemTextView(step)
+                }
+            }
+
+            // Add Cart Button
+            sharedRecipieFltBtn {
+                id("add_cart")
+                onClickAddCart { _ ->
+                    sharedrecipieViewModel.saveCart(rec, requireContext())
+                }
+            }
+        }
     }
 }
