@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="ingredientTextView"
+            type="String" />
+        <variable
+            name="quantityTextView"
+            type="String" />
+        <variable
+            name="onClickDeleteButton"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="8dp"
+        app:cardMaxElevation="5dp"
+        android:layout_margin="8dp"
+        tools:context=".ui.new_recipie.NewRecipieFragment">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:id="@+id/ll_recipie_ingredients"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_margin="8dp"
+                android:padding="4dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_new_recipie_item_title_id"
+                    android:text="@{ingredientTextView}"
+                    android:textColor="@color/black"
+                    android:textSize="19sp"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    tools:ignore="NestedWeights" />
+
+                <TextView
+                    android:id="@+id/tv_new_recipie_item_quantity"
+                    android:text="@{quantityTextView}"
+                    android:textColor="@color/black"
+                    android:textSize="19sp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    tools:ignore="RtlHardcoded" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_new_recipie_delete"
+                android:src="@drawable/ic_recipie_delete"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:onClick="@{onClickDeleteButton}"
+                app:tint="@color/GreenprimaryVariant" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

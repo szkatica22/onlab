@@ -46,7 +46,7 @@ android {
 dependencies {
 
     implementation "android.arch.lifecycle:extensions:1.1.1"
-    implementation 'com.google.firebase:firebase-storage-ktx:20.0.0'
+    implementation 'com.google.firebase:firebase-storage-ktx:20.0.1'
     implementation 'com.github.bumptech.glide:glide:4.12.0' // kepek betoltesehez
 
     //Epoxy
@@ -73,9 +73,9 @@ dependencies {
     //Firebase
     implementation 'com.flaviofaria:kenburnsview:1.0.7'
     implementation 'com.github.bumptech.glide:glide:4.12.0'
-    implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'
-    implementation 'com.google.firebase:firebase-firestore-ktx:24.0.1'
-    implementation 'com.google.firebase:firebase-storage-ktx:20.0.0'
+    implementation 'com.google.firebase:firebase-auth-ktx:21.0.2'
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.0.2'
+    implementation 'com.google.firebase:firebase-storage-ktx:20.0.1'
 
     // Circular ImageView
     implementation 'com.mikhaellopez:circularimageview:4.3.0'

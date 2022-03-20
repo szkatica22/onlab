@@ -53,7 +53,7 @@ class RecipieFragment: Fragment(), MavericksView {
                     findNavController()
                         .navigate(
                             R.id.action_nav_recipie_to_nav_change_recipie,
-                            recipieViewModel.getBundle(rec)
+                            recipieViewModel.getArgs(rec)
                         )
                 }
             }

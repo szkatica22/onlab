@@ -11,12 +11,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.airbnb.mvrx.asMavericksArgs
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.onlab.R
+import hu.bme.aut.android.onlab.data.RecipeArgs
 import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.databinding.FragmentFlagBinding
 
@@ -59,7 +61,8 @@ class FlagFragment : Fragment(){
 
         // New recipie gomb
         binding.fltBtnNewRecipie.setOnClickListener {
-            findNavController().navigate(R.id.action_nav_flag2_to_nav_new_recipie)
+            val args = RecipeArgs("").asMavericksArgs()
+            findNavController().navigate(R.id.action_nav_flag2_to_nav_new_recipie, args)
         }
 
         // Delete gomb - elozo fragmentre lep at

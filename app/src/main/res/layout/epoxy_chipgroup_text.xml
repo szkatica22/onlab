@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".ui.recipie.RecipieFragment">
+
+        <TextView
+            android:id="@+id/tv_recipie_prep_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/GreensecondaryColor"
+            android:textColor="#90000000"
+            android:paddingTop="16dp"
+            android:textStyle="italic"
+            android:layout_margin="8dp"
+            android:text="@string/tv_recipie_category"
+            tools:ignore="MissingConstraints" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

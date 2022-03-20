@@ -10,20 +10,10 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
+import hu.bme.aut.android.onlab.data.RecipeState
 import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.data.ShoppingItem
 import java.io.Serializable
-
-data class RecipeArgs(
-    val recipeId: String,
-) : Serializable
-
-data class RecipeState(
-    val recipeId: String,
-    val recipeRequest: Async<Recipie> = Uninitialized
-) : MavericksState {
-    constructor(args: RecipeArgs) : this(recipeId = args.recipeId)
-}
 
 class SharedRecipieViewModel(initialState: RecipeState) : MavericksViewModel<RecipeState>(initialState) {
 
@@ -32,10 +22,6 @@ class SharedRecipieViewModel(initialState: RecipeState) : MavericksViewModel<Rec
         get() = FirebaseAuth.getInstance().currentUser
 
     init {
-//        setState {
-//            this.copy(recipeId="Tiramisu")
-//        }
-
         // Get Rec. from DB
         db.collection("recipies").whereEqualTo("name", initialState.recipeId).get()
             .addOnSuccessListener { snapshot ->
