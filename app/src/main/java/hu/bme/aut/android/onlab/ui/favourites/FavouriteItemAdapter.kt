@@ -1,7 +1,6 @@
 package hu.bme.aut.android.onlab.ui.favourites
 
 import android.annotation.SuppressLint
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -10,9 +9,9 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.mvrx.asMavericksArgs
 import hu.bme.aut.android.onlab.R
-import hu.bme.aut.android.onlab.data.RecipeArgs
 import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.databinding.FavouriteItemBinding
+import hu.bme.aut.android.onlab.ui.recipie.RecipeArgs
 
 class FavouriteItemAdapter(): RecyclerView.Adapter<FavouriteItemAdapter.FavouriteItemViewHolder>(){
 

@@ -1,21 +1,29 @@
 package hu.bme.aut.android.onlab.ui.shared_recipie
 
 import android.content.Context
-import android.graphics.drawable.Drawable
-import android.os.Bundle
 import android.widget.Toast
 import com.airbnb.mvrx.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.squareup.picasso.Picasso
-import hu.bme.aut.android.onlab.data.RecipeState
 import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.data.ShoppingItem
 import java.io.Serializable
 
-class SharedRecipieViewModel(initialState: RecipeState) : MavericksViewModel<RecipeState>(initialState) {
+data class SharedRecipeArgs(
+    val recipeId: String,
+) : Serializable
+
+data class SharedRecipeState(
+    val recipeId: String,
+    val recipeRequest: Async<Recipie> = Uninitialized,
+) : MavericksState {
+    constructor(args: SharedRecipeArgs) : this(recipeId = args.recipeId)
+}
+
+class SharedRecipieViewModel(initialState: SharedRecipeState)
+    : MavericksViewModel<SharedRecipeState>(initialState) {
 
     private val db = Firebase.firestore
     private val firebaseUser: FirebaseUser?

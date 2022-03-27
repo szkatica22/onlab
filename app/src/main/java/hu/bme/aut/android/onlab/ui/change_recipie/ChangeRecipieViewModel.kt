@@ -2,9 +2,7 @@ package hu.bme.aut.android.onlab.ui.change_recipie
 
 import android.app.AlertDialog
 import android.content.Context
-import android.graphics.Bitmap
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
@@ -13,40 +11,45 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.navigation.findNavController
-import com.airbnb.mvrx.MavericksViewModel
-import com.airbnb.mvrx.Success
-import com.airbnb.mvrx.asMavericksArgs
+import com.airbnb.mvrx.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.onlab.R
-import hu.bme.aut.android.onlab.data.RecipeArgs
-import hu.bme.aut.android.onlab.data.RecipeState
 import hu.bme.aut.android.onlab.data.Recipie
+import hu.bme.aut.android.onlab.ui.recipie.RecipeArgs
+import java.io.Serializable
 
-class ChangeRecipieViewModel(initialState: RecipeState) : MavericksViewModel<RecipeState>(initialState) {
+data class ChangeRecipeArgs(
+    val recipeId: String,
+) : Serializable
+
+data class ChangeRecipeState(
+    val recipeId: String,
+    val recipeRequest: Async<Recipie> = Uninitialized,
+    val changedRecipie: Recipie? = null
+) : MavericksState {
+    constructor(args: ChangeRecipeArgs) : this(recipeId = args.recipeId)
+}
+
+class ChangeRecipieViewModel(initialState: ChangeRecipeState)
+    : MavericksViewModel<ChangeRecipeState>(initialState) {
 
     private val db = Firebase.firestore
     private val firebaseUser: FirebaseUser?
         get() = FirebaseAuth.getInstance().currentUser
 
-    private var old_recipe: Recipie = Recipie()
-    private var old_rec_name = ""
-    var flagsMap = mapOf<String, ObservableBoolean>()
-    private var choosed_chips = mutableListOf<String>()
+    private var old_name: String = ""
 
+    var flagsMap = mapOf<String, ObservableBoolean>()
     var favourite = ObservableBoolean()
     var recipe_name = ObservableField<String>()
     var creating_time = ObservableField<String>()
     var creating_abundance = ObservableField<String>()
 
     init {
-        old_rec_name = initialState.recipeId
+        old_name = initialState.recipeId
 
         // Get all flags from DB
         db.collection("flags").whereEqualTo("creator",
@@ -63,6 +66,12 @@ class ChangeRecipieViewModel(initialState: RecipeState) : MavericksViewModel<Rec
                         if (snapshot.documents.isNotEmpty()) {
                             val tmp_data = snapshot.documents[0].data
                             val flags = tmp_data?.get("flags") as List<String?>?
+
+                            // Set observable initial values
+                            recipe_name.set(initialState.recipeId)
+                            creating_time.set(tmp_data?.get("time") as String)
+                            creating_abundance.set(tmp_data["abundance"] as String)
+
                             // Check chose flags
                             for(flag in flagsMap){
                                 if (flags != null) {
@@ -71,33 +80,43 @@ class ChangeRecipieViewModel(initialState: RecipeState) : MavericksViewModel<Rec
                                     }
                                 }
                             }
-                            old_recipe = Recipie(
-                                initialState.recipeId,
-                                tmp_data?.get("favourite") as Boolean,
-                                flags,
-                                tmp_data.get("imageUrls") as List<String?>?,
-                                tmp_data.get("time").toString(),
-                                tmp_data.get("abundance").toString(),
-                                tmp_data.get("author").toString(),
-                                tmp_data.get("ingredients") as Map<String?, String?>?,
-                                tmp_data.get("steps") as List<String?>?,
-                                tmp_data.get("shares") as List<String?>?
-                            )
-
-                            // Set observable variables initial values
-                            if(old_recipe.favourite == true){
-                                favourite.set(true)
-                            } else {
-                                favourite.set(false)
-                            }
-                            recipe_name.set(old_recipe.name)
-                            creating_time.set(old_recipe.time)
-                            creating_abundance.set(old_recipe.abundance)
-
+//                            old_recipe = Recipie(
+//                                initialState.recipeId,
+//                                tmp_data?.get("favourite") as Boolean,
+//                                flags,
+//                                tmp_data.get("imageUrls") as List<String?>?,
+//                                tmp_data.get("time").toString(),
+//                                tmp_data.get("abundance").toString(),
+//                                 tmp_data.get("author").toString(),
+//                                tmp_data.get("ingredients") as Map<String?, String?>?,
+//                                tmp_data.get("steps") as List<String?>?,
+//                                tmp_data.get("shares") as List<String?>?
+//                            )
+//
+//                            // Set observable variables initial values
+//                            if(old_recipe.favourite == true){
+//                                favourite.set(true)
+//                            } else {
+//                                favourite.set(false)
+//                            }
+//                            recipe_name.set(old_recipe.name)
+//                            creating_time.set(old_recipe.time)
+//                            creating_abundance.set(old_recipe.abundance)
                             setState {
                                 copy(
                                     recipeRequest = Success(
-                                        old_recipe
+                                        Recipie(
+                                            initialState.recipeId,
+                                            tmp_data?.get("favourite") as Boolean,
+                                            flags,
+                                            tmp_data.get("imageUrls") as List<String?>?,
+                                            tmp_data.get("time").toString(),
+                                            tmp_data.get("abundance").toString(),
+                                            tmp_data.get("author").toString(),
+                                            tmp_data.get("ingredients") as Map<String?, String?>?,
+                                            tmp_data.get("steps") as List<String?>?,
+                                            tmp_data.get("shares") as List<String?>?
+                                        )
                                     )
                                 )
                             }
@@ -107,9 +126,16 @@ class ChangeRecipieViewModel(initialState: RecipeState) : MavericksViewModel<Rec
         }
     }
 
-    fun checkFavourite() {
-        old_recipe.favourite = !old_recipe.favourite!!
+    fun checkFavourite() = withState {
         favourite.set(!favourite.get())
+        val recipie = it.changedRecipie ?: it.recipeRequest() ?: return@withState
+        setState {
+            copy(
+                changedRecipie = recipie.copy(
+                    favourite = favourite.get()
+                )
+            )
+        }
     }
 
     fun addIngredientDialog(context: Context){
@@ -146,21 +172,26 @@ class ChangeRecipieViewModel(initialState: RecipeState) : MavericksViewModel<Rec
         add_dialog.show()
     }
 
-    fun addIngredient(item: String, quantity: String?) {
-//        ingredients = ingredients?.plus(Pair(item, quantity))
-        old_recipe.ingredients = old_recipe.ingredients?.plus(Pair(item, quantity))
-//        ingredients.add(item)
-//        if(quantity != null){
-//            ingr_quantities.add(quantity)
-//        }
-//        requestModelBuild()
+    fun addIngredient(item: String, quantity: String?) = withState {
+        val recipie = it.changedRecipie ?: it.recipeRequest() ?: return@withState
+        setState {
+            copy(
+                changedRecipie = recipie.copy(
+                    ingredients = recipie.ingredients?.plus(Pair(item, quantity))
+                )
+            )
+        }
     }
 
-    fun deleteIngredient(itm: String) {
-//        ingredients = ingredients?.minus(itm)
-        old_recipe.ingredients = old_recipe.ingredients?.minus(itm)
-//        notifyModelChanged(ingredients?.size!!)
-//        requestModelBuild()
+    fun deleteIngredient(itm: String) = withState {
+        val recipie = it.changedRecipie ?: it.recipeRequest() ?: return@withState
+        setState {
+            copy(
+                changedRecipie = recipie.copy(
+                    ingredients = recipie.ingredients?.minus(itm)
+                )
+            )
+        }
     }
 
     fun addPrepDialog(context: Context) {
@@ -182,20 +213,26 @@ class ChangeRecipieViewModel(initialState: RecipeState) : MavericksViewModel<Rec
         add_dialog.show()
     }
 
-    fun addStep(item: String) {
-//        steps.add(item)
-        old_recipe.steps = old_recipe.steps?.plus(item)
-//        requestModelBuild()
+    fun addStep(item: String) = withState {
+        val recipie = it.changedRecipie ?: it.recipeRequest() ?: return@withState
+        setState {
+            copy(
+                changedRecipie = recipie.copy(
+                    steps = recipie.steps?.plus(item)
+                )
+            )
+        }
     }
 
-    fun deleteSteps(idx: Int) {
-//        steps.removeAt(idx)
-//        val itm = steps[idx]
-        if(old_recipe.steps != null){
-            val itm = old_recipe.steps!![idx]
-            old_recipe.steps = old_recipe.steps?.minus(itm)
+    fun deleteSteps(item: String) = withState {
+        val recipie = it.changedRecipie ?: it.recipeRequest() ?: return@withState
+        setState {
+            copy(
+                changedRecipie = recipie.copy(
+                    steps = recipie.steps?.minus(item)
+                )
+            )
         }
-//        requestModelBuild()
     }
 
 //    fun deletePhoto(idx: Int){
@@ -222,37 +259,59 @@ class ChangeRecipieViewModel(initialState: RecipeState) : MavericksViewModel<Rec
 //        tmp_rec.steps = steps
 //    }
 
-    fun checkChips(){
-        choosed_chips = mutableListOf<String>()
+    fun checkChips() = withState {
+        val recipie = it.changedRecipie ?: it.recipeRequest() ?: return@withState
+        var tmp_chips = mutableListOf<String>()
         flagsMap.forEach{ flag ->
             if(flag.value.get()){
-                choosed_chips += flag.key
+                tmp_chips += flag.key
             }
         }
-        old_recipe.flags = choosed_chips
+        setState {
+            copy(
+                changedRecipie = recipie.copy(
+                    flags = tmp_chips
+                )
+            )
+        }
+    }
+
+    fun setObcservables() = withState {
+        val recipie = it.changedRecipie ?: it.recipeRequest() ?: return@withState
+        setState {
+            copy(
+                changedRecipie = recipie.copy(
+                    name = recipe_name.get(),
+                    time = creating_time.get(),
+                    abundance = creating_abundance.get()
+                )
+            )
+        }
     }
 
     fun getArgs(): Bundle{
-        return RecipeArgs(old_recipe.name!!).asMavericksArgs()
+        return RecipeArgs(old_name!!).asMavericksArgs()
     }
 
-    fun saveRecipie(context: Context){
-        old_recipe.name = recipe_name.get()
-        old_recipe.time = creating_time.get()
-        old_recipe.abundance = creating_abundance.get()
+    fun saveRecipie(context: Context) = withState {
 
         // Check chose chips
         checkChips()
 
-        db.collection("recipies").whereEqualTo("name", old_rec_name).get().
+        // Set observable values
+        setObcservables()
+
+        val recipie = it.changedRecipie ?: it.recipeRequest() ?: return@withState
+
+        db.collection("recipies").whereEqualTo("name", it.recipeId).get().
         addOnSuccessListener { snapshot ->
             if(snapshot != null){
                 if(snapshot.documents.isNotEmpty()){
                     db.collection("recipies").document(snapshot.documents[0].id).
-                    update("abundance", old_recipe.abundance, "favourite",
-                        old_recipe.favourite, "flags", old_recipe.flags, "imageUrls", old_recipe.imageUrls,
-                        "ingredients", old_recipe.ingredients, "name", old_recipe.name, "steps",
-                        old_recipe.steps, "time", old_recipe.time)
+                    update("abundance", recipie.abundance, "favourite",
+                        recipie.favourite, "flags", recipie.flags, "imageUrls", recipie.imageUrls,
+                        "ingredients", recipie.ingredients, "name", recipie.name, "steps",
+                        recipie.steps, "time", recipie.time)
 
                     Toast.makeText(context, "Changes saved", Toast.LENGTH_SHORT).show()
                 }
@@ -260,8 +319,8 @@ class ChangeRecipieViewModel(initialState: RecipeState) : MavericksViewModel<Rec
         }
     }
 
-    fun deleteRecipie(context: Context){
-        db.collection("recipies").whereEqualTo("name", old_rec_name).get().
+    fun deleteRecipie(context: Context) = withState {
+        db.collection("recipies").whereEqualTo("name", it.recipeId).get().
         addOnSuccessListener { snapshot ->
             if(snapshot != null){
                 for(doc in snapshot.documents){

@@ -2,7 +2,6 @@ package hu.bme.aut.android.onlab.ui.recipie
 
 import android.app.AlertDialog
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.widget.Toast
 import com.airbnb.mvrx.*
@@ -10,12 +9,21 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.squareup.picasso.Picasso
-import hu.bme.aut.android.onlab.data.RecipeArgs
-import hu.bme.aut.android.onlab.data.RecipeState
 import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.data.ShoppingItem
+import hu.bme.aut.android.onlab.ui.change_recipie.ChangeRecipeArgs
 import java.io.Serializable
+
+data class RecipeArgs(
+    val recipeId: String,
+) : Serializable
+
+data class RecipeState(
+    val recipeId: String,
+    val recipeRequest: Async<Recipie> = Uninitialized,
+) : MavericksState {
+    constructor(args: RecipeArgs) : this(recipeId = args.recipeId)
+}
 
 class RecipieViewModel(initialState: RecipeState) : MavericksViewModel<RecipeState>(initialState) {
 
@@ -175,7 +183,7 @@ class RecipieViewModel(initialState: RecipeState) : MavericksViewModel<RecipeSta
     }
 
     fun getArgs(recipie: Recipie): Bundle {
-        return RecipeArgs(recipie.name!!).asMavericksArgs()
+        return ChangeRecipeArgs(recipie.name!!).asMavericksArgs()
 //        val bundle = Bundle()
 //        bundle.putString("recipiename", recipie.name)
 //        return bundle

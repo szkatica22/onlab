@@ -1,39 +1,22 @@
 package hu.bme.aut.android.onlab.ui.new_recipie
 
-import android.app.Activity
-import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.epoxy.group
 import com.airbnb.mvrx.MavericksView
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
 import hu.bme.aut.android.onlab.*
-import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.databinding.FragmentNewRecipieBinding
-import java.io.ByteArrayOutputStream
-import java.net.URLEncoder
-import java.util.*
 
 class NewRecipieFragment : Fragment(), MavericksView{
-
-    companion object {
-        private const val REQUEST_CODE = 101
-    }
 
     private val newRecipieViewModel: NewRecipieViewModel by fragmentViewModel()
     private var _binding: FragmentNewRecipieBinding? = null
@@ -134,19 +117,17 @@ class NewRecipieFragment : Fragment(), MavericksView{
 //
 //    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     override fun invalidate() = withState(newRecipieViewModel) { state ->
         binding.ervChangeRecipie.withModels {
-            val rec = state.recipeRequest() ?: return@withModels
+            val rec = state.changedRecipie ?: state.recipeRequest() ?: return@withModels
+            if(state.changedRecipie == null){
+                Log.d("REC REQUEST: ", "${state.recipeRequest}")
+            }
+            Log.d("REC CHANGED: ", "${state.changedRecipie}")
 
             // Header
             newRecipieHeader {
                 id("header")
-                recipie(rec)
                 viewmodel(newRecipieViewModel)
 
                 onClickCancelButton { _ ->
@@ -218,7 +199,7 @@ class NewRecipieFragment : Fragment(), MavericksView{
                     id(step)
                     item(step)
                     onClickDeleteButton { _ ->
-                        newRecipieViewModel.deleteSteps(rec.steps?.indexOf(step)!!)
+                        newRecipieViewModel.deleteSteps(step!!)
                     }
                 }
             }
@@ -241,5 +222,10 @@ class NewRecipieFragment : Fragment(), MavericksView{
                 }
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

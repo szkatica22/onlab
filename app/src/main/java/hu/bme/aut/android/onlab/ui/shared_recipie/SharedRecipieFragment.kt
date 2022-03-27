@@ -11,14 +11,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.epoxy.group
-import com.airbnb.mvrx.MavericksView
-import com.airbnb.mvrx.fragmentViewModel
-import com.airbnb.mvrx.withState
+import com.airbnb.mvrx.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.onlab.*
+import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.databinding.FragmentSharedRecipieBinding
+import java.io.Serializable
 
 class SharedRecipieFragment: Fragment(), MavericksView {
     private val sharedrecipieViewModel: SharedRecipieViewModel by fragmentViewModel()

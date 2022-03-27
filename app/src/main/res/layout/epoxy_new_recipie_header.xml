@@ -5,9 +5,6 @@
 
     <data>
         <variable
-            name="recipie"
-            type="hu.bme.aut.android.onlab.data.Recipie" />
-        <variable
             name="viewmodel"
             type="hu.bme.aut.android.onlab.ui.new_recipie.NewRecipieViewModel" />
         <variable
@@ -43,7 +40,7 @@
                     android:layout_weight="2"
                     android:layout_marginTop="4dp"
                     android:onClick="@{onClickFavouriteButton}"
-                    android:src="@{recipie.favourite ? @drawable/ic_menu_favourites : @drawable/ic_recipie_favorite_border}"
+                    android:src="@{viewmodel.favourite ? @drawable/ic_menu_favourites : @drawable/ic_recipie_favorite_border}"
                     app:tint="@color/GreenprimaryVariant" />
 
                 <EditText

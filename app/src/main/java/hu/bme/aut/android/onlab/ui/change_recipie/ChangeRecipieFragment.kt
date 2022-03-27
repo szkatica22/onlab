@@ -32,27 +32,10 @@ import java.util.*
 
 class ChangeRecipieFragment : Fragment(), MavericksView{
 
-    companion object {
-        private const val REQUEST_CODE = 101
-    }
-
     private val changeRecipieViewModel: ChangeRecipieViewModel by fragmentViewModel()
     private var _binding: FragmentChangeRecipieBinding? = null
 
-    var btn_ingredient: String = "Add new ingredient"
-    var btn_step: String = "Add new step"
-    var btn_delete: String = "Delete recipe"
-    var btn_save: String = "Save"
-    var prep_title: String = "Preparation"
-
     private val binding get() = _binding!!
-    private val db = Firebase.firestore
-    val storageRef = Firebase.storage.reference
-
-    var tmp_bitmap: Bitmap? = null
-    var img_url: String? = null
-    var flag_photo = false
-//    private var old_photos: ArrayList<String> = arrayListOf<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,35 +44,12 @@ class ChangeRecipieFragment : Fragment(), MavericksView{
     ): View? {
 
         _binding = FragmentChangeRecipieBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val rec_name = this.arguments?.get("recipiename").toString()
-
-//        db.collection("recipies").whereEqualTo("name", rec_name).get().
-//        addOnSuccessListener { snapshot ->
-//            if(snapshot.documents.isNotEmpty()){
-//                val tmp_data = snapshot.documents[0].data
-////                old_photos = tmp_data?.get("imageUrls") as ArrayList<String>
-//                val tmp_rec = Recipie(rec_name, tmp_data?.get("favourite") as Boolean,
-//                    tmp_data.get("flags") as List<String?>?, tmp_data.get("imageUrls") as List<String?>?,
-//                    tmp_data.get("time").toString(), tmp_data.get("abundance").toString(),
-//                    tmp_data.get("author").toString(), tmp_data.get("ingredients") as Map<String?, String?>?,
-//                    tmp_data.get("steps") as List<String?>?, tmp_data.get("shares") as List<String?>?)
-//
-//                changerecipieController = ChangeRecipieController(this, tmp_rec, btn_ingredient, prep_title,
-//                    btn_step, btn_delete, btn_save, inflater)
-//                binding.ervChangeRecipie.setController(changerecipieController)
-//                changerecipieController.requestModelBuild()
-//                binding.ervChangeRecipie.addItemDecoration(DividerItemDecoration(requireActivity(),
-//                    RecyclerView.VERTICAL))
-//            }
-//        }
-        return root
+        return binding.root
     }
 
     override fun invalidate() = withState(changeRecipieViewModel) { state ->
         binding.ervChangeRecipie.withModels {
-            val rec = state.recipeRequest() ?: return@withModels
+            val rec = state.changedRecipie ?: state.recipeRequest() ?: return@withModels
 
             // Header
             changeRecipieHeader {
@@ -164,7 +124,7 @@ class ChangeRecipieFragment : Fragment(), MavericksView{
                     id(step)
                     item(step)
                     onClickDeleteButton{ _ ->
-                        changeRecipieViewModel.deleteSteps(rec.steps?.indexOf(step)!!)
+                        changeRecipieViewModel.deleteSteps(step!!)
                     }
                 }
             }

@@ -18,9 +18,9 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import hu.bme.aut.android.onlab.R
-import hu.bme.aut.android.onlab.data.RecipeArgs
 import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.databinding.FragmentFlagBinding
+import hu.bme.aut.android.onlab.ui.new_recipie.NewRecipeArgs
 
 class FlagFragment : Fragment(){
     private lateinit var flagViewModel: FlagViewModel
@@ -61,7 +61,7 @@ class FlagFragment : Fragment(){
 
         // New recipie gomb
         binding.fltBtnNewRecipie.setOnClickListener {
-            val args = RecipeArgs("").asMavericksArgs()
+            val args = NewRecipeArgs("").asMavericksArgs()
             findNavController().navigate(R.id.action_nav_flag2_to_nav_new_recipie, args)
         }
 

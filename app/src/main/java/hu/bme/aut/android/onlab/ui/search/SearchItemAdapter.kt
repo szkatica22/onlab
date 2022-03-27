@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.mvrx.asMavericksArgs
 import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.databinding.SearchItemBinding
+import hu.bme.aut.android.onlab.ui.recipie.RecipeArgs
 
 class SearchItemAdapter (
     private val context: Context?
@@ -42,9 +44,10 @@ class SearchItemAdapter (
         val cur_item = list[position]
         holder.binding.tvRecipieNameId.text = cur_item.name
         holder.binding.ivRecipie.setOnClickListener { view ->
-            val bundle = Bundle()
-            bundle.putString("recipiename", cur_item.name)
-            view.findNavController().navigate(R.id.action_searchFragment_to_nav_recipie, bundle)
+//            val bundle = Bundle()
+//            bundle.putString("recipiename", cur_item.name)
+            val args = RecipeArgs(cur_item.name!!).asMavericksArgs()
+            view.findNavController().navigate(R.id.action_searchFragment_to_nav_recipie, args)
         }
     }
 

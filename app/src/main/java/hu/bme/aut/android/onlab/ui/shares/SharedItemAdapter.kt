@@ -9,10 +9,10 @@ import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.mvrx.asMavericksArgs
-import hu.bme.aut.android.onlab.data.RecipeArgs
 import hu.bme.aut.android.onlab.R
 import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.databinding.EpoxySharedItemBinding
+import hu.bme.aut.android.onlab.ui.shared_recipie.SharedRecipeArgs
 
 class SharedItemAdapter(): RecyclerView.Adapter<SharedItemAdapter.SharedItemViewHolder>(){
 
@@ -58,9 +58,9 @@ class SharedItemAdapter(): RecyclerView.Adapter<SharedItemAdapter.SharedItemView
             holder.tvFavRecipieNameId.text = cur_item.name
         }
         holder.ivRecipiesFlag.setOnClickListener { view ->
-            val bundle = Bundle()
+//            val bundle = Bundle()
 //            bundle.putString("recipiename", cur_item.name)
-            val args = RecipeArgs(cur_item.name!!).asMavericksArgs()
+            val args = SharedRecipeArgs(cur_item.name!!).asMavericksArgs()
             view.findNavController().navigate(R.id.action_nav_shares_to_nav_shared_recipie, args)
 //            view.findNavController().navigate(R.id.action_nav_shares_to_nav_shared_recipie, bundle)
         }

@@ -2,16 +2,15 @@ package hu.bme.aut.android.onlab.ui.flag
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.mvrx.asMavericksArgs
 import hu.bme.aut.android.onlab.R
-import hu.bme.aut.android.onlab.data.RecipeArgs
 import hu.bme.aut.android.onlab.data.Recipie
 import hu.bme.aut.android.onlab.databinding.RecipieItemBinding
+import hu.bme.aut.android.onlab.ui.recipie.RecipeArgs
 
 class RecipieItemAdapter (private val context: Context?): RecyclerView.Adapter<RecipieItemAdapter.RecipieItemViewHolder>(){
 
