@@ -116,7 +116,7 @@
     <string name="share_recipe">Share Recipe</string>
     <string name="menu_shares">Shared Recipes</string>
     <string name="shared_recipes">Shared Recipes</string>
-    <string name="add_all_ingredients_to_shopping_list">Add all ingredients to shopping list</string>
+    <string name="add_all_ingredients_to_shopping_list">Add to cart</string>
     <string name="tv_recipie_author">Author</string>
     <string name="et_recipie_author">author</string>
     <string name="create_and_save_new_photo">Create and save new photo</string>

@@ -142,7 +142,7 @@ class ChangeRecipieFragment : Fragment(), MavericksView{
             newRecipieSaveBtn {
                 id("save")
                 onClickSave{ _ ->
-                    changeRecipieViewModel.saveRecipie(requireContext())
+                    changeRecipieViewModel.checkChips(requireContext())//saveRecipie(requireContext())
                     findNavController().navigate(
                         R.id.action_nav_change_recipie_to_nav_recipie,
                         changeRecipieViewModel.getArgs()

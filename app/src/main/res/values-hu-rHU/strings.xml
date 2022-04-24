@@ -119,7 +119,7 @@
     <string name="share_recipe">Recept Megosztása</string>
     <string name="menu_shares">Megosztott Receptek</string>
     <string name="shared_recipes">Megosztott Receptek</string>
-    <string name="add_all_ingredients_to_shopping_list">Összes hozzávaló mentése a bevásárlólistára</string>
+    <string name="add_all_ingredients_to_shopping_list">Mentése a listára</string>
     <string name="tv_recipie_author">Szerző</string>
     <string name="et_recipie_author">szerző</string>
     <string name="create_and_save_new_photo">Új fotó készítése és mentése</string>

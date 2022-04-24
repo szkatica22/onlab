@@ -120,10 +120,6 @@ class NewRecipieFragment : Fragment(), MavericksView{
     override fun invalidate() = withState(newRecipieViewModel) { state ->
         binding.ervChangeRecipie.withModels {
             val rec = state.changedRecipie ?: state.recipeRequest() ?: return@withModels
-            if(state.changedRecipie == null){
-                Log.d("REC REQUEST: ", "${state.recipeRequest}")
-            }
-            Log.d("REC CHANGED: ", "${state.changedRecipie}")
 
             // Header
             newRecipieHeader {
@@ -217,7 +213,7 @@ class NewRecipieFragment : Fragment(), MavericksView{
             newRecipieSaveBtn {
                 id("save")
                 onClickSave { _ ->
-                    newRecipieViewModel.saveRecipie(requireContext())
+                    newRecipieViewModel.checkChips(requireContext())//saveRecipie(requireContext())
                     findNavController().navigate(R.id.action_nav_new_recipie_to_nav_recipies)
                 }
             }

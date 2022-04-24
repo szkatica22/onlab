@@ -187,6 +187,7 @@ class NewRecipieViewModel(initialState: NewRecipeState)
 
     fun checkFavourite() = withState {
         favourite.set(!favourite.get())
+        Log.d("FAV_CONTROLLER: ", "${favourite.get()}")
         val recipie = it.changedRecipie ?: it.recipeRequest() ?: return@withState
         setState {
             copy(
@@ -219,7 +220,7 @@ class NewRecipieViewModel(initialState: NewRecipeState)
 //        return photos[0]
 //    }
 
-    fun checkChips() = withState{
+    fun checkChips(context: Context) = withState{
         val recipie = it.changedRecipie ?: it.recipeRequest() ?: return@withState
         val tmp_chips = mutableListOf<String>()
         flagsMap.forEach{ flag ->
@@ -234,9 +235,10 @@ class NewRecipieViewModel(initialState: NewRecipeState)
                 )
             )
         }
+        setObcservables(context)
     }
 
-    fun setObcservables() = withState {
+    fun setObcservables(context: Context) = withState {
         val recipie = it.changedRecipie ?: it.recipeRequest() ?: return@withState
         setState {
             copy(
@@ -244,30 +246,23 @@ class NewRecipieViewModel(initialState: NewRecipeState)
                     name = recipe_name.get(),
                     time = creating_time.get(),
                     abundance = creating_abundance.get(),
-//                    author = firebaseUser?.email
+                    favourite = favourite.get()
                 )
             )
         }
+
+        saveRecipie(context)
     }
 
     fun saveRecipie(context: Context) = withState{
 
-        // Check chose flags
-        checkChips()
-
-        // Set observable values
-        setObcservables()
-
         val recipie = it.changedRecipie ?: it.recipeRequest() ?: return@withState
 
-        Log.d("REC: ", "$recipie")
-        Log.d("_: ", "SAVE")
-
-//        db.collection("recipies").add(recipie).addOnSuccessListener {
-//            Toast.makeText(context, "Recipie saved", Toast.LENGTH_SHORT).show()
-//        }.addOnFailureListener { e ->
-//            Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
-//        }
+        db.collection("recipies").add(recipie).addOnSuccessListener {
+            Toast.makeText(context, "Recipie saved", Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener { e ->
+            Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
+        }
 
     }
 }
