@@ -24,10 +24,6 @@ class NewRecipieFragment : Fragment(), MavericksView{
     private val binding get() = _binding!!
     val db = Firebase.firestore
 
-//    var tmp_bitmap: Bitmap? = null
-//    var img_url: String? = null
-//    var flag_photo = false
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,84 +34,6 @@ class NewRecipieFragment : Fragment(), MavericksView{
         val root: View = binding.root
         return root
     }
-
-//    fun takePicture(){
-//        flag_photo = true
-//        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-//        startActivityForResult(takePictureIntent, REQUEST_CODE)
-//    }
-//
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (resultCode != Activity.RESULT_OK) {
-//            return
-//        }
-//
-//        if (requestCode == REQUEST_CODE) {
-//            val imageBitmap = data?.extras?.get("data") as? Bitmap
-//            tmp_bitmap = imageBitmap
-//            newrecipieController.addPhoto(tmp_bitmap)
-//        }
-//
-//    }
-//
-//    fun getBitmap(): Bitmap?{
-//        return tmp_bitmap
-//    }
-//
-//    fun saveWithPhoto(recipie: Recipie){
-//        val bitmap = newrecipieController.getBitmap()
-//        val baos = ByteArrayOutputStream()
-//        bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-//        val imageInBytes = baos.toByteArray()
-//
-//        val storageReference = FirebaseStorage.getInstance().reference
-//        val newImageName = URLEncoder.encode(UUID.randomUUID().toString(), "UTF-8") + ".jpg"
-//        val newImageRef = storageReference.child("images/$newImageName")
-//
-//        newImageRef.putBytes(imageInBytes)
-//            .addOnFailureListener { exception ->
-//                Toast.makeText(this.context, exception.message, Toast.LENGTH_SHORT).show()
-//            }
-//            .continueWithTask { task ->
-//                if (!task.isSuccessful) {
-//                    task.exception?.let { throw it }
-//                }
-//
-//                newImageRef.downloadUrl
-//            }
-//            .addOnSuccessListener { downloadUri ->
-//                img_url = downloadUri.toString()
-//                uploadRecipie(downloadUri.toString(), recipie)
-//            }
-//    }
-//
-//    fun SaveClick(recipie: Recipie){
-//        if(!flag_photo){
-//            uploadRecipie(recipie = recipie)
-//        } else {
-//            try {
-//               saveWithPhoto(recipie)
-//            } catch (e: Exception){
-//                e.printStackTrace()
-//            }
-//        }
-//    }
-//
-//    fun uploadRecipie(imageUrl: String? = null, recipie: Recipie){
-//        if (imageUrl != null) {
-//            val images: ArrayList<String> = arrayListOf<String>()
-//            images.add(imageUrl)
-//            recipie.imageUrls = images
-//        }
-//
-//        db.collection("recipies").add(recipie).addOnSuccessListener {
-//            Toast.makeText(layoutInflater.context, "Recipie saved", Toast.LENGTH_SHORT).show()
-//        }.addOnFailureListener { e ->
-//            Toast.makeText(layoutInflater.context, e.toString(), Toast.LENGTH_SHORT).show()
-//        }
-//
-//    }
 
     override fun invalidate() = withState(newRecipieViewModel) { state ->
         binding.ervChangeRecipie.withModels {

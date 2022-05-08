@@ -63,9 +63,6 @@ class ChangeRecipieFragment : Fragment(), MavericksView{
                 }
             }
 
-            // Photo
-            // TODO
-
             //Chipgroup title
             chipgroupText {
                 id("chipgroup_title")

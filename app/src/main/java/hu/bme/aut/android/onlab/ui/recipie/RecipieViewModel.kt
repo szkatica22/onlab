@@ -54,29 +54,32 @@ class RecipieViewModel(initialState: RecipeState) : MavericksViewModel<RecipeSta
             }
 
         // Get Rec. from DB
-        db.collection("recipies").whereEqualTo("name", initialState.recipeId).get()
-            .addOnSuccessListener { snapshot ->
-                if (snapshot.documents.isNotEmpty()) {
-                    val tmp_data = snapshot.documents[0].data
-                    setState {
-                        copy(
-                            recipeRequest = Success(
-                                Recipie(
-                                    initialState.recipeId,
-                                    tmp_data?.get("favourite") as Boolean,
-                                    tmp_data.get("flags") as List<String?>?,
-                                    tmp_data.get("imageUrls") as List<String?>?,
-                                    tmp_data.get("time").toString(),
-                                    tmp_data.get("abundance").toString(),
-                                    tmp_data.get("author").toString(),
-                                    tmp_data.get("ingredients") as Map<String?, String?>?,
-                                    tmp_data.get("steps") as List<String?>?,
-                                    tmp_data.get("shares") as List<String?>?
+        db.collection("recipies").whereEqualTo("name", initialState.recipeId)
+            .addSnapshotListener { snapshot, _ ->
+                if(snapshot != null){
+                    if (snapshot.documents.isNotEmpty()) {
+                        val tmp_data = snapshot.documents[0].data
+                        setState {
+                            copy(
+                                recipeRequest = Success(
+                                    Recipie(
+                                        initialState.recipeId,
+                                        tmp_data?.get("favourite") as Boolean,
+                                        tmp_data.get("flags") as List<String?>?,
+                                        tmp_data.get("imageUrls") as List<String?>?,
+                                        tmp_data.get("time").toString(),
+                                        tmp_data.get("abundance").toString(),
+                                        tmp_data.get("author").toString(),
+                                        tmp_data.get("ingredients") as Map<String?, String?>?,
+                                        tmp_data.get("steps") as List<String?>?,
+                                        tmp_data.get("shares") as List<String?>?
+                                    )
                                 )
                             )
-                        )
+                        }
                     }
                 }
+
             }
     }
 
